@@ -29,13 +29,50 @@ score_markers_rev3(
 )
 }
 \arguments{
+\item{my.inds}{The list output from the fsa_batch_imp or storing.inds function that contains the channel information from the individuals that you want to score.}
+
+\item{channel}{The number of the channel you wish to analyze. Typically 1 is blue, 2 is green, 3 yellow, and 4 red.}
+
+\item{n.inds}{(optional) A vector specifying which fsa files to score.}
+
+\item{panel}{A vector containing the expected allele sizes for this marker.}
+
 \item{shift}{All peaks at that distance from the tallest peak will be ignored and be considered noise.}
+
+\item{ladder}{A vector containing the expected peaks for your ladder.}
+
+\item{channel.ladder}{The channel number where your ladder can be found.}
+
+\item{ploidy}{The name is a relic of the fact that \link[Fragman:score.markers]{Fragman::score.markers} was originally written for plants. In the context of pooled egg samples it is used to specify the number of possible alleles in the marker.}
+
+\item{left.cond}{The first part is a percentile (0-1) that corresponds to the height that a peak to the left of the tallest peak must be in order to be considered real. The second argument is a number of base pairs that a peak to the left of the tallest peak must be away to be considered as real.}
+
+\item{right.cond}{A percentile (0-1) that corresponds to the height that a peak to the right of the tallest peak must be in order to be considered real.}
+
+\item{warn}{TRUE/FAlSE Do you want to receive warnings when detecting the ladder?}
 
 \item{windowL}{the window means that all peaks closer by that distance to the left of the panel peaks will be accounted as peaks.}
 
 \item{windowR}{the window means that all peaks closer by that distance to the right of the panel peaks will be accounted as peaks.}
 
-\item{pref}{}
+\item{init.thresh}{A value that sets a minimum intensity in order for a peak to be called.}
+
+\item{ladd.init.thresh}{We don't recommend messing with this parameter unless your ladder has special circumstances. See \link[Fragman:score.markers]{Fragman::score.markers}}
+
+\item{method}{In cases where samples weren't sized using the info.ladder.attach function, this technique steps in to identify ladder peaks. You have three method options using an argument: "cor" explores all potential peak combinations and thoroughly searches for correlations to identify the correct peaks corresponding to expected DNA weights; "ci" constructs confidence intervals to identify peaks meeting specified conditions from earlier arguments; "iter2" applies an iterative strategy to identify the most likely peaks aligning with your ladder expectations. The default method is "iter2."}
+
+\item{env}{Please do not change this parameter, it is used to detect the users environment.}
+
+\item{my.palette}{(optional) A character vector specifying which colors to use for the output RFU plots.}
+
+\item{plotting}{TRUE/FALSE Do you want to create pdf output plots?}
+
+\item{plotdir}{The name of the directory where output pdf plots should be stored.}
+
+\item{pref}{The number of plots to be drawn in the output plot.}
+}
+\value{
+The score_markers_rev3 function will return a list containing three variables: $pos, $hei, and $wei. These correspond to the index position for the intensities, the intensity of each peak, and the weight in base pairs based on the ladder respectively. If plotting = TRUE, a pdf file will also have been created in the specified directory. This pdf file allows you to visually inspect how all of the peaks were scored.
 }
 \description{
 This is a revision of the Fragman script score.markers, for the original instructions and parameters, run '?score.markers'.

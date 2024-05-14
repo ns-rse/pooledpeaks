@@ -4,12 +4,12 @@
 \name{pooledpeaks-package}
 \alias{pooledpeaks}
 \alias{pooledpeaks-package}
-\title{pooledpeaks: What the Package Does (One Line, Title Case)}
+\title{pooledpeaks: Tools for Genetic Analysis of Pooled Samples}
 \description{
-What the package does (one paragraph).
+Pooledpeaks provides a comprehensive suite of functions for analyzing genetic data obtained from pooled samples. This package can read in fsa files, preprocess the data, and score peaks, as well as facilitate various analyses, including cluster analysis, calculation of genetic distances and diversity indices, as well as bootstrap resampling for statistical inference. Specifically tailored to handle genetic data efficiently, researchers can explore population structure, genetic differentiation, and genetic relatedness among samples.
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Kathleen Kuesters \email{kathleen.kuesters@gmail.com} (\href{https://orcid.org/0000-0003-0238-7889}{ORCID})
 
 }
 \keyword{internal}

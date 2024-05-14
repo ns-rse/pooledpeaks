@@ -1,17 +1,30 @@
 Package: pooledpeaks
-Title: What the Package Does (One Line, Title Case)
+Title: Tools for Genetic Analysis of Pooled Samples
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person("Kathleen", "Kuesters", email = "kathleen.kuesters@gmail.com", 
+       role = c("aut", "cre"), comment = c(ORCID = "0000-0003-0238-7889"))
+Description: Pooledpeaks provides a comprehensive suite of functions for 
+  analyzing genetic data obtained from pooled samples. This package can read in 
+  fsa files, preprocess the data, and score peaks, as well as facilitate various 
+  analyses, including cluster analysis, calculation of genetic distances and 
+  diversity indices, as well as bootstrap resampling for statistical inference. 
+  Specifically tailored to handle genetic data efficiently, researchers can 
+  explore population structure, genetic differentiation, and genetic relatedness 
+  among samples.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Imports: 
+    ape,
+    dplyr,
     Fragman,
     graphics,
     magrittr,
+    qpdf,
     rlang,
-    tibble
+    stats,
+    tibble,
+    tidyr,
+    utils

@@ -1,16 +1,14 @@
-reals_rev1 <- function (x, panel = c(100:400), shi = 1, ploidy = 2,
-                        left.cond = c(0.4,3), right.cond = 0.2, windowL = 0.5, windowR = 0.5) {
-
+reals_rev1 <- function(x, panel = c(100:400), shi = 1, ploidy = 2,
+                       left.cond = c(0.4, 3), right.cond = 0.2, windowL = 0.5, windowR = 0.5) {
   neg <- which(x$wei <= 0)
   if (length(neg) > 0) {
     x <- list(pos = x$pos[-neg], hei = x$hei[-neg], wei = x$wei[-neg])
   }
   picos <- numeric()
   for (d in 1:length(x$wei)) {
-
     respi <- which(
       ((panel - x$wei[d]) <= windowL) &
-        (x$wei[d]-panel) <= windowR
+        (x$wei[d] - panel) <= windowR
     )
 
     if (length(respi) > 0) {
@@ -28,42 +26,50 @@ reals_rev1 <- function (x, panel = c(100:400), shi = 1, ploidy = 2,
     ha <- which(che >= (x3$hei[highest] * left.cond[1]))
     cha <- x3$wei[1:highest[1]]
     ha2 <- unique(c(which(abs(cha - x3$wei[highest]) >=
-                            left.cond[2]), highest))
+      left.cond[2]), highest))
     chu <- x3$hei[highest[1]:length(x3$hei)]
     hu <- (highest[1]:length(x3$hei))[which(chu > (max(x3$hei) *
-                                                     right.cond))]
+      right.cond))]
     ss1 <- intersect(ha, ha2)
     ha3 <- unique(c(ss1, hu))
     if (length(ha3) > 0) {
-      x3 <- list(pos = x3$pos[ha3], hei = x3$hei[ha3],
-                 wei = x3$wei[ha3])
+      x3 <- list(
+        pos = x3$pos[ha3], hei = x3$hei[ha3],
+        wei = x3$wei[ha3]
+      )
     } else {
       x3 <- x3
     }
     z2 <- length(x3$pos)
     if (z2 == 1) {
-      x4 <- list(pos = rep(x3$pos, ploidy), hei = rep(x3$hei,
-                                                      ploidy), wei = rep(x3$wei, ploidy))
+      x4 <- list(pos = rep(x3$pos, ploidy), hei = rep(
+        x3$hei,
+        ploidy
+      ), wei = rep(x3$wei, ploidy))
     }
     if (z2 > 1) {
       toget <- sort(x3$hei, decreasing = T)[1:ploidy]
       z3 <- which(x3$hei %in% toget)
-      x4 <- list(pos = x3$pos[z3], hei = round(x3$hei[z3]),
-                 wei = x3$wei[z3])
+      x4 <- list(
+        pos = x3$pos[z3], hei = round(x3$hei[z3]),
+        wei = x3$wei[z3]
+      )
     }
   } else {
-    x4 <- list(pos = rep(0, ploidy), hei = rep(0, ploidy),
-               wei = rep(0, ploidy))
+    x4 <- list(
+      pos = rep(0, ploidy), hei = rep(0, ploidy),
+      wei = rep(0, ploidy)
+    )
   }
   return(x4)
 }
 
-homo_panel_rev1 <- function (x, panel, windowL = 0.49, windowR = 0.49) {
+homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
   newxxx <- numeric()
   for (i in 1:length(x$wei)) {
     v <- which(
       ((panel - x$wei[i]) <= windowL) &
-        (x$wei[i]-panel) <= windowR
+        (x$wei[i] - panel) <= windowR
     )
 
     if (length(v) > 0) {
@@ -83,27 +89,27 @@ homo_panel_rev1 <- function (x, panel, windowL = 0.49, windowR = 0.49) {
 #' This is a revision of the Fragman script score.markers, for the original instructions and parameters, run '?score.markers'.
 #' This revision designates separate parameters for Left and Right search windows.
 #'
-#' @param my.inds
-#' @param channel
-#' @param n.inds
-#' @param panel
+#' @param my.inds The list output from the fsa_batch_imp or storing.inds function that contains the channel information from the individuals that you want to score.
+#' @param channel The number of the channel you wish to analyze. Typically 1 is blue, 2 is green, 3 yellow, and 4 red.
+#' @param n.inds (optional) A vector specifying which fsa files to score.
+#' @param panel A vector containing the expected allele sizes for this marker.
 #' @param shift All peaks at that distance from the tallest peak will be ignored and be considered noise.
-#' @param ladder
-#' @param channel.ladder
-#' @param ploidy
-#' @param left.cond
-#' @param right.cond
-#' @param warn
+#' @param ladder A vector containing the expected peaks for your ladder.
+#' @param channel.ladder The channel number where your ladder can be found.
+#' @param ploidy The name is a relic of the fact that [Fragman::score.markers] was originally written for plants. In the context of pooled egg samples it is used to specify the number of possible alleles in the marker.
+#' @param left.cond The first part is a percentile (0-1) that corresponds to the height that a peak to the left of the tallest peak must be in order to be considered real. The second argument is a number of base pairs that a peak to the left of the tallest peak must be away to be considered as real.
+#' @param right.cond A percentile (0-1) that corresponds to the height that a peak to the right of the tallest peak must be in order to be considered real.
+#' @param warn TRUE/FAlSE Do you want to receive warnings when detecting the ladder?
 #' @param windowL the window means that all peaks closer by that distance to the left of the panel peaks will be accounted as peaks.
 #' @param windowR the window means that all peaks closer by that distance to the right of the panel peaks will be accounted as peaks.
-#' @param init.thresh
-#' @param ladd.init.thresh
-#' @param method
-#' @param env
-#' @param my.palette
-#' @param plotting
-#' @param plotdir
-#' @param pref
+#' @param init.thresh A value that sets a minimum intensity in order for a peak to be called.
+#' @param ladd.init.thresh We don't recommend messing with this parameter unless your ladder has special circumstances. See [Fragman::score.markers]
+#' @param method In cases where samples weren't sized using the info.ladder.attach function, this technique steps in to identify ladder peaks. You have three method options using an argument: "cor" explores all potential peak combinations and thoroughly searches for correlations to identify the correct peaks corresponding to expected DNA weights; "ci" constructs confidence intervals to identify peaks meeting specified conditions from earlier arguments; "iter2" applies an iterative strategy to identify the most likely peaks aligning with your ladder expectations. The default method is "iter2."
+#' @param env Please do not change this parameter, it is used to detect the users environment.
+#' @param my.palette (optional) A character vector specifying which colors to use for the output RFU plots.
+#' @param plotting TRUE/FALSE Do you want to create pdf output plots?
+#' @param plotdir The name of the directory where output pdf plots should be stored.
+#' @param pref The number of plots to be drawn in the output plot.
 #'
 #' @importFrom stats lm
 #' @importFrom Fragman big.peaks.col
@@ -113,19 +119,21 @@ homo_panel_rev1 <- function (x, panel, windowL = 0.49, windowR = 0.49) {
 #' @importFrom graphics abline
 #' @importFrom grDevices dev.off
 #' @importFrom utils flush.console
-#' @return
+#' @importFrom qpdf pdf_combine
+#' @importFrom Fragman find.ladder
+#' @importFrom graphics axis
+#' @importFrom graphics legend
+#' @importFrom stats predict
+#' @return The score_markers_rev3 function will return a list containing three variables: $pos, $hei, and $wei. These correspond to the index position for the intensities, the intensity of each peak, and the weight in base pairs based on the ladder respectively. If plotting = TRUE, a pdf file will also have been created in the specified directory. This pdf file allows you to visually inspect how all of the peaks were scored.
 #' @export
 #'
 #' @examples
-
-score_markers_rev3 <- function (my.inds, channel = 1, n.inds = NULL, panel = NULL,
-                                shift = 0.8, ladder, channel.ladder = NULL, ploidy = 2,
-                                left.cond = c(0.6, 3), right.cond = 0.35, warn = FALSE,
-                                windowL = 0.5, windowR = 0.5, init.thresh = 200, ladd.init.thresh = 200,
-                                method = "iter2", env = parent.frame(), my.palette = NULL,
-                                plotting = FALSE, plotdir="plots_scoring", pref = 3)
-{
-
+score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL,
+                               shift = 0.8, ladder, channel.ladder = NULL, ploidy = 2,
+                               left.cond = c(0.6, 3), right.cond = 0.35, warn = FALSE,
+                               windowL = 0.5, windowR = 0.5, init.thresh = 200, ladd.init.thresh = 200,
+                               method = "iter2", env = parent.frame(), my.palette = NULL,
+                               plotting = FALSE, plotdir = "plots_scoring", pref = 3) {
   if (plotting == TRUE) {
     message(paste0("You are writing plots for all samples to the directory '", plotdir, "'.
   For faster calculation but no plots, set 'plotting = FALSE'\n"))
@@ -136,31 +144,32 @@ score_markers_rev3 <- function (my.inds, channel = 1, n.inds = NULL, panel = NUL
   # message("Additionally, running this script saves all plots to a file instead of printing to viewer.
   # For faster calculation set 'plotting = FALSE'\n")
 
-  if (class(panel)%in%"character"){
+  if (class(panel) %in% "character") {
     mic <- panel
     panel <- get(panel)
   } else {
-    stop(call. = F,'Check that your panel object is specified in quotes e.g. panel = "my_panel" ')
-
+    stop(call. = F, 'Check that your panel object is specified in quotes e.g. panel = "my_panel" ')
   }
 
 
   oldw <- getOption("warn")
   options(warn = -1)
-  ci.upp = 1.96
-  ci.low = 1.96
-  dev = 50
-  thresh = NULL
+  ci.upp <- 1.96
+  ci.low <- 1.96
+  dev <- 50
+  thresh <- NULL
   if (length(n.inds) > length(my.inds)) {
-    message(paste("You are trying to examine more individuals than you actually read? You selected in 'n.inds' argument",
-                  length(n.inds), "individuals but you only provided",
-                  length(my.inds), " individuals. Please select a number of individuals smaller or same size than the ones contained in 'my.inds' argument"))
+    message(paste(
+      "You are trying to examine more individuals than you actually read? You selected in 'n.inds' argument",
+      length(n.inds), "individuals but you only provided",
+      length(my.inds), " individuals. Please select a number of individuals smaller or same size than the ones contained in 'my.inds' argument"
+    ))
     stop
   } else {
 
   }
 
-  cat(paste("Scoring ",mic, "peaks\nPlease be patient!\n"))
+  cat(paste("Scoring ", mic, "peaks\nPlease be patient!\n"))
 
   if (method == "ci") {
     message(paste("Please make sure you have used the same 'dev' value you found convenient for your ladder detection or probably your call will not match"))
@@ -192,34 +201,40 @@ score_markers_rev3 <- function (my.inds, channel = 1, n.inds = NULL, panel = NUL
     my.inds2[[i]] <- my.inds[[v1]]
     names(my.inds2)[i] <- names(my.inds)[v1]
   }
-  ncfp <- c("channel_1", "channel_2", "channel_3", "channel_4", "channel_5",
-            "channel_6")
+  ncfp <- c(
+    "channel_1", "channel_2", "channel_3", "channel_4", "channel_5",
+    "channel_6"
+  )
   if (!is.null(my.palette)) {
     cfp <- rep(my.palette, 100)
   } else {
-    cfp <- c("cornflowerblue", "chartreuse4", "gold2", "red",
-             "orange", "purple")
+    cfp <- c(
+      "cornflowerblue", "chartreuse4", "gold2", "red",
+      "orange", "purple"
+    )
   }
   col.list <- list(NA)
   att1 <- numeric()
   list.data <- list(NA)
   if (exists("list.data.covarrubias")) {
     list.data <- env$list.data.covarrubias
-  }
-  else {
+  } else {
     list.ladders <- lapply(my.inds2, function(x) {
       y <- x[, channel.ladder]
       return(y)
     })
-    list.data <- lapply(list.ladders, find.ladder, ladder = ladder,
-                        ci.upp = ci.upp, ci.low = ci.low, draw = F, dev = dev,
-                        warn = warn, method = method, init.thresh = ladd.init.thresh)
+    list.data <- lapply(list.ladders, Fragman::find.ladder,
+      ladder = ladder,
+      ci.upp = ci.upp, ci.low = ci.low, draw = F, dev = dev,
+      warn = warn, method = method, init.thresh = ladd.init.thresh
+    )
   }
   list.models <- lapply(list.data, function(da) {
     y <- da[[3]]
     x <- da[[1]]
     mod <- stats::lm(y ~ I(x) + I(x^2) + I(x^3) + I(x^4) + I(x^5),
-              data = da)
+      data = da
+    )
     return(mod)
   })
   list.models.inv <- lapply(list.data, function(da) {
@@ -265,16 +280,19 @@ score_markers_rev3 <- function (my.inds, channel = 1, n.inds = NULL, panel = NUL
   })
   names(list.weis) <- names(my.inds2)
   if (length(panel) > 0) {
-    list.weis <- lapply(list.weis, reals_rev1, panel = panel,
-                        shi = shift, ploidy = ploidy, left.cond = left.cond,
-                        right.cond = right.cond, windowL = windowL, windowR = windowR)
-    list.weis2 <- lapply(list.weis, FUN = homo_panel_rev1, panel = panel,
-                         windowL = windowL, windowR = windowR)
+    list.weis <- lapply(list.weis, reals_rev1,
+      panel = panel,
+      shi = shift, ploidy = ploidy, left.cond = left.cond,
+      right.cond = right.cond, windowL = windowL, windowR = windowR
+    )
+    list.weis2 <- lapply(list.weis,
+      FUN = homo_panel_rev1, panel = panel,
+      windowL = windowL, windowR = windowR
+    )
   } else {
     list.weis2 <- list.weis
   }
   if (plotting == TRUE) {
-
     layout(matrix(1:pref, pref, 1))
     if (length(panel) > 0) {
       xm <- round(min(panel, na.rm = TRUE) - 10, digits = 0)
@@ -286,76 +304,100 @@ score_markers_rev3 <- function (my.inds, channel = 1, n.inds = NULL, panel = NUL
 
     # Create output directory
     message(paste0("Writing plots to directory '", plotdir, "'\n"))
-    dirplot <- paste0(getwd(),"/",plotdir,"/")
+    dirplot <- paste0(getwd(), "/", plotdir, "/")
     dir.create(dirplot, showWarnings = T)
 
     for (g in 1:length(n.inds)) {
-
       hh4 <- n.inds[g]
 
       if (length(which(new.whole.data[[g]]$xx > xm & new.whole.data[[g]]$xx <
-                       xl)) > 0) {
+        xl)) > 0) {
         mylim <- max(new.whole.data[[g]]$yy[which(new.whole.data[[g]]$xx >
-                                                    xm & new.whole.data[[g]]$xx < xl)], na.rm = TRUE) +
+          xm & new.whole.data[[g]]$xx < xl)], na.rm = TRUE) +
           100
       } else {
-        mylim = 1000
+        mylim <- 1000
       }
       if (is.infinite(mylim)) {
-        mylim = 1000
+        mylim <- 1000
       }
 
-      nm <-  gsub("mic_","",mic)
+      nm <- gsub("mic_", "", mic)
 
-      qpdf::pdf(paste0(dirplot,
-                 "/samp",names(list.models)[hh4],
-                 "_ch",channel,
-                 "_rplot.pdf"),
-          width = 8, height = 4)
+      grDevices::pdf(
+        paste0(
+          dirplot,
+          "/samp", names(list.models)[hh4],
+          "_ch", channel,
+          "_rplot.pdf"
+        ),
+        width = 8, height = 4
+      )
 
       plot(new.whole.data[[g]]$xx, new.whole.data[[g]]$yy,
-           type = "l", col = cfp[channel], xaxt = "n",
-           xlim = c(xm, xl), ylim = c(-200, mylim), ylab = "Intensity",
-           main = paste(nm, names(list.models)[hh4]),
-           sub = paste0("windowL = ",windowL, ", windowR = ",windowR, ", shift = ", shift),
-           xlab = "bp",
-           lwd = 2, las = 2)
-      axis(1, at = c(xm:xl), labels = xm:xl, cex.axis = 0.8)
-      rect(xleft = (list.weis2[[g]]$wei - windowL),
-           ybottom = (bott - 200), xright = (list.weis2[[g]]$wei + windowR),
-           ytop = (top + 1000), col = Fragman::transp("lightpink",
-                                             0.2), border = NA)
-      graphics::abline(v = list.weis[[g]]$wei, lty = 3, col = "blue",
-             cex = 0.5)
-      graphics::abline(v = list.weis2[[g]]$wei, lty = 3, col = "red",
-             cex = 0.5)
-      graphics::abline(h = lower.bounds[g], lty = 2, col = "chocolate",
-             cex = 0.5)
-      legend("topright", legend = c("Peak found", "Panel peak",
-                                    "Panel window", "Minimum Detected"),
-             col = c("blue",  "red", Fragman::transp("lightpink", 0.3), "chocolate"),
-             bty = "n", lty = c(3, 3, 1, 3), lwd = c(1, 1,
-                                                     3, 1), cex = 0.75);
+        type = "l", col = cfp[channel], xaxt = "n",
+        xlim = c(xm, xl), ylim = c(-200, mylim), ylab = "Intensity",
+        main = paste(nm, names(list.models)[hh4]),
+        sub = paste0("windowL = ", windowL, ", windowR = ", windowR, ", shift = ", shift),
+        xlab = "bp",
+        lwd = 2, las = 2
+      )
+      graphics::axis(1, at = c(xm:xl), labels = xm:xl, cex.axis = 0.8)
+      rect(
+        xleft = (list.weis2[[g]]$wei - windowL),
+        ybottom = (bott - 200), xright = (list.weis2[[g]]$wei + windowR),
+        ytop = (top + 1000), col = Fragman::transp(
+          "lightpink",
+          0.2
+        ), border = NA
+      )
+      graphics::abline(
+        v = list.weis[[g]]$wei, lty = 3, col = "blue",
+        cex = 0.5
+      )
+      graphics::abline(
+        v = list.weis2[[g]]$wei, lty = 3, col = "red",
+        cex = 0.5
+      )
+      graphics::abline(
+        h = lower.bounds[g], lty = 2, col = "chocolate",
+        cex = 0.5
+      )
+      graphics::legend("topright",
+        legend = c(
+          "Peak found", "Panel peak",
+          "Panel window", "Minimum Detected"
+        ),
+        col = c("blue", "red", Fragman::transp("lightpink", 0.3), "chocolate"),
+        bty = "n", lty = c(3, 3, 1, 3), lwd = c(
+          1, 1,
+          3, 1
+        ), cex = 0.75
+      )
 
-      grDevices::dev.off();
+      grDevices::dev.off()
       # Sys.sleep(0.5) # pause processes for plot writing
-      message(paste0("Saved ", g, "/",length(n.inds)," plots"))
+      message(paste0("Saved ", g, "/", length(n.inds), " plots"))
       utils::flush.console()
-
     }
 
     message(cat("Cleaning up..."))
 
-    pdflist <- paste0(dirplot,
-                      dir(dirplot, "^samp"))
+    pdflist <- paste0(
+      dirplot,
+      dir(dirplot, "^samp")
+    )
 
-    qpdf::pdf_combine(input = pdflist,
-                      output =  paste0(dirplot,
-                                       paste0("all_",nm,"_scores.pdf")))
+    qpdf::pdf_combine(
+      input = pdflist,
+      output = paste0(
+        dirplot,
+        paste0("all_", nm, "_scores.pdf")
+      )
+    )
 
     # # cleanup files
-    lapply(pdflist,file.remove)
-
+    lapply(pdflist, file.remove)
   }
   options(warn = oldw)
   return(list.weis2)
