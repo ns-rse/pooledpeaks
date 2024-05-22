@@ -30,7 +30,7 @@ clean_scores <- function(scores_data, pattern1 = NULL, replacement1 = NULL, patt
   if (!is.null(pattern3) && !is.null(replacement3)) {
     scores_df$filename <- gsub(pattern3, replacement3, scores_df$filename)
   }
-  scores_df <- scores_df %>% dplyr::distinct
+  scores_df <- scores_df %>% dplyr::distinct()
   return(scores_df)
 }
 
@@ -159,8 +159,8 @@ data_manipulation<-function(marker, threshold=500){
 
   marker<- marker%>%
     column_to_rownames()%>%
-    filter(.data$total != 0)%>%
-    select(!.data$total)
+    filter(total != 0)%>%
+    select(!total)
 
   return(marker)
 }
