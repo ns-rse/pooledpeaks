@@ -7,14 +7,14 @@
 GST(J = matrix, pairwise = TRUE)
 }
 \arguments{
-\item{J}{A square matrix representing a genetic distance matrix.}
+\item{J}{A square matrix representing a gene identity matrix.}
 
-\item{pairwise}{Logical indicating whether to calculate pairwise GST.}
+\item{pairwise}{Logical indicating whether to calculate pairwise GST. If set to FALSE, must not contain any missing data.}
 }
 \value{
 If pairwise = TRUE, returns a matrix of pairwise GST values.
 If pairwise = FALSE, returns the overall GST value.
 }
 \description{
-This function calculates GST (Nei's standard genetic distance) measure from a genetic distance matrix.
+This function calculates GST (Nei's standard genetic distance) measure from a gene identity matrix.
 }

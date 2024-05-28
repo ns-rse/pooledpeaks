@@ -7,14 +7,14 @@
 JostD(J = matrix, pairwise = TRUE)
 }
 \arguments{
-\item{J}{A genetic distance matrix.}
+\item{J}{A gene identity matrix.}
 
-\item{pairwise}{Logical indicating whether to calculate pairwise Jost's D.}
+\item{pairwise}{Logical indicating whether to calculate pairwise Jost's D. If pairwise=FALSE, must not have any missing data.}
 }
 \value{
 If pairwise = TRUE, returns a matrix of pairwise Jost's D values.
 If pairwise = FALSE, returns the overall Jost's D value.
 }
 \description{
-This function calculates Jost's D measure from a genetic distance matrix.
+This function calculates Jost's D measure from a gene identity matrix.
 }

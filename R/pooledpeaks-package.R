@@ -27,6 +27,7 @@
 #' @importFrom graphics rect
 #' @importFrom graphics title
 #' @importFrom magrittr %>%
+#' @importFrom pdftools pdf_text
 #' @importFrom qpdf pdf_combine
 #' @importFrom rlang .data
 #' @importFrom stats cmdscale

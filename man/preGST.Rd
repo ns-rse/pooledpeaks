@@ -7,11 +7,11 @@
 preGST(G = matrix)
 }
 \arguments{
-\item{G}{The genetic distance matrix}
+\item{G}{The gene identity matrix}
 }
 \value{
 The GST value.
 }
 \description{
-This function calculates the GST from a genetic distance matrix.
+This function calculates the GST from a gene identity matrix.
 }

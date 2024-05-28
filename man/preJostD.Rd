@@ -7,11 +7,11 @@
 preJostD(G = matrix)
 }
 \arguments{
-\item{G}{A square matrix representing a genetic distance matrix.}
+\item{G}{A square matrix representing a gene identity matrix.}
 }
 \value{
 The Jost's D value.
 }
 \description{
-This function calculates the pre-Jost's D measure from a genetic distance matrix.
+This function calculates the pre-Jost's D measure from a gene identity matrix.
 }

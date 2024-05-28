@@ -4,12 +4,12 @@
 \alias{AlRich}
 \title{Calculate Allelic Richness}
 \usage{
-AlRich(datafile = data.frame, n = c())
+AlRich(datafile = data.frame, n = matrix)
 }
 \arguments{
 \item{datafile}{A data frame containing the data as read in by \link{LoadData}}
 
-\item{n}{Vector specifying the number of alleles per locus.}
+\item{n}{A matrix representing the number of markers successfully genotyped like the output of the \link{TypedLoci} function.}
 }
 \value{
 A vector containing the allelic richness for each locus.

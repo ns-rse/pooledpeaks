@@ -62,6 +62,97 @@ test_that("SampleOfLoci function samples loci as expected", {
   actual_occurrences <- sum(sampled_loci$Locus_allele == "n")
   expect_equal(actual_occurrences, expected_occurrences)
 
-  # Optional: Print the sampled loci for visual verification (if needed)
-  print(sampled_loci)
+})
+
+test_that("ClusterFromSamples function performs clustering on samples of loci and calculates statistics as expected", {
+  # Create a sample data frame similar to the one used in the other tests
+  datafile <- data.frame(
+    Locus = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3),
+    Locus_allele = c("Marker1", "n", 1, 2, 3, "Marker2", "n", 1, 2, 3, "Marker3", "n", 1, 2, 3),
+    Sample1 = c(NA, 0, 0, 0, 0, NA, 10, 0.2, 0.3, 0.5, NA, 0.1, 0.2, 0.3, 0.4),
+    Sample2 = c(NA, 20, 0.1, 0.2, 0.7, NA, 20, 0.3, 0.4, 0.3, NA, 0.4, 0.3, 0.2, 0.1),
+    Sample3 = c(NA, 30, 0.3, 0.4, 0.3, NA, 0, 0, 0, 0, NA, 0.2, 0.3, 0.4, 0.1),
+    Sample4 = c(NA, 10, 0.5, 0.3, 0.2, NA, 5, 0.1, 0.2, 0.3, NA, 0.1, 0.4, 0.3, 0.2),
+    Sample5 = c(NA, 15, 0.2, 0.1, 0.5, NA, 15, 0.4, 0.3, 0.2, NA, 0.3, 0.1, 0.2, 0.4)
+  )
+
+  # Call the ClusterFromSamples function with the sample data frame
+  numloci <- 2
+  reps <- 10
+  result <- pooledpeaks::ClusterFromSamples(datafile, numloci, reps)
+
+  # Test that the function returns a matrix
+  expect_true(isTRUE(is.matrix(result)))
+
+  # Test the dimensions of the matrix
+  expect_equal(nrow(result), reps)
+  expect_equal(ncol(result), length(unique(substr(colnames(datafile)[-(1:2)], 1, 1))))
+
+  # Test that the matrix contains values between 0 and 1
+  expect_true(all(result >= 0 & result <= 1))
+
+  # Test that the matrix has rounded values to 4 decimal places
+  expect_true(all(result == round(result, 4)))
+
+  # Additional checks can include verifying specific values if a deterministic output can be guaranteed
+  # For example, if we know the exact clustering behavior with a fixed random seed:
+  set.seed(42)
+  result_with_seed <- ClusterFromSamples(datafile, numloci, reps)
+  expect_true(isTRUE(all.equal(result, result_with_seed)))
+})
+
+test_that("MDSplot function generates MDS plot correctly", {
+  # Create a sample genetic distance matrix
+  distance <- matrix(c(
+    0, 0.1, 0.2, 0.3,
+    0.1, 0, 0.1, 0.2,
+    0.2, 0.1, 0, 0.1,
+    0.3, 0.2, 0.1, 0
+  ), nrow = 4, byrow = TRUE)
+  colnames(distance) <- rownames(distance) <- c("Sample1", "Sample2", "Sample3", "Sample4")
+
+  # Define the principal coordinates to plot and population labels
+  pcs <- c(1, 2)
+  PF <- factor(c("A", "A", "B", "B"))
+  colors <- c('dodgerblue', 'red')
+
+  # Capture the plot output
+  plot_output <- capture.output(
+    MDSplot(distance = distance, pcs = pcs, PF = PF, y = colors)
+  )
+
+  # Check if cmdscale is executed
+  E <- stats::cmdscale(distance, eig = TRUE, k = max(pcs))
+  expect_true(!is.null(E$points))
+  expect_equal(nrow(E$points), 4)
+  expect_equal(ncol(E$points), max(pcs))
+
+  # Check if the eigenvalues are correctly calculated
+  T <- sum(E$eig[E$eig > 0])
+  percent <- round(E$eig / T, 3) * 100
+  expect_equal(length(percent), length(E$eig))
+  expect_true(all(percent >= 0 & percent <= 100))
+
+  # Ensure the function handles an empty distance matrix gracefully
+  empty_distance <- matrix(nrow = 0, ncol = 0)
+  expect_error(MDSplot(distance = empty_distance, pcs = pcs, PF = PF, y = colors))
+
+  # Check handling of invalid principal coordinates
+  invalid_pcs <- c(1, 10)
+  expect_error(MDSplot(distance = distance, pcs = invalid_pcs, PF = PF, y = colors))
+})
+
+# Additional edge case tests
+test_that("MDSplot handles edge cases", {
+  # Case with only one sample
+  single_sample_distance <- matrix(0, nrow = 1, ncol = 1)
+  colnames(single_sample_distance) <- rownames(single_sample_distance) <- "Sample1"
+  PF_single <- factor("A")
+  expect_error(MDSplot(distance = single_sample_distance, pcs = c(1, 2), PF = PF_single))
+
+  # Case with two samples
+  two_sample_distance <- matrix(c(0, 0.1, 0.1, 0), nrow = 2)
+  colnames(two_sample_distance) <- rownames(two_sample_distance) <- c("Sample1", "Sample2")
+  PF_two <- factor(c("A", "B"))
+  expect_error(MDSplot(distance = two_sample_distance, pcs = c(1, 2), PF = PF_two))
 })

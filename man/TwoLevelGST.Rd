@@ -7,11 +7,11 @@
 TwoLevelGST(G = matrix)
 }
 \arguments{
-\item{G}{A square matrix representing a genetic distance matrix.}
+\item{G}{A square matrix representing a gene identity matrix.}
 }
 \value{
 A list containing the components of two-level GST including within-group gene identity, between-group gene identity, and GST values.
 }
 \description{
-This function calculates two-level GST (Nei's standard genetic distance) measure from a genetic distance matrix.
+This function calculates two-level GST (Nei's standard gene identity) measure from a gene identity matrix.
 }

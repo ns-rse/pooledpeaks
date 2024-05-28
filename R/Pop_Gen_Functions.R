@@ -73,22 +73,26 @@ EmpiricalSE <- function(datafile=data.frame,NLoci=10) {
 
 #' Calculate Pre-Jost's D
 #'
-#' This function calculates the pre-Jost's D measure from a genetic distance matrix.
+#' This function calculates the pre-Jost's D measure from a gene identity matrix.
 #'
-#' @param G A square matrix representing a genetic distance matrix.
+#' @param G A square matrix representing a gene identity matrix.
 #'
 #' @return The Jost's D value.
 
 preJostD <- function(G=matrix) {
 
   JS <- 0
-  for (i in 1:nrow(G)) JS <- JS+G[i,i]
+  for (i in 1:nrow(G)) {
+    JS <- JS+G[i,i]
+  }
   JS <- JS/nrow(G)
 
   JT <-0
-  for (i in 1:nrow(G))
-    for (j in 1:nrow(G))
+  for (i in 1:nrow(G)){
+    for (j in 1:nrow(G)){
       JT <- JT+G[i,j]
+    }
+  }
   JT <- JT/nrow(G)/nrow(G)
   D <- (JT/JS -1)/(1/nrow(G)-1)
   return(D)
@@ -99,10 +103,10 @@ preJostD <- function(G=matrix) {
 
 #' Calculate Jost's D
 #'
-#' This function calculates Jost's D measure from a genetic distance matrix.
+#' This function calculates Jost's D measure from a gene identity matrix.
 #'
-#' @param J A genetic distance matrix.
-#' @param pairwise Logical indicating whether to calculate pairwise Jost's D.
+#' @param J A gene identity matrix.
+#' @param pairwise Logical indicating whether to calculate pairwise Jost's D. If pairwise=FALSE, must not have any missing data.
 #'
 #' @return If pairwise = TRUE, returns a matrix of pairwise Jost's D values.
 #' If pairwise = FALSE, returns the overall Jost's D value.
@@ -123,28 +127,32 @@ JostD <- function(J=matrix, pairwise=TRUE) {
     return(PJostD)}
 
   if (pairwise==FALSE)
-  {preJostD()}
+  {preJostD(J)}
 
 }
 
 
 #' Pre GST Calculation
 #'
-#' This function calculates the GST from a genetic distance matrix.
+#' This function calculates the GST from a gene identity matrix.
 #'
-#' @param G The genetic distance matrix
+#' @param G The gene identity matrix
 #'
 #' @return The GST value.
 
 preGST <- function(G=matrix) {
   JS <- 0
-  for (i in 1:nrow(G)) JS <- JS+G[i,i]
-  JS <- JS/nrow(G)
+  for (i in 1:nrow(G)) {
+    JS <- JS+G[i,i]
+  }
+    JS <- JS/nrow(G)
 
   JT <-0
-  for (i in 1:nrow(G))
-    for (j in 1:nrow(G))
+  for (i in 1:nrow(G)) {
+    for (j in 1:nrow(G)) {
       JT <- JT+G[i,j]
+    }
+  }
   JT <- JT/nrow(G)/nrow(G)
 
   GST <- (JS-JT)/(1-JT)
@@ -153,10 +161,10 @@ preGST <- function(G=matrix) {
 
 #' Nei's GST
 #'
-#' This function calculates GST (Nei's standard genetic distance) measure from a genetic distance matrix.
+#' This function calculates GST (Nei's standard genetic distance) measure from a gene identity matrix.
 #'
-#' @param J A square matrix representing a genetic distance matrix.
-#' @param pairwise Logical indicating whether to calculate pairwise GST.
+#' @param J A square matrix representing a gene identity matrix.
+#' @param pairwise Logical indicating whether to calculate pairwise GST. If set to FALSE, must not contain any missing data.
 #'
 #' @return If pairwise = TRUE, returns a matrix of pairwise GST values.
 #' If pairwise = FALSE, returns the overall GST value.
@@ -175,16 +183,19 @@ GST <- function(J=matrix, pairwise=TRUE) {
       }
     return(PGST)}
 
-  if (pairwise==FALSE)
-  {preGST()}
+  if (pairwise==FALSE){
+    OGST<-preGST(J)
+
+  return(OGST)
+  }
 
 }
 
 #' Calculate Two-Level GST
 #'
-#' This function calculates two-level GST (Nei's standard genetic distance) measure from a genetic distance matrix.
+#' This function calculates two-level GST (Nei's standard gene identity) measure from a gene identity matrix.
 #'
-#' @param G A square matrix representing a genetic distance matrix.
+#' @param G A square matrix representing a gene identity matrix.
 #'
 #' @return A list containing the components of two-level GST including within-group gene identity, between-group gene identity, and GST values.
 #' @export
@@ -193,7 +204,6 @@ GST <- function(J=matrix, pairwise=TRUE) {
 
 TwoLevelGST <- function(G=matrix) {
   names <- colnames(G)
-  names <- names[-(1:2)]
   PopLabel <- substr(names,1,1)
   PF <- as.factor(PopLabel)
   z <- levels(PF)
@@ -202,19 +212,23 @@ TwoLevelGST <- function(G=matrix) {
   n <- 0
   Jx <- 0  # Gene Identity Matrix for Component
   Js <- rep(0,length(z)) # Gene Identity Within
+  k<-1
 
   for (k in 1:length(z)) {
     group <- which(PF==z[k])
     Jx <- G[group,group]
-    n[k] <- nrow(Jx)
+    n[k] <- Jx[k]
     Js[k]<-0
-    for (i in 1:length(group))
+    for (i in 1:length(group)){
       Js[k] <- Js[k]+Jx[i,i]
+    }
     Js[k] <- Js[k]/length(group)
 
-    for (i in 1:length(group))
-      for (j in 1:length(group))
+    for (i in 1:length(group)){
+      for (j in 1:length(group)){
         Jc[k] <- Jc[k]+Jx[i,j]
+      }
+    }
 
     Jc[k] <- Jc[k]/length(group)/length(group)
 
@@ -222,19 +236,23 @@ TwoLevelGST <- function(G=matrix) {
   }
 
   JS <- 0
-  for (i in 1:nrow(G))
+  for (i in 1:nrow(G)){
     JS <- JS+G[i,i]
+  }
   JS <- JS/nrow(G)
 
   JC <-0
-  for (k in 1:length(z))
+  for (k in 1:length(z)){
     JC <- JC + n[k]*Jc[k]
+  }
   JC <- JC/sum(n)
 
   JT <-0
-  for (i in 1:nrow(G))
-    for (j in 1:nrow(G))
+  for (i in 1:nrow(G)){
+    for (j in 1:nrow(G)){
       JT <- JT + G[i,j]
+    }
+  }
   JT <- JT/nrow(G)/nrow(G)
 
   GG <- list(Js=Js,Jc=Jc,Gsc=Gsc,JS=JS,JC=JC,JT=JT,
@@ -248,16 +266,16 @@ TwoLevelGST <- function(G=matrix) {
 #' This function calculates allelic richness based on the provided genetic data.
 #'
 #' @param datafile A data frame containing the data as read in by [pooledpeaks::LoadData]
-#' @param n Vector specifying the number of alleles per locus.
+#' @param n A matrix representing the number of markers successfully genotyped like the output of the [pooledpeaks::TypedLoci] function.
 #'
 #' @return A vector containing the allelic richness for each locus.
 #' @export
 #'
 #' @examples
 
-AlRich <- function(datafile=data.frame,n=c()) {
+AlRich <- function(datafile=data.frame,n=matrix) {
 
-  loci <- rep(0,nrow(n))
+  loci <- rep(0,length(n))
   loci <- diag(n)
 
   g <- subset(datafile,(datafile[,2] != 'n')&(datafile[,3]!='NA'))
@@ -265,6 +283,9 @@ AlRich <- function(datafile=data.frame,n=c()) {
   g <- as.matrix(g)
 
   allnum <- rep(0,ncol(g))
+
+  i<-1
+  h<-c()
 
   for (i in 1:ncol(g)) {
     h <- g[,i]
@@ -292,8 +313,8 @@ AlRich <- function(datafile=data.frame,n=c()) {
 
 BootStrap3 <- function(A=data.frame,Rep=20,Stat=1) {
   A <- A
-  Rep <- 5
-  Stat=2
+  Rep <- Rep
+  Stat=Stat
 
   Loci <- max(A[,1])
 
@@ -306,7 +327,9 @@ BootStrap3 <- function(A=data.frame,Rep=20,Stat=1) {
 
   gst <- 0
 
-  if (Stat==1) w <- rep(0,length(A[1,])-2)
+  if (Stat==1) {
+    w <- rep(0,length(A[1,])-2)
+  }
 
   if (Stat==2) {
     js <- rep(0,Rep*K)
@@ -324,7 +347,9 @@ BootStrap3 <- function(A=data.frame,Rep=20,Stat=1) {
   }
 
   for (j in 1:Rep) {
-    if (j%%10==0) print(j)
+    if (j%%10==0){
+      print(j)
+    }
     z <-A[1,]
     x <- sample(1:Loci,Loci,replace=TRUE)
     for (i in x) {
@@ -337,17 +362,27 @@ BootStrap3 <- function(A=data.frame,Rep=20,Stat=1) {
     if (Stat==1) {
       N <- TypedLoci(z)
       v <- AlRich(z,N)
-      if (j==1) w <- v
-      if (j>1)  w <- rbind(w,v)
+      if (j==1) {
+        w <- v
+      }
+      else if (j>1)  {
+        w <- rbind(w,v)
+      }
     }  # End of Stat = 1 loop
 
     if (Stat==2) {
       nn <- TypedLoci(z)
       Jx<-GeneIdentityMatrix(z,nn)
       G <- TwoLevelGST(Jx)
-      for (k in 1:length(G$Js)) js[j,k] <- G$Js[k]
-      for (k in 1:length(G$Jc)) jc[j,k] <- G$Jc[k]
-      for (k in 1:length(G$Gsc)) gsc[j,k] <- G$Gsc[k]
+      for (k in 1:length(G$Js)) {
+        js[j,k] <- G$Js[k]
+      }
+      for (k in 1:length(G$Jc)) {
+        jc[j,k] <- G$Jc[k]
+      }
+      for (k in 1:length(G$Gsc)){
+        gsc[j,k] <- G$Gsc[k]
+      }
       JS[j] <- G$JS
       JC[j] <- G$JC
       JT[j] <- G$JT

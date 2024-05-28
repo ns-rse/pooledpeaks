@@ -26,13 +26,16 @@ cluster <- function(RawData=data.frame,K=2) {
   PopFactor <- as.factor(PopLabel)
   d <- subset(d,(d[,2] != 'n')&(d[,3]!='NA'))
   d <- d[,-c(1:2)]
-  fit <- stats::kmeans(t(d),centers=K,iter.max=20,nstart=50)
-  utils::capture.output(fit, file = "clusterOutput.txt")
 
-  fit <- fit$cluster
-  fit <- list(PopFactor=PopFactor,clust=fit,dat=dat)
+  fit <- stats::kmeans(t(d), centers = K, iter.max = 20, nstart = 50)
+  fit_output <- utils::capture.output(print(fit))
 
-  return(fit)
+  fit_output <- paste(fit_output, collapse = "\n")
+
+  fit_cluster <- fit$cluster
+  result <- list(PopFactor = PopFactor, clust = fit_cluster, dat = dat, fit_output = fit_output)
+
+  return(result)
 }
 
 
