@@ -25,7 +25,7 @@ fsa_batch_imp(
 
 \item{saturated}{True/False whether to Check and correct for saturated peaks.}
 
-\item{lets.pullup}{True/False Applying pull up correction to the samples to decrease noise from channel to channel.}
+\item{lets.pullup}{True/False Applying pull up correction to the samples to decrease noise from channel to channel. The default is FALSE, please do not change this.}
 
 \item{plotting}{True/False Should plots be drawn of all channels after data cleaning.}
 

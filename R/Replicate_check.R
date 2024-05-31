@@ -156,7 +156,7 @@ Rep_check <- function(df) {
 
   # Remove a and b demarcation from column names
 
-  colnames(newdf) <- gsub("a|b|c|d|f|e|ab|ac|bb|bc", "", colnames(newdf))
+  colnames(newdf) <- gsub("(?<=\\d)(a|b|c|d|e|f|ab|ac|bb|bc)", "", colnames(newdf), perl = TRUE)
 
   # Define Columnames vector
   Columnames <- colnames(newdf)

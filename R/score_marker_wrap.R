@@ -1,5 +1,6 @@
 reals_rev1 <- function(x, panel = c(100:400), shi = 1, ploidy = 2,
                        left.cond = c(0.4, 3), right.cond = 0.2, windowL = 0.5, windowR = 0.5) {
+
   neg <- which(x$wei <= 0)
   if (length(neg) > 0) {
     x <- list(pos = x$pos[-neg], hei = x$hei[-neg], wei = x$wei[-neg])
@@ -128,6 +129,44 @@ homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
 #' @export
 #'
 #' @examples
+#' file_path <- system.file("extdata", package = "pooledpeaks")
+#' mock_fsa_batch_imp_output<- fsa_batch_imp(file_path, channels = 5, fourier = TRUE,
+#'                                          saturated = TRUE, lets.pullup = FALSE,
+#'                                          plotting = FALSE, rawPlot = FALSE,
+#'                                          llength = 3000, ulength = 80000)
+#' names(mock_fsa_batch_imp_output)<-c("23.2a_I_A01_2012-07-18.fsa","23.2b_I_A07_2012-07-18.fsa",
+#'                                     "30.3a_I_B01_2012-07-18.fsa","30.3b_I_B07_2012-07-18.fsa",
+#'                                     "33.1a_I_C01_2012-07-18.fsa","33.1b_I_C07_2012-07-18.fsa",
+#'                                     "Multiplex_set_I_Shaem.1a_1_Sample_20221028_215632.fsa",
+#'                                     "Multiplex_set_I_Shaem.1b_1_Sample_20221028_232301.fsa",
+#'                                     "Multiplex_set_I_Shaem.3a_2_Sample_20221028_215633.fsa",
+#'                                     "Multiplex_set_I_Shaem.3b_2_Sample_20221028_232302.fsa",
+#'                                     "Multiplex_set_I_Shaem.4a_3_Sample_20221028_215634.fsa",
+#'                                     "Multiplex_set_I_Shaem.4b_3_Sample_20221028_232303.fsa")
+#' panel <- c(161,164,167,170,173,176,179,182,185,188,191,194,197,200,203,206,209,212,215,218)
+#' ladder <- c(20, 40, 60, 80, 100, 114, 120, 140, 160, 180, 200, 214, 220,
+#'             240, 250, 260, 280, 300, 314, 320, 340, 360, 380, 400, 414,
+#'             420, 440, 460, 480, 500, 514, 520, 540, 560, 580, 600)
+#' mock_fsa_batch_imp_output <- associate_dyes(mock_fsa_batch_imp_output, file_path)
+#'Fragman::ladder.info.attach(stored = mock_fsa_batch_imp_output, ladder = ladder,
+#'                            ladd.init.thresh = 200, prog = FALSE, draw = FALSE)
+#'panel <- as.numeric(panel)
+#'result <- score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
+#'                             channel = 1,
+#'                             channel.ladder = 5,
+#'                             panel = "panel",
+#'                             ladder = ladder,
+#'                             init.thresh = 100,
+#'                             ploidy = length(panel),
+#'                             shift = 1,
+#'                             windowL = 1,
+#'                             windowR = 0.5,
+#'                             left.cond = c(0, 2.5),
+#'                             right.cond = 0,
+#'                             pref = 1,
+#'                             plotting = FALSE)
+#'
+
 score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL,
                                shift = 0.8, ladder, channel.ladder = NULL, ploidy = 2,
                                left.cond = c(0.6, 3), right.cond = 0.35, warn = FALSE,
@@ -138,61 +177,70 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
     message(paste0("You are writing plots for all samples to the directory '", plotdir, "'.
   For faster calculation but no plots, set 'plotting = FALSE'\n"))
   } else {
-    message(paste0(" You have set 'plotting = FALSE', meaning this command will return only a list peak scores\n"))
+    message(paste0(" You have set 'plotting = FALSE', meaning this command will return
+                   only a list peak scores\n"))
   }
 
-  # message("Additionally, running this script saves all plots to a file instead of printing to viewer.
-  # For faster calculation set 'plotting = FALSE'\n")
-
-  if (class(panel) %in% "character") {
+  if (is.character(panel)) {
     mic <- panel
-    panel <- get(panel)
-  } else {
-    stop(call. = F, 'Check that your panel object is specified in quotes e.g. panel = "my_panel" ')
+    if (exists(panel, envir = env, inherits = FALSE)) {
+      panel <- get(panel, envir = env)
+    } else {
+      stop(call. = FALSE, 'Check that your panel object is specified in quotes e.g.
+           panel = "my_panel" and exists in the environment')
+    }
+  } else if (!is.null(panel) && !is.numeric(panel)) {
+    stop(call. = FALSE, 'Panel should be either a character string representing the
+         variable name or a numeric vector')
   }
 
 
   oldw <- getOption("warn")
   options(warn = -1)
-  ci.upp <- 1.96
-  ci.low <- 1.96
   dev <- 50
   thresh <- NULL
+
   if (length(n.inds) > length(my.inds)) {
     message(paste(
-      "You are trying to examine more individuals than you actually read? You selected in 'n.inds' argument",
+      "You are trying to examine more individuals than you actually read?
+      You selected in 'n.inds' argument",
       length(n.inds), "individuals but you only provided",
-      length(my.inds), " individuals. Please select a number of individuals smaller or same size than the ones contained in 'my.inds' argument"
+      length(my.inds), " individuals. Please select a number of individuals
+      smaller or same size than the ones contained in 'my.inds' argument"
     ))
     stop
-  } else {
-
   }
 
   cat(paste("Scoring ", mic, "peaks\nPlease be patient!\n"))
 
   if (method == "ci") {
-    message(paste("Please make sure you have used the same 'dev' value you found convenient for your ladder detection or probably your call will not match"))
+    message(paste("Please make sure you have used the same 'dev' value
+                  you found convenient for your ladder detection or probably
+                  your call will not match"))
   }
+
   if (is.null(channel.ladder)) {
     channel.ladder <- dim(my.inds[[1]])[2]
   } else {
     channel.ladder <- channel.ladder
   }
+
   if (dim(my.inds[[1]])[2] < channel.ladder) {
-    message(paste("ERROR, you have indicated an argument channel.ladder=5, but your data contains less channels/colors"))
+    message(paste("ERROR, you have indicated an argument channel.ladder=5,
+                  but your data contains less channels/colors"))
     stop
   }
+
   if (is.null(n.inds)) {
-    n.inds <- c(1:length(my.inds))
+    n.inds <- 1:length(my.inds)
   } else {
     n.inds <- n.inds
   }
+
   if (is.null(thresh)) {
     thresh <- rep(list(c(1, 1, 1, 1, 1)), length(my.inds))
-  } else {
-    thresh <- thresh
   }
+
   tot <- length(n.inds)
   my.inds2 <- list(NA)
   thresh2 <- list(NA)
@@ -201,6 +249,7 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
     my.inds2[[i]] <- my.inds[[v1]]
     names(my.inds2)[i] <- names(my.inds)[v1]
   }
+
   ncfp <- c(
     "channel_1", "channel_2", "channel_3", "channel_4", "channel_5",
     "channel_6"
@@ -213,9 +262,11 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
       "orange", "purple"
     )
   }
+
   col.list <- list(NA)
   att1 <- numeric()
   list.data <- list(NA)
+
   if (exists("list.data.covarrubias")) {
     list.data <- env$list.data.covarrubias
   } else {
@@ -225,10 +276,11 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
     })
     list.data <- lapply(list.ladders, Fragman::find.ladder,
       ladder = ladder,
-      ci.upp = ci.upp, ci.low = ci.low, draw = F, dev = dev,
+      draw = F, dev = dev,
       warn = warn, method = method, init.thresh = ladd.init.thresh
     )
   }
+
   list.models <- lapply(list.data, function(da) {
     y <- da[[3]]
     x <- da[[1]]
@@ -236,31 +288,39 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
       data = da
     )
     return(mod)
-  })
+  }
+  )
+
   list.models.inv <- lapply(list.data, function(da) {
     x <- da[[3]]
     y <- da[[1]]
     mod <- stats::lm(y ~ x, data = da)
     return(mod)
-  })
+  }
+  )
+
   xx <- lapply(my.inds2, function(x, channel) {
     1:length(x[, channel])
   }, channel = channel)
+
   newxx <- numeric()
   newyy <- numeric()
   new.whole.data <- list(NA)
+
   for (h in 1:length(xx)) {
     h1 <- n.inds[h]
     newxx <- as.vector(predict(list.models[[h1]], newdata = data.frame(x = xx[[h]])))
     newyy <- my.inds2[[h]][, channel]
     new.whole.data[[h]] <- list(xx = newxx, yy = newyy)
   }
+
   top <- max(unlist(lapply(new.whole.data, function(x) {
     max(x$yy)
   })))
   bott <- min(unlist(lapply(new.whole.data, function(x) {
     min(x$yy)
   })))
+
   list.weis <- list(NA)
   lower.bounds <- numeric()
   for (k in 1:length(my.inds2)) {
@@ -270,28 +330,26 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
     plant$wei <- new.whole.data[[k]]$xx[plant$pos]
     plant <- Fragman::separate(plant, shift, type = "bp")
     list.weis[[k]] <- plant
-    if (plotting == TRUE) {
-    } else {
-    }
   }
+
   list.weis <- lapply(list.weis, function(x) {
     x$wei <- round(x$wei, digits = 4)
     return(x)
   })
   names(list.weis) <- names(my.inds2)
+
   if (length(panel) > 0) {
     list.weis <- lapply(list.weis, reals_rev1,
-      panel = panel,
-      shi = shift, ploidy = ploidy, left.cond = left.cond,
+      panel = panel, shi = shift, ploidy = ploidy, left.cond = left.cond,
       right.cond = right.cond, windowL = windowL, windowR = windowR
     )
-    list.weis2 <- lapply(list.weis,
-      FUN = homo_panel_rev1, panel = panel,
+    list.weis2 <- lapply(list.weis, FUN = homo_panel_rev1, panel = panel,
       windowL = windowL, windowR = windowR
     )
   } else {
     list.weis2 <- list.weis
   }
+
   if (plotting == TRUE) {
     layout(matrix(1:pref, pref, 1))
     if (length(panel) > 0) {
@@ -346,10 +404,7 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
       rect(
         xleft = (list.weis2[[g]]$wei - windowL),
         ybottom = (bott - 200), xright = (list.weis2[[g]]$wei + windowR),
-        ytop = (top + 1000), col = Fragman::transp(
-          "lightpink",
-          0.2
-        ), border = NA
+        ytop = (top + 1000), col = Fragman::transp("lightpink",0.2), border = NA
       )
       graphics::abline(
         v = list.weis[[g]]$wei, lty = 3, col = "blue",
@@ -364,24 +419,17 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
         cex = 0.5
       )
       graphics::legend("topright",
-        legend = c(
-          "Peak found", "Panel peak",
-          "Panel window", "Minimum Detected"
-        ),
+        legend = c("Peak found", "Panel peak","Panel window", "Minimum Detected"),
         col = c("blue", "red", Fragman::transp("lightpink", 0.3), "chocolate"),
-        bty = "n", lty = c(3, 3, 1, 3), lwd = c(
-          1, 1,
-          3, 1
-        ), cex = 0.75
+        bty = "n", lty = c(3, 3, 1, 3), lwd = c(1, 1, 3, 1), cex = 0.75
       )
 
       grDevices::dev.off()
-      # Sys.sleep(0.5) # pause processes for plot writing
       message(paste0("Saved ", g, "/", length(n.inds), " plots"))
       utils::flush.console()
     }
 
-    message(cat("Cleaning up..."))
+    message("Cleaning up...")
 
     pdflist <- paste0(
       dirplot,

@@ -13,7 +13,7 @@
 #' @param channels The number of dye channels expected, including the ladder.
 #' @param fourier True/False Should fourier transformation be applied.
 #' @param saturated True/False whether to Check and correct for saturated peaks.
-#' @param lets.pullup True/False Applying pull up correction to the samples to decrease noise from channel to channel.
+#' @param lets.pullup True/False Applying pull up correction to the samples to decrease noise from channel to channel. The default is FALSE, please do not change this.
 #' @param plotting True/False Should plots be drawn of all channels after data cleaning.
 #' @param rawPlot True/False indicating whether a plot should be drawn of all vectors.
 #' @param llength A numeric value for the minimum number of indexes in each channel.
