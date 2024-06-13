@@ -15,6 +15,16 @@
 #' @export
 #'
 #' @examples
+#' genetic_distance_matrix <- matrix(c(0.316455, 0.2836333, 0.2760485, 0.2685221, 0.2797302,
+#'  0.3202661,0.2836333, 0.3106084, 0.2867215, 0.2687472, 0.2596309, 0.2957862,0.2760485,
+#'  0.2867215, 0.3338663, 0.297918, 0.3057039, 0.3153261,0.2685221, 0.2687472, 0.297918,
+#'  0.3107094, 0.2753477, 0.3042383,0.2797302, 0.2596309, 0.3057039, 0.2753477, 0.3761386,
+#'  0.3398558,0.3202661, 0.2957862, 0.3153261, 0.3042383, 0.3398558, 0.4402125),
+#'  nrow = 6, byrow = TRUE,dimnames = list(c("Sample1", "Sample2", "Sample3", "Ind1", "Ind2", "Ind3"),
+#'  c("Sample1", "Sample2", "Sample3", "Ind1", "Ind2", "Ind3")))
+#'
+#' DC<- DistCor(genetic_distance_matrix)
+#'
 DistCor <- function(GD=matrix) {
   T <- ape::nj(GD)
   ED <- stats::cophenetic(T)
@@ -49,6 +59,17 @@ DistCor <- function(GD=matrix) {
 #' @export
 #'
 #' @examples
+#'
+#' genetic_data <- data.frame(
+#' Locus = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2),
+#' Locus_allele = c("Marker1", "n", 1, 2, 3, "Marker2", "n", 1, 2, 3),
+#' Sample1 = c(NA, 10, 0.5, 0.5, 0, NA, 10, 0.2, 0.3, 0.5),
+#' Sample2 = c(NA, 20, 0.1, 0.2, 0.7, NA, 20, 0.3, 0.4, 0.3),
+#' Sample3 = c(NA, 30, 0.3, 0.4, 0.3, NA, 30, 0.4, 0.2, 0.4)
+#' )
+#'
+#'
+#' EmpiricalSE(datafile=genetic_data, NLoci=3)
 
 EmpiricalSE <- function(datafile=data.frame,NLoci=10) {
   G<-0
@@ -114,6 +135,15 @@ preJostD <- function(G=matrix) {
 #' @export
 #'
 #' @examples
+#' gene_identity_matrix <- matrix(c(
+#' 0.3164550, 0.2836333, 0.2760485,
+#' 0.2836333, 0.3106084, 0.2867215,
+#' 0.2760485, 0.2867215, 0.3338663
+#' ), nrow = 3, byrow = TRUE,
+#' dimnames = list(paste0("Sample", 1:3), paste0("Sample", 1:3)))
+#'
+#' JostD(J=gene_identity_matrix, pairwise=TRUE)
+#' JostD(J=gene_identity_matrix, pairwise=FALSE)
 
 JostD <- function(J=matrix, pairwise=TRUE) {
   if (pairwise==TRUE){
@@ -171,6 +201,15 @@ preGST <- function(G=matrix) {
 #' @export
 #'
 #' @examples
+#' gene_identity_matrix <- matrix(c(
+#' 0.3164550, 0.2836333, 0.2760485,
+#' 0.2836333, 0.3106084, 0.2867215,
+#' 0.2760485, 0.2867215, 0.3338663
+#' ), nrow = 3, byrow = TRUE,
+#' dimnames = list(paste0("Sample", 1:3), paste0("Sample", 1:3)))
+#'
+#' GST(J=gene_identity_matrix, pairwise=TRUE)
+#' GST(J=gene_identity_matrix, pairwise=FALSE)
 
 GST <- function(J=matrix, pairwise=TRUE) {
   if (pairwise==TRUE){
@@ -201,6 +240,15 @@ GST <- function(J=matrix, pairwise=TRUE) {
 #' @export
 #'
 #' @examples
+#' gene_identity_matrix <- matrix(c(
+#' 0.3164550, 0.2836333, 0.2760485,
+#' 0.2836333, 0.3106084, 0.2867215,
+#' 0.2760485, 0.2867215, 0.3338663
+#' ), nrow = 3, byrow = TRUE,
+#' dimnames = list(paste0("Sample", 1:3), paste0("Sample", 1:3)))
+#'
+#' TwoLevelGST(G=gene_identity_matrix)
+#'
 
 TwoLevelGST <- function(G=matrix) {
   names <- colnames(G)
@@ -272,6 +320,23 @@ TwoLevelGST <- function(G=matrix) {
 #' @export
 #'
 #' @examples
+#'
+#' genetic_data <- data.frame(
+#' Locus = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2),
+#' Locus_allele = c("Marker1", "n", 1, 2, 3, "Marker2", "n", 1, 2, 3),
+#' Sample1 = c(NA, 10, 0.5, 0.5, 0, NA, 10, 0.2, 0.3, 0.5),
+#' Sample2 = c(NA, 20, 0.1, 0.2, 0.7, NA, 20, 0.3, 0.4, 0.3),
+#' Sample3 = c(NA, 30, 0.3, 0.4, 0.3, NA, 30, 0.4, 0.2, 0.4)
+#' )
+#'
+#' n_alleles <- matrix(c(
+#' 3, 3, 3,
+#' 3, 3, 3,
+#' 3, 3, 3
+#' ), nrow = 3, byrow = TRUE,
+#' dimnames = list(paste0("Sample", 1:3), paste0("Sample", 1:3)))
+#'
+#' AlRich(datafile=genetic_data,n=n_alleles)
 
 AlRich <- function(datafile=data.frame,n=matrix) {
 
@@ -310,6 +375,16 @@ AlRich <- function(datafile=data.frame,n=matrix) {
 #' @export
 #'
 #' @examples
+#' genetic_data <- data.frame(
+#' Locus = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2),
+#' Locus_allele = c("Marker1", "n", 1, 2, 3, "Marker2", "n", 1, 2, 3),
+#' Sample1 = c(NA, 10, 0.5, 0.5, 0, NA, 10, 0.2, 0.3, 0.5),
+#' Sample2 = c(NA, 20, 0.1, 0.2, 0.7, NA, 20, 0.3, 0.4, 0.3),
+#' Sample3 = c(NA, 30, 0.3, 0.4, 0.3, NA, 30, 0.4, 0.2, 0.4)
+#' )
+#'
+#' BootStrap3(A=genetic_data, Rep=10, Stat=1)
+#' BootStrap3(A=genetic_data, Rep=10, Stat=2)
 
 BootStrap3 <- function(A=data.frame,Rep=20,Stat=1) {
   A <- A

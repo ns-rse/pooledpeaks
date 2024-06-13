@@ -35,3 +35,17 @@ A cleaned long format data frame
 \description{
 This function cleans the score_markers_rev3 data by applying specified patterns and replacements to the ID and filename columns.
 }
+\examples{
+scores_data <- list(
+data.frame(Score = c(90, 85, 70), stringsAsFactors = FALSE),
+data.frame(Score = c(80, 75, 60), stringsAsFactors = FALSE)
+)
+rownames(scores_data[[1]]) <- c("104.1a_FA060920_2020-06-09_C05.fsa_Sa.1",
+                                "105.2b_FA060920_2020-06-09_C05.fsa_Sa.1",
+                                "106.3c_FA060920_2020-06-09_C05.fsa_Fa.1")
+rownames(scores_data[[2]]) <- c("107.4d_FA060920_2020-06-09_C05.fsa_Sa.1",
+                                "108.5e_FA060920_2020-06-09_C05.fsa_Sa.1",
+                                "109.6f_SA060920_2020-06-09_C05.fsa_Fa.1")
+clean_scores(scores_data,pattern1= "_SA.*", replacement1="", pattern2= "_FA.*",replacement2="")
+
+}

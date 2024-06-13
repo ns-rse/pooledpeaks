@@ -7,7 +7,7 @@
 SampleOfLoci(aaax = data.frame, NLoci = max(aaax[, 1]))
 }
 \arguments{
-\item{aaax}{A data frame containing loci information.}
+\item{aaax}{A data frame containing the input data must be in LoadData style \link{LoadData}.}
 
 \item{NLoci}{An integer specifying the number of loci to sample.}
 }

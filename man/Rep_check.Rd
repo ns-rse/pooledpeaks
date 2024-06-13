@@ -15,3 +15,17 @@ A data frame containing the average peak heights for each sample, with flagged s
 \description{
 This function checks for duplicate samples in the input data frame and calculates the average peak heights for each sample. If the Jost's D between duplicate samples exceeds 0.05, it flags those samples.
 }
+\examples{
+marker_data <- data.frame(
+Sample.1a = c(400, 600, 700),
+Sample.1b = c(420, 606, 710),
+Sample.2a = c(450, 550, 480),
+Sample.2b = c(500, 540, 480),
+Sample.3a = c(300, 200, 500),
+Sample.3b = c(290, 100, 400),
+row.names=c(185,188,191)
+)
+
+Rep_check(marker_data)
+
+}

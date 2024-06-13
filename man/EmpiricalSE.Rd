@@ -17,3 +17,16 @@ A numeric vector containing the empirical standard error estimates.
 \description{
 This function calculates the empirical standard error based on repeated sampling.
 }
+\examples{
+
+genetic_data <- data.frame(
+Locus = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2),
+Locus_allele = c("Marker1", "n", 1, 2, 3, "Marker2", "n", 1, 2, 3),
+Sample1 = c(NA, 10, 0.5, 0.5, 0, NA, 10, 0.2, 0.3, 0.5),
+Sample2 = c(NA, 20, 0.1, 0.2, 0.7, NA, 20, 0.3, 0.4, 0.3),
+Sample3 = c(NA, 30, 0.3, 0.4, 0.3, NA, 30, 0.4, 0.2, 0.4)
+)
+
+
+EmpiricalSE(datafile=genetic_data, NLoci=3)
+}

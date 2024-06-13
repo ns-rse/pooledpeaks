@@ -16,6 +16,18 @@
 #' @export
 #'
 #' @examples
+#' scores_data <- list(
+#' data.frame(Score = c(90, 85, 70), stringsAsFactors = FALSE),
+#' data.frame(Score = c(80, 75, 60), stringsAsFactors = FALSE)
+#' )
+#' rownames(scores_data[[1]]) <- c("104.1a_FA060920_2020-06-09_C05.fsa_Sa.1",
+#'                                 "105.2b_FA060920_2020-06-09_C05.fsa_Sa.1",
+#'                                 "106.3c_FA060920_2020-06-09_C05.fsa_Fa.1")
+#' rownames(scores_data[[2]]) <- c("107.4d_FA060920_2020-06-09_C05.fsa_Sa.1",
+#'                                 "108.5e_FA060920_2020-06-09_C05.fsa_Sa.1",
+#'                                 "109.6f_SA060920_2020-06-09_C05.fsa_Fa.1")
+#' clean_scores(scores_data,pattern1= "_SA.*", replacement1="", pattern2= "_FA.*",replacement2="")
+#'
 
 clean_scores <- function(scores_data, pattern1 = NULL, replacement1 = NULL, pattern2 = NULL, replacement2 = NULL, pattern3 = NULL, replacement3 = NULL) {
   scores_df <- do.call(rbind.data.frame, scores_data)
@@ -59,6 +71,18 @@ clean_scores <- function(scores_data, pattern1 = NULL, replacement1 = NULL, patt
 #' @export
 #'
 #' @examples
+#' scores<- data.frame(ID=c("104.1a","105.2b","106.3c","107.4d","108.5e","109.6f"),
+#' filename=c("104.1a_FA060920_2020-06-09_C05.fsa_Sa.1","105.2b_FA060920_2020-06-09_C05.fsa_Sa.1",
+#' "106.3c_FA060920_2020-06-09_C05.fsa_Fa.1","107.4d_FA060920_2020-06-09_C05.fsa_Sa.1" ,
+#' "108.5e_FA060920_2020-06-09_C05.fsa_Sa.1" ,"109.6f_SA060920_2020-06-09_C05.fsa_Fa.1"),
+#' hei=c(2000,3000,4000,5000,2500, 1000),
+#' pos=c(2000,3000,4000,5000,2500, 1000),
+#' wei=c(290,285,280,275,270,260),
+#' row.names= c("104.1a_FA060920_2020-06-09_C05.fsa_Sa.1","105.2b_FA060920_2020-06-09_C05.fsa_Sa.1",
+#' "106.3c_FA060920_2020-06-09_C05.fsa_Fa.1","107.4d_FA060920_2020-06-09_C05.fsa_Sa.1" ,
+#' "108.5e_FA060920_2020-06-09_C05.fsa_Sa.1" ,"109.6f_SA060920_2020-06-09_C05.fsa_Fa.1"))
+#'
+#' lf_to_tdf(scores)
 
 lf_to_tdf <- function(x) {
   if (!all(c("ID", "filename", "hei", "pos", "wei") %in% colnames(x))) {
@@ -134,6 +158,15 @@ lf_to_tdf <- function(x) {
 #' @export
 #'
 #' @examples
+#'
+#' marker_data <- data.frame(
+#' Sample1 = c(400, 600, 700,0),
+#' Sample2 = c(450, 550, 480,0),
+#' Sample3 = c(300, 200, 400,200),
+#' Sample4 = c(0,0,0,0),
+#' row.names=c(185,188,191,194)
+#' )
+#' data_manipulation(marker_data,threshold=500)
 
 data_manipulation<-function(marker, threshold=500){
 
@@ -184,6 +217,18 @@ data_manipulation<-function(marker, threshold=500){
 #' @export
 #'
 #' @examples
+#' marker_data <- data.frame(
+#' Sample1 = c(400, 600, 700),
+#' Sample2 = c(450, 550, 480),
+#' Sample3 = c(300, 200, 500),
+#' row.names=c(185,188,191)
+#' )
+#'
+#' eggs<-data.frame(
+#' ID=c("Sample1","Sample2","Sample3"),n=c(3000,400,50))
+#'
+#' PCDM(consolidated_marker=marker_data, eggcount= eggs,"SMMS2")
+#'
 
 PCDM<- function(consolidated_marker=data.frame, eggcount=data.frame, marker_name){
   #Ensure input data is in the correct format

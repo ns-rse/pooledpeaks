@@ -19,3 +19,17 @@ A dataframe containing the allele frequencies and eggcounts for each sample.
 \description{
 This function manipulates consolidated marker data and egg count data to prepare them for further analysis.
 }
+\examples{
+marker_data <- data.frame(
+Sample1 = c(400, 600, 700),
+Sample2 = c(450, 550, 480),
+Sample3 = c(300, 200, 500),
+row.names=c(185,188,191)
+)
+
+eggs<-data.frame(
+ID=c("Sample1","Sample2","Sample3"),n=c(3000,400,50))
+
+PCDM(consolidated_marker=marker_data, eggcount= eggs,"SMMS2")
+
+}

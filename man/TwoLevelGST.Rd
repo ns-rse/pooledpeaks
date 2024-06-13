@@ -15,3 +15,14 @@ A list containing the components of two-level GST including within-group gene id
 \description{
 This function calculates two-level GST (Nei's standard gene identity) measure from a gene identity matrix.
 }
+\examples{
+gene_identity_matrix <- matrix(c(
+0.3164550, 0.2836333, 0.2760485,
+0.2836333, 0.3106084, 0.2867215,
+0.2760485, 0.2867215, 0.3338663
+), nrow = 3, byrow = TRUE,
+dimnames = list(paste0("Sample", 1:3), paste0("Sample", 1:3)))
+
+TwoLevelGST(G=gene_identity_matrix)
+
+}

@@ -15,3 +15,13 @@ A matrix representing processed data.
 \description{
 This function calculates the number of loci successfully genotyped by each individual included in our data set
 }
+\examples{
+genetic_data <- data.frame(
+Locus = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2),
+Locus_allele = c("Marker1", "n", 1, 2, 3, "Marker2", "n", 1, 2, 3),
+Sample1 = c(NA, 10, 0.5, 0.5, 0, NA, 10, 0.2, 0.3, 0.5),
+Sample2 = c(NA, 20, 0.1, 0.2, 0.7, NA, 20, 0.3, 0.4, 0.3),
+Sample3 = c(NA, 30, 0.3, 0.4, 0.3, NA, 30, 0.4, 0.2, 0.4)
+)
+TypedLoci(datafile=genetic_data)
+}

@@ -15,3 +15,13 @@ A matrix representing the distance matrix calculated using the Random Walk Covar
 \description{
 This function calculates the RWC (Random Walk Covariance) distance matrix from a given matrix of genetic distances.
 }
+\examples{
+genetic_distance_matrix <- matrix(c(0.316455, 0.2836333, 0.2760485, 0.2685221, 0.2797302,
+ 0.3202661,0.2836333, 0.3106084, 0.2867215, 0.2687472, 0.2596309, 0.2957862,0.2760485,
+ 0.2867215, 0.3338663, 0.297918, 0.3057039, 0.3153261,0.2685221, 0.2687472, 0.297918,
+ 0.3107094, 0.2753477, 0.3042383,0.2797302, 0.2596309, 0.3057039, 0.2753477, 0.3761386,
+ 0.3398558,0.3202661, 0.2957862, 0.3153261, 0.3042383, 0.3398558, 0.4402125),
+ nrow = 6, byrow = TRUE,dimnames = list(c("Sample1", "Sample2", "Sample3", "Ind1", "Ind2", "Ind3"),
+ c("Sample1", "Sample2", "Sample3", "Ind1", "Ind2", "Ind3")))
+ RWCDistanceMatrix(genetic_distance_matrix)
+}

@@ -31,7 +31,7 @@
 #' @examples
 #' file_path <- system.file("extdata", package = "pooledpeaks")
 #' fsa_batch_imp(file_path, channels = 5, fourier = TRUE, saturated = TRUE ,lets.pullup = FALSE,
-#' plotting = FALSE, rawPlot = FALSE, llength = 3000, ulength = 80000 )
+#' plotting = FALSE, rawPlot = TRUE, llength = 3000, ulength = 80000 )
 
 fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE, saturated = TRUE,
                           lets.pullup = FALSE, plotting = FALSE,

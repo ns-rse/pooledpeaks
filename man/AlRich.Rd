@@ -17,3 +17,22 @@ A vector containing the allelic richness for each locus.
 \description{
 This function calculates allelic richness based on the provided genetic data.
 }
+\examples{
+
+genetic_data <- data.frame(
+Locus = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2),
+Locus_allele = c("Marker1", "n", 1, 2, 3, "Marker2", "n", 1, 2, 3),
+Sample1 = c(NA, 10, 0.5, 0.5, 0, NA, 10, 0.2, 0.3, 0.5),
+Sample2 = c(NA, 20, 0.1, 0.2, 0.7, NA, 20, 0.3, 0.4, 0.3),
+Sample3 = c(NA, 30, 0.3, 0.4, 0.3, NA, 30, 0.4, 0.2, 0.4)
+)
+
+n_alleles <- matrix(c(
+3, 3, 3,
+3, 3, 3,
+3, 3, 3
+), nrow = 3, byrow = TRUE,
+dimnames = list(paste0("Sample", 1:3), paste0("Sample", 1:3)))
+
+AlRich(datafile=genetic_data,n=n_alleles)
+}

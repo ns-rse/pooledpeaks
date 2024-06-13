@@ -15,3 +15,7 @@ A data frame containing the imported data formatted in the way necessary for dow
 \description{
 This function imports data for genetic analysis.
 }
+\examples{
+file<-system.file("extdata", "Multiplex_frequencies.txt", package = "pooledpeaks")
+LoadData(file)
+}

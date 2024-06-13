@@ -14,6 +14,7 @@
 #' x <- fsa_batch_imp(y, channels = 5, fourier = TRUE, saturated = TRUE ,lets.pullup = FALSE,
 #' plotting = FALSE, rawPlot = FALSE, llength = 3000, ulength = 80000 )
 #' x <- associate_dyes(x,y)
+#' x
 
 associate_dyes <- function(x,y){
 

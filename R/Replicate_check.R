@@ -6,8 +6,6 @@
 #' @param Ni2 Vector containing the allele frequencies of the second duplicate sample.
 #'
 #' @return The calculated Jost's D value.
-#'
-#' @examples
 JostD_KK <- function(Ni1, Ni2) {
   # Define Ni1 and Ni2 as the peak heights in the columns to be compared
   i <- 1
@@ -138,6 +136,18 @@ JostD_KK <- function(Ni1, Ni2) {
 #' @export
 #'
 #' @examples
+#' marker_data <- data.frame(
+#' Sample.1a = c(400, 600, 700),
+#' Sample.1b = c(420, 606, 710),
+#' Sample.2a = c(450, 550, 480),
+#' Sample.2b = c(500, 540, 480),
+#' Sample.3a = c(300, 200, 500),
+#' Sample.3b = c(290, 100, 400),
+#' row.names=c(185,188,191)
+#' )
+#'
+#' Rep_check(marker_data)
+#'
 Rep_check <- function(df) {
   if (ncol(df) < 2) {
     stop("Input data frame must have at least two columns")

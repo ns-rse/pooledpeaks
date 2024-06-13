@@ -10,6 +10,14 @@
 #' @export
 #'
 #' @examples
+#' genetic_data <- data.frame(
+#' Locus = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2),
+#' Locus_allele = c("Marker1", "n", 1, 2, 3, "Marker2", "n", 1, 2, 3),
+#' Sample1 = c(NA, 10, 0.5, 0.5, 0, NA, 10, 0.2, 0.3, 0.5),
+#' Sample2 = c(NA, 20, 0.1, 0.2, 0.7, NA, 20, 0.3, 0.4, 0.3),
+#' Sample3 = c(NA, 30, 0.3, 0.4, 0.3, NA, 30, 0.4, 0.2, 0.4)
+#' )
+#' cluster(RawData=genetic_data, K=2)
 
 cluster <- function(RawData=data.frame,K=2) {
   d <- RawData
@@ -43,7 +51,7 @@ cluster <- function(RawData=data.frame,K=2) {
 #'
 #' An internal function that supports ClusterFromSamples. Sample loci from a dataset based on the number of loci specified.
 #'
-#' @param aaax A data frame containing loci information.
+#' @param aaax A data frame containing the input data must be in LoadData style [pooledpeaks::LoadData].
 #' @param NLoci An integer specifying the number of loci to sample.
 #'
 #' @return A data frame containing the sampled loci.
@@ -65,7 +73,7 @@ SampleOfLoci <- function(aaax=data.frame,NLoci=max(aaax[,1])) {
 #'
 #' Perform clustering on samples of loci from a data frame and calculate statistics.
 #'
-#' @param datafile A data frame containing the data.
+#' @param datafile A data frame containing the input data must be in LoadData style [pooledpeaks::LoadData].
 #' @param numloci An integer specifying the number of loci to sample.
 #' @param reps An integer specifying the number of repetitions.
 #'
@@ -73,6 +81,15 @@ SampleOfLoci <- function(aaax=data.frame,NLoci=max(aaax[,1])) {
 #' @export
 #'
 #' @examples
+#' genetic_data <- data.frame(
+#' Locus = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2),
+#' Locus_allele = c("Marker1", "n", 1, 2, 3, "Marker2", "n", 1, 2, 3),
+#' Sample1 = c(NA, 10, 0.5, 0.5, 0, NA, 10, 0.2, 0.3, 0.5),
+#' Sample2 = c(NA, 20, 0.1, 0.2, 0.7, NA, 20, 0.3, 0.4, 0.3),
+#' Sample3 = c(NA, 30, 0.3, 0.4, 0.3, NA, 30, 0.4, 0.2, 0.4)
+#' )
+#'
+#' ClusterFromSamples(datafile=genetic_data,numloci=5, reps=10)
 
 ClusterFromSamples <- function(datafile=data.frame,numloci=5,reps=100) {
   for (j in 1:reps) {
@@ -118,6 +135,18 @@ ClusterFromSamples <- function(datafile=data.frame,numloci=5,reps=100) {
 #' @export
 #'
 #' @examples
+#' genetic_distance_matrix <- matrix(c(
+#' 0, 0.2836333, 0.2760485, 0.2685221, 0.2797302,0.3202661,
+#' 0.2836333, 0, 0.2867215, 0.2687472, 0.2596309, 0.2957862,
+#' 0.2760485,0.2867215, 0, 0.297918, 0.3057039, 0.3153261,
+#' 0.2685221, 0.2687472, 0.297918,0, 0.2753477, 0.3042383,
+#' 0.2797302, 0.2596309, 0.3057039, 0.2753477, 0,0.3398558,
+#' 0.3202661, 0.2957862, 0.3153261, 0.3042383, 0.3398558, 0),
+#'  nrow = 6, byrow = TRUE,dimnames = list(c("Sample1", "Sample2", "Sample3", "Ind1", "Ind2", "Ind3"),
+#'  c("Sample1", "Sample2", "Sample3", "Ind1", "Ind2", "Ind3")))
+#'
+#'  MDSplot(distance=genetic_distance_matrix, pcs=c(1,3))
+#'
 
 MDSplot<- function(distance=matrix,pcs=c(1,2),PF=NULL, y= c('dodgerblue','red','turquoise3','purple','olivedrab3') ) {
   graphics::par(mar=c(5, 4, 4, 8), xpd=TRUE)
