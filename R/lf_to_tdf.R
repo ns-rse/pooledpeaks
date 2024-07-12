@@ -206,22 +206,22 @@ data_manipulation<-function(marker, threshold=500){
     any(abs(marker)>threshold)), drop=FALSE])
 
   marker<- as.data.frame(marker%>%
-                           mutate_all(~replace(., is.na(.), 0))%>%
+                           dplyr::mutate_all(~replace(., is.na(.), 0))%>%
                            sapply( as.integer), row.names = rownames(marker))
 
   #drop the rows that only contain zeros,
   # because these are alleles that weren't truly observed in this set
 
   marker<- marker%>%
-    rownames_to_column()
+    tibble::rownames_to_column()
 
-  marker$total<-rowSums(marker[-1])
+  marker$total<-c(rowSums(marker[-1]))
 
   marker<- marker%>%
-    column_to_rownames()%>%
-    filter(total != 0)%>%
-    select(!total)
+    tibble::column_to_rownames()%>%
+    dplyr::filter(marker$total != 0)
 
+  marker$total<-NULL
   return(marker)
 }
 

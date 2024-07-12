@@ -165,7 +165,7 @@ homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
 #' file_path <- system.file("extdata", package = "pooledpeaks")
 #' mock_fsa_batch_imp_output<- fsa_batch_imp(file_path, channels = 5,
 #' fourier = TRUE, saturated = TRUE, lets.pullup = FALSE,
-#' plotting = FALSE, rawPlot = FALSE,llength = 3000, ulength = 80000)
+#' plotting = FALSE, rawPlot = FALSE)
 #'
 #' names(mock_fsa_batch_imp_output)<-c("23.2a_I_A01_2012-07-18.fsa",
 #'   "23.2b_I_A07_2012-07-18.fsa","30.3a_I_B01_2012-07-18.fsa",
@@ -178,11 +178,8 @@ homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
 #'   "Multiplex_set_I_Shaem.4a_3_Sample_20221028_215634.fsa",
 #'   "Multiplex_set_I_Shaem.4b_3_Sample_20221028_232303.fsa")
 #'
-#' panel <- c(161,164,167,170,173,176,179,182,185,188,191,194,197,200,203,206,
-#'            209,212,215,218)
-#' ladder <- c(20, 40, 60, 80, 100, 114, 120, 140, 160, 180, 200, 214, 220,
-#'             240, 250, 260, 280, 300, 314, 320, 340, 360, 380, 400, 414,
-#'             420, 440, 460, 480, 500, 514, 520, 540, 560, 580, 600)
+#' panel <- c(176,179,182,185,188,191,194,197,200,203,206)
+#' ladder <- c( 140, 160, 180, 200, 214, 220,240, 250, 260, 280, 300, 314)
 #' mock_fsa_batch_imp_output <- associate_dyes(mock_fsa_batch_imp_output,
 #'                              file_path)
 #' Fragman::ladder.info.attach(stored = mock_fsa_batch_imp_output,
@@ -194,14 +191,8 @@ homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
 #'                             channel.ladder = 5,
 #'                             panel = "panel",
 #'                             ladder = ladder,
-#'                             init.thresh = 100,
+#'                             init.thresh = 200,
 #'                             ploidy = length(panel),
-#'                             shift = 1,
-#'                             windowL = 1,
-#'                             windowR = 0.5,
-#'                             left.cond = c(0, 2.5),
-#'                             right.cond = 0,
-#'                             pref = 1,
 #'                             plotting = FALSE)
 #'
 
