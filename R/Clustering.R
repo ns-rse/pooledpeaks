@@ -97,7 +97,7 @@ SampleOfLoci <- function(aaax=data.frame,NLoci=max(aaax[,1])) {
 #' Sample3 = c(NA, 30, 0.3, 0.4, 0.3, NA, 30, 0.4, 0.2, 0.4)
 #' )
 #'
-#' ClusterFromSamples(datafile=genetic_data,numloci=5, reps=10)
+#' ClusterFromSamples(datafile=genetic_data, numloci=5, reps=10)
 
 ClusterFromSamples <- function(datafile=data.frame,numloci=5,reps=100) {
   for (j in 1:reps) {
@@ -138,7 +138,7 @@ ClusterFromSamples <- function(datafile=data.frame,numloci=5,reps=100) {
 #' @importFrom graphics par
 #' @importFrom graphics title
 #'
-#' @return The ouput is the MDS plot for the samples for the specified principal
+#' @return The output is the MDS plot for the samples for the specified principal
 #' coordinates.
 #'
 #' @export

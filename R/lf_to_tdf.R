@@ -13,12 +13,12 @@
 #' @param pattern2 The second pattern to replace in the ID. See pattern1 for
 #' more details.
 #' @param replacement2 Replacement for the second pattern.
-#' @param pattern3 The pattern to replace in the filename.This is intended to
-#' clean up the filenames for when the machine adds substrings to the names.
+#' @param pattern3 The pattern to replace in the file name.This is intended to
+#' clean up the file names for when the machine adds sub strings to the names.
 #' For example 104.1a_FA060920_2020-06-09_C05.fsa.1 becomes
 #' 104.1a_FA060920_2020-06-09_C05.fsa using pattern3= "\\.1*$" and
 #' replacement3= ""
-#' @param replacement3 Replacement for the filename pattern.
+#' @param replacement3 Replacement for the file name pattern.
 #'
 #' @importFrom dplyr distinct
 #'
