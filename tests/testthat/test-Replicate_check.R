@@ -22,16 +22,24 @@ test_that("JostD_KK calculates Jost's D correctly for duplicate samples", {
 
 
    # Pair 1: Multiplex_set_I_Shaem.1a and Multiplex_set_I_Shaem.1b
-  expect_equal(JostD_KK(df$Multiplex_set_I_Shaem.1a, df$Multiplex_set_I_Shaem.1b), expected_value_1, tolerance = 1e-5)
+  expect_equal(JostD_KK(df$Multiplex_set_I_Shaem.1a,
+                        df$Multiplex_set_I_Shaem.1b),
+               expected_value_1, tolerance = 1e-5)
 
   # Pair 2: Multiplex_set_I_Shaem.3a and Multiplex_set_I_Shaem.3b
-  expect_equal(JostD_KK(df$Multiplex_set_I_Shaem.3a, df$Multiplex_set_I_Shaem.3b), expected_value_2, tolerance = 1e-5)
+  expect_equal(JostD_KK(df$Multiplex_set_I_Shaem.3a,
+                        df$Multiplex_set_I_Shaem.3b),
+               expected_value_2, tolerance = 1e-5)
 
   # Pair 3: Multiplex_set_I_Shaem.4a and Multiplex_set_I_Shaem.4b
-  expect_equal(JostD_KK(df$Multiplex_set_I_Shaem.4a, df$Multiplex_set_I_Shaem.4b), expected_value_3, tolerance = 1e-5)
+  expect_equal(JostD_KK(df$Multiplex_set_I_Shaem.4a,
+                        df$Multiplex_set_I_Shaem.4b),
+               expected_value_3, tolerance = 1e-5)
 
   # Pair 4: Multiplex_set_I_Smans.1a and Multiplex_set_I_Smans.1b
-  expect_equal(JostD_KK(df$Multiplex_set_I_Smans.1a, df$Multiplex_set_I_Smans.1b), expected_value_4, tolerance = 1e-5)
+  expect_equal(JostD_KK(df$Multiplex_set_I_Smans.1a,
+                        df$Multiplex_set_I_Smans.1b),
+               expected_value_4, tolerance = 1e-5)
 })
 
 
@@ -41,7 +49,8 @@ test_that("JostD_KK calculates Jost's D correctly for duplicate samples", {
 
 
 # Test case for Rep_check
-test_that("Rep_check correctly processes and flags duplicate samples, and handles missing duplicates", {
+test_that("Rep_check correctly processes and flags duplicate samples, and
+          handles missing duplicates", {
   result <- Rep_check(df)
 
   # Check if the result is a data frame
@@ -63,9 +72,12 @@ test_that("Rep_check correctly processes and flags duplicate samples, and handle
   expected_values <- data.frame(
     Multiplex_set_I_Shaem.1 = c(0, 0, 0, 0, 1466.5, 233.0, 0, 0),
     Multiplex_set_I_Shaem.2 = c(0, 0, 0, 0, 0, 0, 24713, 29684),
-    Multiplex_set_I_Shaem.3 = c(1448.5, 2420.5, 2245.0, 3230.5, 3096.0, 2504.0, 0, 0),
-    Multiplex_set_I_Shaem.4 = c(3857.5, 5337.5, 11952.5, 17648.5, 27538, 22844, 0, 0),
-    Multiplex_set_I_Smans.1 = c(5519.5, 8512.5, 6656, 10262.5, 10427.5, 8192, 0, 0)
+    Multiplex_set_I_Shaem.3 = c(1448.5, 2420.5, 2245.0, 3230.5, 3096.0,
+                                2504.0, 0, 0),
+    Multiplex_set_I_Shaem.4 = c(3857.5, 5337.5, 11952.5, 17648.5, 27538,
+                                22844, 0, 0),
+    Multiplex_set_I_Smans.1 = c(5519.5, 8512.5, 6656, 10262.5, 10427.5,
+                                8192, 0, 0)
   )
   rownames(expected_values) <- expected_rownames
   expect_equal(result, expected_values, tolerance = 1e-5)

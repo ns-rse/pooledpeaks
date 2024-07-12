@@ -1,10 +1,13 @@
 #' Check .fsa Version and Batch Information
 #'
-#' This function analyzes .fsa files in a specified folder, providing a summary of their version and batch information.
-#' @param x The path to the folder from the current directory where the .fsa files that will be analyzed are stored.
+#' This function analyzes .fsa files in a specified folder, providing a summary
+#' of their version and batch information.
+#' @param x The path to the folder from the current directory where the .fsa
+#' files that will be analyzed are stored.
 #' @importFrom magrittr %>%
 #' @importFrom Fragman read.abif
-#' @return A written summary of how many .fsa files are in the folder and which version they are.
+#' @return A written summary of how many .fsa files are in the folder and which
+#' version they are.
 #' @export
 #'
 #' @examples
@@ -16,7 +19,8 @@ check_fsa_v_batch <- function(x) {
   fsalist <- paste0(folder, "/", dir(folder, "*\\.fsa$"))
 
   if (length(fsalist[grepl("\\.fsa", fsalist)]) > 0) {
-    fsaFile <- lapply(fsalist, function(x) suppressWarnings(Fragman::read.abif(x)) %>% try())
+    fsaFile <- lapply(fsalist, function(x)
+      suppressWarnings(Fragman::read.abif(x)) %>% try())
 
     # Get format versions
     vers <- unlist(
@@ -36,13 +40,16 @@ check_fsa_v_batch <- function(x) {
 
     cat("-- Number of .fsa files found in batch:", length(fsaFile), "\n")
 
-    cat("\n-- Number of .fsa file formats present in batch:", paste(paste0("v", unique(vers)), collapse = ", "), "\n")
+    cat("\n-- Number of .fsa file formats present in batch:",
+        paste(paste0("v", unique(vers)), collapse = ", "), "\n")
     if (length(unique(vers)) > 1) {
-      cat("-- Multiple version types found in directory, indicating multiple machine runs.
+      cat("-- Multiple version types found in directory,
+      indicating multiple machine runs.
         Be aware of possible batch-related peak artifacts.", "\n")
     }
 
-    cat("\n-- Batch names found in directory:", paste(unique(ctnms), collapse = ", "), "\n")
+    cat("\n-- Batch names found in directory:", paste(unique(ctnms),
+                                                      collapse = ", "), "\n")
 
     if (length(unique(ctnms)) > 1) {
       cat("-- Multiple batch names found in directory.
@@ -59,13 +66,17 @@ check_fsa_v_batch <- function(x) {
 
 #' Retrieve Metadata
 #'
-#' Retrieves basic info from .fsa files about the sample and run,and aggregates multiple samples in a single object.
-#' @param x The path to the folder from the current directory where the .fsa files that will be analyzed are stored.
+#' Retrieves basic info from .fsa files about the sample and run,and aggregates
+#'  multiple samples in a single object.
+#' @param x The path to the folder from the current directory where the .fsa
+#' files that will be analyzed are stored.
 #' @importFrom tibble tibble
 #' @import rlang
-#' @return A data frame that contains the metadata of the machine and run extracted from the .fsa file.
-#' One row for each .fsa file in directory x and the following columns: retrieved_sample_name,
-#' batch_container_name,  fsa_version, user, run_start_date, run_start_time, machine_type,machineN_serial.
+#' @return A data frame that contains the metadata of the machine and run
+#'  extracted from the .fsa file.
+#' One row for each .fsa file in directory x and the following columns:
+#' retrieved_sample_name, batch_container_name,  fsa_version, user,
+#' run_start_date, run_start_time, machine_type,machineN_serial.
 #' @export
 #'
 #' @examples
@@ -75,7 +86,8 @@ check_fsa_v_batch <- function(x) {
 fsa_metadata <- function(x) {
   fsalist <- paste0(x, "/", dir(x, "*\\.fsa$"))
   . <- c()
-  fsaFile <- lapply(fsalist, function(x) suppressWarnings(Fragman::read.abif(x)) %>% try())
+  fsaFile <- lapply(fsalist, function(x)
+    suppressWarnings(Fragman::read.abif(x)) %>% try())
 
   fsa_metadata <- tibble(
     file_name = gsub(".*/", "", fsalist),

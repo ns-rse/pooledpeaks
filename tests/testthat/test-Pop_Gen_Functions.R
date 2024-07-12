@@ -17,7 +17,8 @@ test_that("DistCor function calculates and plots the correlation correctly", {
   print(output)
 
   # Check if correlation is printed
-  expect_true(any(grepl("[0-9.]+", output)), info = paste("Output was:", output))
+  expect_true(any(grepl("[0-9.]+", output)), info = paste("Output was:",
+                                                          output))
 
   # Check for plot elements by opening a mock graphical device
   temp_file <- tempfile(fileext = ".pdf")
@@ -33,7 +34,8 @@ test_that("DistCor function calculates and plots the correlation correctly", {
   print(pdf_contents)
 
   # Check if the title is present in the PDF content
-  expect_true(any(grepl("Expected Genetic Distance", pdf_contents)), info = paste("PDF contents were:", pdf_contents))
+  expect_true(any(grepl("Expected Genetic Distance", pdf_contents)),
+              info = paste("PDF contents were:", pdf_contents))
 })
 
 DistCor <- function(GD=matrix) {
@@ -56,7 +58,8 @@ DistCor <- function(GD=matrix) {
 
   correlation <- stats::cor(x, y)
   print(correlation, las = 1)
-  graphics::title(main = 'Expected Genetic Distance \n versus Realized Genetic Distance', font.main = 1, cex.main = 1.25)
+  graphics::title(main = 'Expected Genetic Distance \n versus Realized
+                  Genetic Distance', font.main = 1, cex.main = 1.25)
 }
 
 
@@ -90,13 +93,17 @@ test_that("TypedLoci function calculates the number of loci correctly", {
   expect_equal(dim(result), c(3, 3))
 
   # Check if the values in the result are correct
-  expected_result <- matrix(c(1, 1, 0, 1, 2, 1, 0, 1, 1), nrow = 3, byrow = TRUE,dimnames = list(paste0("Sample", 1:3), paste0("Sample", 1:3)))
+  expected_result <- matrix(c(1, 1, 0, 1, 2, 1, 0, 1, 1), nrow = 3,
+                            byrow = TRUE,dimnames = list(paste0("Sample", 1:3),
+                                                         paste0("Sample", 1:3))
+                            )
   expect_equal(result, expected_result)
 })
 
 #### 2. Test for GeneIdentityMatrix
 
-test_that("GeneIdentityMatrix function calculates the gene identity matrix correctly", {
+test_that("GeneIdentityMatrix function calculates the gene identity matrix
+          correctly", {
   typed_loci_result <- pooledpeaks::TypedLoci(sample_data)
   result <- pooledpeaks::GeneIdentityMatrix(sample_data, typed_loci_result)
 
@@ -107,7 +114,10 @@ test_that("GeneIdentityMatrix function calculates the gene identity matrix corre
   expect_equal(dim(result), c(3, 3))
 
   # Example expected result
-  expected_result <- matrix(c(0.38, 0.33, NaN, 0.33, 0.44, 0.32, NaN, 0.32, 0.34), nrow = 3,dimnames = list(paste0("Sample", 1:3), paste0("Sample", 1:3)))
+  expected_result <- matrix(c(0.38, 0.33, NaN, 0.33, 0.44, 0.32,
+                              NaN, 0.32, 0.34), nrow = 3,
+                            dimnames = list(paste0("Sample", 1:3),
+                                            paste0("Sample", 1:3)))
   expect_equal(result, expected_result)
 })
 
@@ -135,7 +145,9 @@ test_that("GST function calculates GST correctly", {
   expect_equal(dim(result_pairwise), c(3, 3))
 
   # Example expected result
-  expected_pairwise_result <- matrix(c(0.00000000, 0.02131284, 0.03511043, 0.02131284, 0, 0.02553185, 0.03511043, 0.02553185, 0), nrow = 3)
+  expected_pairwise_result <- matrix(c(0.00000000, 0.02131284, 0.03511043,
+                                       0.02131284, 0, 0.02553185, 0.03511043,
+                                       0.02553185, 0), nrow = 3)
   expect_equal(result_pairwise, expected_pairwise_result, tolerance = 1e-6)
 
   result_overall <- pooledpeaks::GST(gene_identity_matrix, pairwise = FALSE)
@@ -177,7 +189,9 @@ test_that("JostD function calculates Jost's D correctly", {
   expect_equal(dim(result_pairwise), c(3, 3))
 
   # Example expected result
-  expected_pairwise_result <- matrix(c(0, 0.09536005, 0.1510396, 0.09536005, 0, 0.1102164, 0.15103965, 0.11021643, 0), nrow = 3)
+  expected_pairwise_result <- matrix(c(0, 0.09536005, 0.1510396, 0.09536005, 0,
+                                       0.1102164, 0.15103965, 0.11021643, 0),
+                                     nrow = 3)
   expect_equal(result_pairwise, expected_pairwise_result, tolerance = 1e-5)
 
   result_overall <- pooledpeaks::JostD(gene_identity_matrix, pairwise = FALSE)
@@ -234,15 +248,22 @@ test_that("GST function calculates GST correctly", {
 
 
 
-genetic_distance_matrix <- matrix(c(0.316455, 0.2836333, 0.2760485, 0.2685221, 0.2797302, 0.3202661,
-                                    0.2836333, 0.3106084, 0.2867215, 0.2687472, 0.2596309, 0.2957862,
-                                    0.2760485, 0.2867215, 0.3338663, 0.297918, 0.3057039, 0.3153261,
-                                    0.2685221, 0.2687472, 0.297918, 0.3107094, 0.2753477, 0.3042383,
-                                    0.2797302, 0.2596309, 0.3057039, 0.2753477, 0.3761386, 0.3398558,
-                                    0.3202661, 0.2957862, 0.3153261, 0.3042383, 0.3398558, 0.4402125),
-                                  nrow = 6, byrow = TRUE,
-                                  dimnames = list(c("Sample1", "Sample2", "Sample3", "Ind1", "Ind2", "Ind3"),
-                                                  c("Sample1", "Sample2", "Sample3", "Ind1", "Ind2", "Ind3")))
+genetic_distance_matrix <- matrix(c(0.316455, 0.2836333, 0.2760485, 0.2685221,
+                                    0.2797302, 0.3202661,0.2836333, 0.3106084,
+                                    0.2867215, 0.2687472, 0.2596309, 0.2957862,
+                                    0.2760485, 0.2867215, 0.3338663, 0.297918,
+                                    0.3057039, 0.3153261,0.2685221, 0.2687472,
+                                    0.297918, 0.3107094, 0.2753477, 0.3042383,
+                                    0.2797302, 0.2596309, 0.3057039, 0.2753477,
+                                    0.3761386, 0.3398558,0.3202661, 0.2957862,
+                                    0.3153261, 0.3042383, 0.3398558, 0.4402125
+                                    ),nrow = 6, byrow = TRUE,
+                                  dimnames = list(c("Sample1", "Sample2",
+                                                    "Sample3", "Ind1", "Ind2",
+                                                    "Ind3"),
+                                                  c("Sample1", "Sample2",
+                                                    "Sample3", "Ind1", "Ind2",
+                                                    "Ind3")))
 
 
 genetic_data <- data.frame(
@@ -269,7 +290,8 @@ test_that("TwoLevelGST function calculates GST correctly", {
   expect_true(is.list(result))
 
   # Check the names of the list
-  expected_names <- c("Js", "Jc", "Gsc", "JS", "JC", "JT", "GSC", "GCT", "GST")
+  expected_names <- c("Js", "Jc", "Gsc", "JS", "JC", "JT",
+                      "GSC", "GCT", "GST")
   expect_equal(names(result), expected_names)
 
   # Example expected result
@@ -337,7 +359,7 @@ test_that("Number of replicates in the output matches Rep", {
   expect_equal(nrow(output), Rep)
 })
 
-# Test 4: Check if the dimensions of the output list match the expected dimensions
+#Test 4: Check if the dimensions of the output list match expected dimensions
 test_that("Dimensions of output list match the expected dimensions", {
   Rep <- 20
   K <- 3 # Assuming 3 levels in the factor variable

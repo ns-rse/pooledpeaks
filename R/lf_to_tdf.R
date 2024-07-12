@@ -1,13 +1,23 @@
 #' Clean Scores Data
 #'
-#' This function cleans the score_markers_rev3 data by applying specified patterns and replacements to the ID and filename columns.
+#' This function cleans the score_markers_rev3 data by applying specified
+#' patterns and replacements to the ID and filename columns.
 #'
-#' @param scores_data The list containing the output scores data from the score_markers_rev3.
-#' @param pattern1 The first pattern to replace in the ID.This is intended to clean up the ID names for when the machine adds substrings to the names. For example 104.1a_FA060920_2020-06-09_C05.fsa.1 becomes 104.1a using pattern1="_FA.*" and replacement1= ""
+#' @param scores_data The list containing the output scores data from the
+#' score_markers_rev3.
+#' @param pattern1 The first pattern to replace in the ID.This is intended to
+#' clean up the ID names for when the machine adds substrings to the names. For
+#'  example 104.1a_FA060920_2020-06-09_C05.fsa.1 becomes 104.1a using
+#'  pattern1="_FA.*" and replacement1= ""
 #' @param replacement1 Replacement for the first pattern.
-#' @param pattern2 The second pattern to replace in the ID. See pattern1 for more details.
+#' @param pattern2 The second pattern to replace in the ID. See pattern1 for
+#' more details.
 #' @param replacement2 Replacement for the second pattern.
-#' @param pattern3 The pattern to replace in the filename.This is intended to clean up the filenames for when the machine adds substrings to the names. For example 104.1a_FA060920_2020-06-09_C05.fsa.1 becomes 104.1a_FA060920_2020-06-09_C05.fsa using pattern3= "\\.1*$" and replacement3= ""
+#' @param pattern3 The pattern to replace in the filename.This is intended to
+#' clean up the filenames for when the machine adds substrings to the names.
+#' For example 104.1a_FA060920_2020-06-09_C05.fsa.1 becomes
+#' 104.1a_FA060920_2020-06-09_C05.fsa using pattern3= "\\.1*$" and
+#' replacement3= ""
 #' @param replacement3 Replacement for the filename pattern.
 #'
 #' @importFrom dplyr distinct
@@ -26,10 +36,13 @@
 #' rownames(scores_data[[2]]) <- c("107.4d_FA060920_2020-06-09_C05.fsa_Sa.1",
 #'                                 "108.5e_FA060920_2020-06-09_C05.fsa_Sa.1",
 #'                                 "109.6f_SA060920_2020-06-09_C05.fsa_Fa.1")
-#' clean_scores(scores_data,pattern1= "_SA.*", replacement1="", pattern2= "_FA.*",replacement2="")
+#' clean_scores(scores_data,pattern1= "_SA.*", replacement1="",
+#' pattern2= "_FA.*",replacement2="")
 #'
 
-clean_scores <- function(scores_data, pattern1 = NULL, replacement1 = NULL, pattern2 = NULL, replacement2 = NULL, pattern3 = NULL, replacement3 = NULL) {
+clean_scores <- function(scores_data, pattern1 = NULL, replacement1 = NULL,
+                         pattern2 = NULL, replacement2 = NULL, pattern3 = NULL,
+                         replacement3 = NULL) {
   scores_df <- do.call(rbind.data.frame, scores_data)
   scores_df$ID <- rownames(scores_df)
   if (!is.null(pattern1) && !is.null(replacement1)) {
@@ -51,13 +64,14 @@ clean_scores <- function(scores_data, pattern1 = NULL, replacement1 = NULL, patt
 
 #' Transform LF to TDF
 #'
-#' This function transforms a data frame from LF (long format) to TDF (table format),
-#' performing various data manipulation steps such as spreading data across columns,
-#' removing NA and/or 0 columns, merging ID allele heights within each replicate,
-#' transposing the table, converting from character to numeric class, and replacing
-#' empty data with "0".
+#' This function transforms a data frame from LF (long format) to TDF (table
+#' format),performing various data manipulation steps such as spreading data
+#'  across columns,removing NA and/or 0 columns, merging ID allele heights
+#'  within each replicate,transposing the table, converting from character to
+#'  numeric class, and replacing empty data with "0".
 #'
-#' @param x A data frame in LF format ideally coming out of the clean_scores function.
+#' @param x A data frame in LF format ideally coming out of the clean_scores
+#' function.
 #'
 #' @importFrom dplyr coalesce
 #' @importFrom dplyr select
@@ -71,22 +85,30 @@ clean_scores <- function(scores_data, pattern1 = NULL, replacement1 = NULL, patt
 #' @export
 #'
 #' @examples
-#' scores<- data.frame(ID=c("104.1a","105.2b","106.3c","107.4d","108.5e","109.6f"),
-#' filename=c("104.1a_FA060920_2020-06-09_C05.fsa_Sa.1","105.2b_FA060920_2020-06-09_C05.fsa_Sa.1",
-#' "106.3c_FA060920_2020-06-09_C05.fsa_Fa.1","107.4d_FA060920_2020-06-09_C05.fsa_Sa.1" ,
-#' "108.5e_FA060920_2020-06-09_C05.fsa_Sa.1" ,"109.6f_SA060920_2020-06-09_C05.fsa_Fa.1"),
+#' scores<- data.frame(ID=c("104.1a","105.2b","106.3c","107.4d","108.5e",
+#' "109.6f"),
+#' filename=c("104.1a_FA060920_2020-06-09_C05.fsa_Sa.1",
+#' "105.2b_FA060920_2020-06-09_C05.fsa_Sa.1",
+#' "106.3c_FA060920_2020-06-09_C05.fsa_Fa.1",
+#' "107.4d_FA060920_2020-06-09_C05.fsa_Sa.1" ,
+#' "108.5e_FA060920_2020-06-09_C05.fsa_Sa.1" ,
+#' "109.6f_SA060920_2020-06-09_C05.fsa_Fa.1"),
 #' hei=c(2000,3000,4000,5000,2500, 1000),
 #' pos=c(2000,3000,4000,5000,2500, 1000),
 #' wei=c(290,285,280,275,270,260),
-#' row.names= c("104.1a_FA060920_2020-06-09_C05.fsa_Sa.1","105.2b_FA060920_2020-06-09_C05.fsa_Sa.1",
-#' "106.3c_FA060920_2020-06-09_C05.fsa_Fa.1","107.4d_FA060920_2020-06-09_C05.fsa_Sa.1" ,
-#' "108.5e_FA060920_2020-06-09_C05.fsa_Sa.1" ,"109.6f_SA060920_2020-06-09_C05.fsa_Fa.1"))
+#' row.names= c("104.1a_FA060920_2020-06-09_C05.fsa_Sa.1",
+#' "105.2b_FA060920_2020-06-09_C05.fsa_Sa.1",
+#' "106.3c_FA060920_2020-06-09_C05.fsa_Fa.1",
+#' "107.4d_FA060920_2020-06-09_C05.fsa_Sa.1" ,
+#' "108.5e_FA060920_2020-06-09_C05.fsa_Sa.1" ,
+#' "109.6f_SA060920_2020-06-09_C05.fsa_Fa.1"))
 #'
 #' lf_to_tdf(scores)
 
 lf_to_tdf <- function(x) {
   if (!all(c("ID", "filename", "hei", "pos", "wei") %in% colnames(x))) {
-    stop("Input data frame does not contain required columns: ID, filename, hei, pos, wei")
+    stop("Input data frame does not contain required columns: ID, filename,
+         hei, pos, wei")
   }
   ID <- x$ID
   filename <- x$filename
@@ -140,10 +162,14 @@ lf_to_tdf <- function(x) {
 
 #' Data Manipulation for Marker Data
 #'
-#' This function ensures that at least one peak for each sample is greater than a specified threshold (default: 500) and then formats the data frame for the next steps in the analysis.
+#' This function ensures that at least one peak for each sample is greater than
+#'  a specified threshold (default: 500) and then formats the data frame for
+#'  the next steps in the analysis.
 #'
-#' @param marker A data frame containing marker data, where each row represents a marker and each column represents a sample.
-#' @param threshold The threshold value for peak height. Peaks below this threshold will be replaced with 0.
+#' @param marker A data frame containing marker data, where each row represents
+#'  a marker and each column represents a sample.
+#' @param threshold The threshold value for peak height. Peaks below this
+#' threshold will be replaced with 0.
 #'
 #' @importFrom dplyr mutate_all
 #' @importFrom dplyr mutate
@@ -154,7 +180,8 @@ lf_to_tdf <- function(x) {
 #' @importFrom tibble column_to_rownames
 #' @importFrom rlang .data
 #'
-#' @return A formatted data frame where at least one peak for each sample is greater than the specified threshold.
+#' @return A formatted data frame where at least one peak for each sample is
+#' greater than the specified threshold.
 #' @export
 #'
 #' @examples
@@ -176,7 +203,7 @@ data_manipulation<-function(marker, threshold=500){
 
   #Ensure at least one peak is >500
   marker <- as.data.frame(marker[, apply(marker, 2, function(marker)
-    any(abs(marker)>threshold)), drop=F])
+    any(abs(marker)>threshold)), drop=FALSE])
 
   marker<- as.data.frame(marker%>%
                            mutate_all(~replace(., is.na(.), 0))%>%
@@ -201,7 +228,8 @@ data_manipulation<-function(marker, threshold=500){
 
 #' Post-consolidation Data Manipulation
 #'
-#' This function manipulates consolidated marker data and egg count data to prepare them for further analysis.
+#' This function manipulates consolidated marker data and egg count data to
+#' prepare them for further analysis.
 #'
 #' @param consolidated_marker A data frame containing consolidated marker data.
 #' @param eggcount A data frame containing egg count data.
@@ -213,7 +241,8 @@ data_manipulation<-function(marker, threshold=500){
 #' @importFrom tibble add_row
 #' @importFrom tibble rownames_to_column
 #'
-#' @return A dataframe containing the allele frequencies and eggcounts for each sample.
+#' @return A dataframe containing the allele frequencies and eggcounts for each
+#'  sample.
 #' @export
 #'
 #' @examples
@@ -230,10 +259,12 @@ data_manipulation<-function(marker, threshold=500){
 #' PCDM(consolidated_marker=marker_data, eggcount= eggs,"SMMS2")
 #'
 
-PCDM<- function(consolidated_marker=data.frame, eggcount=data.frame, marker_name){
+PCDM<- function(consolidated_marker=data.frame, eggcount=data.frame,
+                marker_name){
   #Ensure input data is in the correct format
   if (!is.data.frame(consolidated_marker) || !is.data.frame(eggcount)) {
-    stop("The 'consolidated_marker' and 'eggcount' arguments must be data frames.")
+    stop("The 'consolidated_marker' and 'eggcount' arguments must be data
+         frames.")
   }
 
   if (!is.character(marker_name) || marker_name == "") {
@@ -265,9 +296,11 @@ PCDM<- function(consolidated_marker=data.frame, eggcount=data.frame, marker_name
   rownames(marker)<-alleles
 
   #Transpose the data frame to match eggcount
-  marker<- as.data.frame(t(marker))    #transposes the data frame so that participant allele loci are now column names
+  marker<- as.data.frame(t(marker))
+  #transposes the df so that participant allele loci are now column names
   marker$ID <- rownames(marker) #adds a column of the ID (aka rownames)
-  marker<- marker %>% dplyr::relocate(ID) #move the ID column to the first column
+  marker<- marker %>% dplyr::relocate(ID)
+  #move the ID column to the first column
 
   #Match Eggcount and fill the egg count row
 
@@ -280,12 +313,14 @@ PCDM<- function(consolidated_marker=data.frame, eggcount=data.frame, marker_name
       dplyr::rename(ID = colnames(eggcount)[1])
   }
 
-  marker<- dplyr::left_join(marker,eggcount, by = "ID") #match ID name to ID of eggs
+  marker<- dplyr::left_join(marker,eggcount, by = "ID")
+  #match ID name to ID of eggs
   marker<- marker %>%
     dplyr::relocate(n, .after = 1) # move the n column to the 2nd column
 
   #Reformat Data
-  marker<- as.data.frame(t(marker))  #transposes the data frame to the original format
+  marker<- as.data.frame(t(marker))
+  #transposes the data frame to the original format
   colnames(marker)<- marker[1,]
   marker<-marker[-1,]
   marker<-tibble::rownames_to_column(marker, var = "Locus_allele")

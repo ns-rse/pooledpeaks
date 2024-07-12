@@ -1,5 +1,6 @@
 reals_rev1 <- function(x, panel = c(100:400), shi = 1, ploidy = 2,
-                       left.cond = c(0.4, 3), right.cond = 0.2, windowL = 0.5, windowR = 0.5) {
+                       left.cond = c(0.4, 3), right.cond = 0.2, windowL = 0.5,
+                       windowR = 0.5) {
 
   neg <- which(x$wei <= 0)
   if (length(neg) > 0) {
@@ -49,7 +50,7 @@ reals_rev1 <- function(x, panel = c(100:400), shi = 1, ploidy = 2,
       ), wei = rep(x3$wei, ploidy))
     }
     if (z2 > 1) {
-      toget <- sort(x3$hei, decreasing = T)[1:ploidy]
+      toget <- sort(x3$hei, decreasing = TRUE)[1:ploidy]
       z3 <- which(x3$hei %in% toget)
       x4 <- list(
         pos = x3$pos[z3], hei = round(x3$hei[z3]),
@@ -87,29 +88,56 @@ homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
 
 #' Score Markers Wrapper
 #'
-#' This is a revision of the Fragman script score.markers, for the original instructions and parameters, run '?score.markers'.
-#' This revision designates separate parameters for Left and Right search windows.
+#' This is a revision of the Fragman script score.markers, for the original
+#' instructions and parameters, run '?score.markers'. This revision designates
+#' separate parameters for Left and Right search windows.
 #'
-#' @param my.inds The list output from the fsa_batch_imp or storing.inds function that contains the channel information from the individuals that you want to score.
-#' @param channel The number of the channel you wish to analyze. Typically 1 is blue, 2 is green, 3 yellow, and 4 red.
+#' @param my.inds The list output from the fsa_batch_imp or storing.inds
+#' function that contains the channel information from the individuals that you
+#' want to score.
+#' @param channel The number of the channel you wish to analyze. Typically 1 is
+#' blue, 2 is green, 3 yellow, and 4 red.
 #' @param n.inds (optional) A vector specifying which fsa files to score.
 #' @param panel A vector containing the expected allele sizes for this marker.
-#' @param shift All peaks at that distance from the tallest peak will be ignored and be considered noise.
+#' @param shift All peaks at that distance from the tallest peak will be
+#' ignored and be considered noise.
 #' @param ladder A vector containing the expected peaks for your ladder.
 #' @param channel.ladder The channel number where your ladder can be found.
-#' @param ploidy The name is a relic of the fact that [Fragman::score.markers] was originally written for plants. In the context of pooled egg samples it is used to specify the number of possible alleles in the marker.
-#' @param left.cond The first part is a percentile (0-1) that corresponds to the height that a peak to the left of the tallest peak must be in order to be considered real. The second argument is a number of base pairs that a peak to the left of the tallest peak must be away to be considered as real.
-#' @param right.cond A percentile (0-1) that corresponds to the height that a peak to the right of the tallest peak must be in order to be considered real.
-#' @param warn TRUE/FAlSE Do you want to receive warnings when detecting the ladder?
-#' @param windowL the window means that all peaks closer by that distance to the left of the panel peaks will be accounted as peaks.
-#' @param windowR the window means that all peaks closer by that distance to the right of the panel peaks will be accounted as peaks.
-#' @param init.thresh A value that sets a minimum intensity in order for a peak to be called.
-#' @param ladd.init.thresh We don't recommend messing with this parameter unless your ladder has special circumstances. See [Fragman::score.markers]
-#' @param method In cases where samples weren't sized using the info.ladder.attach function, this technique steps in to identify ladder peaks. You have three method options using an argument: "cor" explores all potential peak combinations and thoroughly searches for correlations to identify the correct peaks corresponding to expected DNA weights; "ci" constructs confidence intervals to identify peaks meeting specified conditions from earlier arguments; "iter2" applies an iterative strategy to identify the most likely peaks aligning with your ladder expectations. The default method is "iter2."
-#' @param env Please do not change this parameter, it is used to detect the users environment.
-#' @param my.palette (optional) A character vector specifying which colors to use for the output RFU plots.
+#' @param ploidy The name is a relic of the fact that [Fragman::score.markers]
+#' was originally written for plants. In the context of pooled egg samples it
+#' is used to specify the number of possible alleles in the marker.
+#' @param left.cond The first part is a percentile (0-1) that corresponds to
+#' the height that a peak to the left of the tallest peak must be in order to
+#' be considered real. The second argument is a number of base pairs that a
+#' peak to the left of the tallest peak must be away to be considered as real.
+#' @param right.cond A percentile (0-1) that corresponds to the height that a
+#' peak to the right of the tallest peak must be in order to be real.
+#' @param warn TRUE/FAlSE Do you want to receive warnings when detecting the
+#' ladder?
+#' @param windowL the window means that all peaks closer by that distance to
+#' the left of the panel peaks will be accounted as peaks.
+#' @param windowR the window means that all peaks closer by that distance to
+#' the right of the panel peaks will be accounted as peaks.
+#' @param init.thresh A value that sets a minimum intensity in order for a
+#' peak to be called.
+#' @param ladd.init.thresh We don't recommend messing with this parameter
+#' unless your ladder has special circumstances. See [Fragman::score.markers]
+#' @param method In cases where samples weren't sized using the
+#' info.ladder.attach function, this technique steps in to identify ladder
+#' peaks. You have three method options using an argument: "cor" explores all
+#' potential peak combinations and thoroughly searches for correlations to
+#' identify the correct peaks corresponding to expected DNA weights; "ci"
+#' constructs confidence intervals to identify peaks meeting specified
+#' conditions from earlier arguments; "iter2" applies an iterative strategy to
+#' identify the most likely peaks aligning with your ladder expectations. The
+#' default method is "iter2."
+#' @param env Please do not change this parameter, it is used to detect the
+#' users environment.
+#' @param my.palette (optional) A character vector specifying which colors
+#' to use for the output RFU plots.
 #' @param plotting TRUE/FALSE Do you want to create pdf output plots?
-#' @param plotdir The name of the directory where output pdf plots should be stored.
+#' @param plotdir The name of the directory where output pdf plots should
+#' be stored.
 #' @param pref The number of plots to be drawn in the output plot.
 #'
 #' @importFrom stats lm
@@ -125,33 +153,43 @@ homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
 #' @importFrom graphics axis
 #' @importFrom graphics legend
 #' @importFrom stats predict
-#' @return The score_markers_rev3 function will return a list containing three variables: $pos, $hei, and $wei. These correspond to the index position for the intensities, the intensity of each peak, and the weight in base pairs based on the ladder respectively. If plotting = TRUE, a pdf file will also have been created in the specified directory. This pdf file allows you to visually inspect how all of the peaks were scored.
+#' @return The score_markers_rev3 function will return a list containing three
+#'  variables: $pos, $hei, and $wei. These correspond to the index position for
+#'  the intensities, the intensity of each peak, and the weight in base pairs
+#'  based on the ladder respectively. If plotting = TRUE, a pdf file will
+#'  also have been created in the specified directory. This pdf file allows
+#'  you to visually inspect how all of the peaks were scored.
 #' @export
 #'
 #' @examples
 #' file_path <- system.file("extdata", package = "pooledpeaks")
-#' mock_fsa_batch_imp_output<- fsa_batch_imp(file_path, channels = 5, fourier = TRUE,
-#'                                          saturated = TRUE, lets.pullup = FALSE,
-#'                                          plotting = FALSE, rawPlot = FALSE,
-#'                                          llength = 3000, ulength = 80000)
-#' names(mock_fsa_batch_imp_output)<-c("23.2a_I_A01_2012-07-18.fsa","23.2b_I_A07_2012-07-18.fsa",
-#'                                     "30.3a_I_B01_2012-07-18.fsa","30.3b_I_B07_2012-07-18.fsa",
-#'                                     "33.1a_I_C01_2012-07-18.fsa","33.1b_I_C07_2012-07-18.fsa",
-#'                                     "Multiplex_set_I_Shaem.1a_1_Sample_20221028_215632.fsa",
-#'                                     "Multiplex_set_I_Shaem.1b_1_Sample_20221028_232301.fsa",
-#'                                     "Multiplex_set_I_Shaem.3a_2_Sample_20221028_215633.fsa",
-#'                                     "Multiplex_set_I_Shaem.3b_2_Sample_20221028_232302.fsa",
-#'                                     "Multiplex_set_I_Shaem.4a_3_Sample_20221028_215634.fsa",
-#'                                     "Multiplex_set_I_Shaem.4b_3_Sample_20221028_232303.fsa")
-#' panel <- c(161,164,167,170,173,176,179,182,185,188,191,194,197,200,203,206,209,212,215,218)
+#' mock_fsa_batch_imp_output<- fsa_batch_imp(file_path, channels = 5,
+#' fourier = TRUE, saturated = TRUE, lets.pullup = FALSE,
+#' plotting = FALSE, rawPlot = FALSE,llength = 3000, ulength = 80000)
+#'
+#' names(mock_fsa_batch_imp_output)<-c("23.2a_I_A01_2012-07-18.fsa",
+#'   "23.2b_I_A07_2012-07-18.fsa","30.3a_I_B01_2012-07-18.fsa",
+#'   "30.3b_I_B07_2012-07-18.fsa","33.1a_I_C01_2012-07-18.fsa",
+#'   "33.1b_I_C07_2012-07-18.fsa",
+#'   "Multiplex_set_I_Shaem.1a_1_Sample_20221028_215632.fsa",
+#'   "Multiplex_set_I_Shaem.1b_1_Sample_20221028_232301.fsa",
+#'   "Multiplex_set_I_Shaem.3a_2_Sample_20221028_215633.fsa",
+#'   "Multiplex_set_I_Shaem.3b_2_Sample_20221028_232302.fsa",
+#'   "Multiplex_set_I_Shaem.4a_3_Sample_20221028_215634.fsa",
+#'   "Multiplex_set_I_Shaem.4b_3_Sample_20221028_232303.fsa")
+#'
+#' panel <- c(161,164,167,170,173,176,179,182,185,188,191,194,197,200,203,206,
+#'            209,212,215,218)
 #' ladder <- c(20, 40, 60, 80, 100, 114, 120, 140, 160, 180, 200, 214, 220,
 #'             240, 250, 260, 280, 300, 314, 320, 340, 360, 380, 400, 414,
 #'             420, 440, 460, 480, 500, 514, 520, 540, 560, 580, 600)
-#' mock_fsa_batch_imp_output <- associate_dyes(mock_fsa_batch_imp_output, file_path)
-#'Fragman::ladder.info.attach(stored = mock_fsa_batch_imp_output, ladder = ladder,
-#'                            ladd.init.thresh = 200, prog = FALSE, draw = FALSE)
-#'panel <- as.numeric(panel)
-#'result <- score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
+#' mock_fsa_batch_imp_output <- associate_dyes(mock_fsa_batch_imp_output,
+#'                              file_path)
+#' Fragman::ladder.info.attach(stored = mock_fsa_batch_imp_output,
+#'                            ladder = ladder,ladd.init.thresh = 200,
+#'                            prog = FALSE, draw = FALSE)
+#' panel <- as.numeric(panel)
+#' result <- score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
 #'                             channel = 1,
 #'                             channel.ladder = 5,
 #'                             panel = "panel",
@@ -167,17 +205,22 @@ homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
 #'                             plotting = FALSE)
 #'
 
-score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL,
-                               shift = 0.8, ladder, channel.ladder = NULL, ploidy = 2,
-                               left.cond = c(0.6, 3), right.cond = 0.35, warn = FALSE,
-                               windowL = 0.5, windowR = 0.5, init.thresh = 200, ladd.init.thresh = 200,
-                               method = "iter2", env = parent.frame(), my.palette = NULL,
-                               plotting = FALSE, plotdir = "plots_scoring", pref = 3) {
+score_markers_rev3 <- function(my.inds, channel= 1, n.inds = NULL, panel= NULL,
+                               shift = 0.8, ladder, channel.ladder = NULL,
+                               ploidy = 2, left.cond = c(0.6, 3),
+                               right.cond = 0.35, warn = FALSE, windowL = 0.5,
+                               windowR = 0.5, init.thresh = 200,
+                               ladd.init.thresh = 200, method = "iter2",
+                               env = parent.frame(), my.palette = NULL,
+                               plotting = FALSE, plotdir = "plots_scoring",
+                               pref = 3) {
   if (plotting == TRUE) {
-    message(paste0("You are writing plots for all samples to the directory '", plotdir, "'.
+    message(paste0("You are writing plots for all samples to the directory '",
+    plotdir, "'.
   For faster calculation but no plots, set 'plotting = FALSE'\n"))
   } else {
-    message(paste0(" You have set 'plotting = FALSE', meaning this command will return
+    message(paste0(" You have set 'plotting = FALSE', meaning this command will
+    return
                    only a list peak scores\n"))
   }
 
@@ -186,12 +229,12 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
     if (exists(panel, envir = env, inherits = FALSE)) {
       panel <- get(panel, envir = env)
     } else {
-      stop(call. = FALSE, 'Check that your panel object is specified in quotes e.g.
-           panel = "my_panel" and exists in the environment')
+      stop(call. = FALSE, 'Check that your panel object is specified in quotes
+      e.g. panel = "my_panel" and exists in the environment')
     }
   } else if (!is.null(panel) && !is.numeric(panel)) {
-    stop(call. = FALSE, 'Panel should be either a character string representing the
-         variable name or a numeric vector')
+    stop(call. = FALSE, 'Panel should be either a character string representing
+    the variable name or a numeric vector')
   }
 
 
@@ -276,7 +319,7 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
     })
     list.data <- lapply(list.ladders, Fragman::find.ladder,
       ladder = ladder,
-      draw = F, dev = dev,
+      draw = FALSE, dev = dev,
       warn = warn, method = method, init.thresh = ladd.init.thresh
     )
   }
@@ -309,7 +352,8 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
 
   for (h in 1:length(xx)) {
     h1 <- n.inds[h]
-    newxx <- as.vector(predict(list.models[[h1]], newdata = data.frame(x = xx[[h]])))
+    newxx <- as.vector(predict(list.models[[h1]],
+                               newdata = data.frame(x = xx[[h]])))
     newyy <- my.inds2[[h]][, channel]
     new.whole.data[[h]] <- list(xx = newxx, yy = newyy)
   }
@@ -363,7 +407,7 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
     # Create output directory
     message(paste0("Writing plots to directory '", plotdir, "'\n"))
     dirplot <- paste0(getwd(), "/", plotdir, "/")
-    dir.create(dirplot, showWarnings = T)
+    dir.create(dirplot, showWarnings = TRUE)
 
     for (g in 1:length(n.inds)) {
       hh4 <- n.inds[g]
@@ -396,7 +440,8 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
         type = "l", col = cfp[channel], xaxt = "n",
         xlim = c(xm, xl), ylim = c(-200, mylim), ylab = "Intensity",
         main = paste(nm, names(list.models)[hh4]),
-        sub = paste0("windowL = ", windowL, ", windowR = ", windowR, ", shift = ", shift),
+        sub = paste0("windowL = ", windowL, ", windowR = ", windowR,
+                     ", shift = ", shift),
         xlab = "bp",
         lwd = 2, las = 2
       )
@@ -404,7 +449,7 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
       rect(
         xleft = (list.weis2[[g]]$wei - windowL),
         ybottom = (bott - 200), xright = (list.weis2[[g]]$wei + windowR),
-        ytop = (top + 1000), col = Fragman::transp("lightpink",0.2), border = NA
+        ytop = (top + 1000), col = Fragman::transp("lightpink",0.2),border = NA
       )
       graphics::abline(
         v = list.weis[[g]]$wei, lty = 3, col = "blue",
@@ -419,7 +464,8 @@ score_markers_rev3 <- function(my.inds, channel = 1, n.inds = NULL, panel = NULL
         cex = 0.5
       )
       graphics::legend("topright",
-        legend = c("Peak found", "Panel peak","Panel window", "Minimum Detected"),
+        legend = c("Peak found", "Panel peak","Panel window",
+                   "Minimum Detected"),
         col = c("blue", "red", Fragman::transp("lightpink", 0.3), "chocolate"),
         bty = "n", lty = c(3, 3, 1, 3), lwd = c(1, 1, 3, 1), cex = 0.75
       )

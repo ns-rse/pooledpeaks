@@ -13,9 +13,12 @@ test_that("clean_scores function cleans data as expected", {
 
   # Call the function
   cleaned_data <- pooledpeaks::clean_scores(scores_data,
-                                            pattern1 = "_FA.*", replacement1 = "",
-                                            pattern2 = "_.*", replacement2 = "",
-                                            pattern3 = "\\.1*$", replacement3 = "")
+                                            pattern1 = "_FA.*",
+                                            replacement1 = "",
+                                            pattern2 = "_.*",
+                                            replacement2 = "",
+                                            pattern3 = "\\.1*$",
+                                            replacement3 = "")
 
   # Test that the function returns a data frame
   expect_true(isTRUE(is.data.frame(cleaned_data)))
@@ -24,15 +27,17 @@ test_that("clean_scores function cleans data as expected", {
   expect_equal(nrow(cleaned_data), 6)
 
   # Test that the ID column is cleaned as expected
-  expect_equal(unique(cleaned_data$ID), c("104.1a", "105.2b", "106.3c", "107.4d", "108.5e", "109.6f"))
+  expect_equal(unique(cleaned_data$ID), c("104.1a", "105.2b", "106.3c",
+                                          "107.4d", "108.5e", "109.6f"))
 
   # Test that the filename column is cleaned as expected
-  expect_equal(unique(cleaned_data$filename), c("104.1a_FA060920_2020-06-09_C05.fsa",
-                                                "105.2b_FA060920_2020-06-09_C05.fsa",
-                                                "106.3c_FA060920_2020-06-09_C05.fsa",
-                                                "107.4d_FA060920_2020-06-09_C05.fsa",
-                                                "108.5e_FA060920_2020-06-09_C05.fsa",
-                                                "109.6f_FA060920_2020-06-09_C05.fsa"))
+  expect_equal(unique(cleaned_data$filename),
+               c("104.1a_FA060920_2020-06-09_C05.fsa",
+                 "105.2b_FA060920_2020-06-09_C05.fsa",
+                 "106.3c_FA060920_2020-06-09_C05.fsa",
+                 "107.4d_FA060920_2020-06-09_C05.fsa",
+                 "108.5e_FA060920_2020-06-09_C05.fsa",
+                 "109.6f_FA060920_2020-06-09_C05.fsa"))
 })
 
 
@@ -45,7 +50,8 @@ test_that("lf_to_tdf function transforms data as expected", {
                                      "105.2b_FA060920_2020-06-09_C05.fsa"),
                         hei = c(100, 120, 90, 110),
                         pos = c(1, 2, 1, 2),
-                        wei = c(117, 120, 123, 126), # Adjust weights to increments of 3
+                        wei = c(117, 120, 123, 126),
+                        # Adjust weights to increments of 3
                         stringsAsFactors = FALSE)
 
   # Call the function
@@ -64,8 +70,10 @@ test_that("lf_to_tdf function transforms data as expected", {
   expect_equal(rownames(tdf_data), c("117", "120", "123", "126"))
 
   # Test that the data values are correct
-  expect_equal(tdf_data[ ,1], c("100", "120", "0", "0")) # Assuming "117" column is empty for the first row
-  expect_equal(tdf_data[ ,2], c("0", "0", "90", "110")) # Assuming "120", "123", "126" columns are empty for the second row
+  expect_equal(tdf_data[ ,1], c("100", "120", "0", "0"))
+  # Assuming "117" column is empty for the first row
+  expect_equal(tdf_data[ ,2], c("0", "0", "90", "110"))
+  # Assuming "120", "123", "126" columns are empty for the second row
 })
 
 
@@ -91,9 +99,10 @@ test_that("data_manipulation function manipulates data as expected", {
   expect_true(all(apply(manipulated_data, 2, function(x) any(x > 500))))
 
   # Call the function with custom threshold
-  manipulated_data_custom <- pooledpeaks::data_manipulation(marker_data, threshold = 600)
+  manipulated_data_custom <- pooledpeaks::data_manipulation(marker_data,
+                                                            threshold = 600)
 
-  # Test that at least one peak for each sample is greater than the custom threshold
+  # Test that >= 1 peak for each sample is greater than the custom threshold
   expect_true(all(apply(manipulated_data_custom, 2, function(x) any(x > 600))))
 })
 
@@ -113,7 +122,8 @@ test_that("PCDM function manipulates data as expected", {
   )
 
   # Call the function
-  manipulated_data <- pooledpeaks::PCDM(consolidated_marker, eggcount, "Marker1")
+  manipulated_data <- pooledpeaks::PCDM(consolidated_marker, eggcount,
+                                        "Marker1")
 
   # Test that the function returns a data frame
   expect_true(isTRUE(is.data.frame(manipulated_data)))
@@ -123,7 +133,8 @@ test_that("PCDM function manipulates data as expected", {
   expect_equal(ncol(manipulated_data), 4) # 3 samples + 1 ID column
 
   # Test that the column names are correct
-  expect_equal(colnames(manipulated_data), c("Locus_allele", "Sample1", "Sample2", "Sample3"))
+  expect_equal(colnames(manipulated_data), c("Locus_allele", "Sample1",
+                                             "Sample2", "Sample3"))
 
   # Test that the first column contains the marker name
   expect_equal(manipulated_data[1, "Locus_allele"], "Marker1")

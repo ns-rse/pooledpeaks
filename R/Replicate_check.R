@@ -1,9 +1,12 @@
 #' Pairwise Jost D between replicates
 #'
-#' This function calculates Jost's D between two columns, specifically designed for comparing duplicate samples based on allele frequencies.
+#' This function calculates Jost's D between two columns, specifically designed
+#'  for comparing duplicate samples based on allele frequencies.
 #'
-#' @param Ni1 Vector containing the allele frequencies of the first duplicate sample.
-#' @param Ni2 Vector containing the allele frequencies of the second duplicate sample.
+#' @param Ni1 Vector containing the allele frequencies of the first duplicate
+#' sample.
+#' @param Ni2 Vector containing the allele frequencies of the second duplicate
+#' sample.
 #'
 #' @return The calculated Jost's D value.
 JostD_KK <- function(Ni1, Ni2) {
@@ -97,7 +100,8 @@ JostD_KK <- function(Ni1, Ni2) {
 
   # Calculate bi
   for (i in 1:length(pi1)) {
-    bi <- bi + c((Ni1[i] * (Ni1_1[i]) / (N1 * (N1 - 1))) + (Ni2[i] * (Ni2_1[i] / (N2 * (N2 - 1)))))
+    bi <- bi + c((Ni1[i] * (Ni1_1[i]) /
+                    (N1 * (N1 - 1))) + (Ni2[i] * (Ni2_1[i] / (N2 * (N2 - 1)))))
   }
   # Calculate b
   b <- sum(bi)
@@ -124,7 +128,9 @@ JostD_KK <- function(Ni1, Ni2) {
 
 #' Replicate Check for Duplicate Samples
 #'
-#' This function checks for duplicate samples in the input data frame and calculates the average peak heights for each sample. If the Jost's D between duplicate samples exceeds 0.05, it flags those samples.
+#' This function checks for duplicate samples in the input data frame and
+#' calculates the average peak heights for each sample. If the Jost's D
+#' between duplicate samples exceeds 0.05, it flags those samples.
 #'
 #' @param df The input data frame containing peak heights for each sample.
 #'
@@ -132,7 +138,8 @@ JostD_KK <- function(Ni1, Ni2) {
 #' @importFrom dplyr select_if
 #' @importFrom magrittr %>%
 #'
-#' @return A data frame containing the average peak heights for each sample, with flagged samples where duplicates have a Jost's D exceeding 0.05.
+#' @return A data frame containing the average peak heights for each sample,
+#' with flagged samples where duplicates have a Jost's D exceeding 0.05.
 #' @export
 #'
 #' @examples
@@ -166,7 +173,8 @@ Rep_check <- function(df) {
 
   # Remove a and b demarcation from column names
 
-  colnames(newdf) <- gsub("(?<=\\d)(a|b|c|d|e|f|ab|ac|bb|bc)", "", colnames(newdf), perl = TRUE)
+  colnames(newdf) <- gsub("(?<=\\d)(a|b|c|d|e|f|ab|ac|bb|bc)", "",
+                          colnames(newdf), perl = TRUE)
 
   # Define Columnames vector
   Columnames <- colnames(newdf)

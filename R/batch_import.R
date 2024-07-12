@@ -1,23 +1,36 @@
 #' Batch Import of .fsa files
 #'
-#' This function imports and extracts all of the information out of the .fsa files and combines them into one list type object.
-#' `fsa_batch_imp` is a modification of the original Fragman import script function, `storing.inds`, This revised script accommodates
-#' ABI's .fsa file format up to version 3. It retains Fragman functions for Fourier transformation, saturated peaks, and pull-up correction.
-#' Notable adjustments include updating channel parameters, utilizing Dyechannel count from the file directory, and streamlining
-#' the script by extracting data only from "DATA" tags. Major changes involve column selection for v3 formats and modifications to
-#' the "channel" parameter. Minor changes include allowing relative paths for the data directory, importing only .fsa files, and renaming
-#' channels with dye names. This revision ensures successful execution for any format version up to 3.
+#' This function imports and extracts all of the information out of the .fsa
+#' files and combines them into one list type object.`fsa_batch_imp` is a
+#' modification of the original Fragman import script function, `storing.inds`,
+#' This revised script accommodates ABI's .fsa file format up to version 3.
+#' It retains Fragman functions for Fourier transformation, saturated peaks,
+#' and pull-up correction. Notable adjustments include updating channel
+#' parameters, utilizing Dyechannel count from the file directory, and
+#' streamlining the script by extracting data only from "DATA" tags.
+#' Major changes involve column selection for v3 formats and modifications to
+#' the "channel" parameter. Minor changes include allowing relative paths for
+#' the data directory, importing only .fsa files, and renaming channels with
+#' dye names. This revision ensures successful execution for any format version
+#' up to 3.
 #'
 #'
-#' @param folder The path to the folder from the current directory where the .fsa files that will be analyzed are stored.
+#' @param folder The path to the folder from the current directory where the
+#' .fsa files that will be analyzed are stored.
 #' @param channels The number of dye channels expected, including the ladder.
 #' @param fourier True/False Should fourier transformation be applied.
 #' @param saturated True/False whether to Check and correct for saturated peaks.
-#' @param lets.pullup True/False Applying pull up correction to the samples to decrease noise from channel to channel. The default is FALSE, please do not change this.
-#' @param plotting True/False Should plots be drawn of all channels after data cleaning.
-#' @param rawPlot True/False indicating whether a plot should be drawn of all vectors.
-#' @param llength A numeric value for the minimum number of indexes in each channel.
-#' @param ulength A numeric value for the maximum number fo indexes in each channel.
+#' @param lets.pullup True/False Applying pull up correction to the samples to
+#' decrease noise from channel to channel. The default is FALSE, please do not
+#' change this.
+#' @param plotting True/False Should plots be drawn of all channels after data
+#' cleaning.
+#' @param rawPlot True/False indicating whether a plot should be drawn of all
+#' vectors.
+#' @param llength A numeric value for the minimum number of indexes in each
+#' channel.
+#' @param ulength A numeric value for the maximum number fo indexes in each
+#' channel.
 #'
 #' @importFrom Fragman read.abif
 #' @importFrom Fragman transfft
@@ -25,22 +38,26 @@
 #' @importFrom Fragman pullup
 #' @importFrom graphics layout
 #'
-#' @return Output is a LIST where each element of the list is a DATAFRAME with the channels in columns for each FSA file
+#' @return Output is a LIST where each element of the list is a DATAFRAME with
+#' the channels in columns for each FSA file
 #' @export
 #'
 #' @examples
 #' file_path <- system.file("extdata", package = "pooledpeaks")
-#' fsa_batch_imp(file_path, channels = 5, fourier = TRUE, saturated = TRUE ,lets.pullup = FALSE,
+#' fsa_batch_imp(file_path, channels = 5, fourier = TRUE, saturated = TRUE ,
+#' lets.pullup = FALSE,
 #' plotting = FALSE, rawPlot = TRUE, llength = 3000, ulength = 80000 )
 
-fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE, saturated = TRUE,
+fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE,
+                          saturated = TRUE,
                           lets.pullup = FALSE, plotting = FALSE,
                           rawPlot = FALSE, llength = 3000, ulength = 80000) {
   listp2 <- dir(folder, "*.fsa$")
 
   if (length(listp2) == 0) {
     stop(paste(
-      "We have not found files with extension .fsa. Please \nmake sure this is the right folder:",
+      "We have not found files with extension .fsa. Please \nmake sure this is
+      the right folder:",
       folder, "\n"
     ), call. = FALSE)
   }
@@ -57,7 +74,8 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE, saturated = T
     )
 
     fsaFile.data <- fsaFile$Data[(grepl("DATA|Dye#|DyeN", names(fsaFile$Data)))]
-    fsaFile.dir <- fsaFile$Directory[(grepl("DATA|Dye#|DyeN", fsaFile$Directory$name)), ]
+    fsaFile.dir <- fsaFile$Directory[(grepl("DATA|Dye#|DyeN",
+                                            fsaFile$Directory$name)), ]
 
     lens <- lapply(fsaFile.data, length)
     aaa <- table(unlist(lens))
@@ -66,10 +84,13 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE, saturated = T
     channels_d <- fsaFile.data$`Dye#.1`
 
     if (is.numeric(channels) && (channels != channels_d)) {
-      message(paste0("Your specified channel number of (", channels, ") is not the same as\n the number of dye channels recorded in the fsa file (", channels_d, ").\n Results will use ", channels_d, " channels."))
+      message(paste0("Your specified channel number of (", channels, ") is not
+                     the same as\n the number of dye channels recorded in the
+                     fsa file (", channels_d, ").\n Results will use ",
+                     channels_d, " channels."))
     }
 
-    # Set channel parameter for each loop and accommodate double entries in v3 format
+#Set channel param for each loop and accommodate double entries in v3 format
     if (fsaFile$Header$version == 300 && !is.null(channels_d)) {
       channels_l <- 2 * channels_d
     } else {
@@ -82,10 +103,13 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE, saturated = T
         as.numeric(names(aaa)) < ulength
     )])
 
-    # For files where location of indexes is not clear, as seen in some files with shorter runtimes
+    # For files where location of indexes is not clear,
+    #as seen in some files with shorter runtimes
     if ((length(cfound) > 1) & !(channels_l %in% cfound)) {
 
-      cat(paste("\nYour data for file", listp2[1], "has multiple possible places where\nrun indexes could be stored and we don't know which is the correct one.\n"))
+      cat(paste("\nYour data for file", listp2[1], "has multiple possible
+                places where\nrun indexes could be stored and we don't
+                know which is the correct one.\n"))
       prov <- aaa[which(as.numeric(names(aaa)) > llength &
         as.numeric(names(aaa)) < ulength)]
 
@@ -101,14 +125,15 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE, saturated = T
       rownames(prov2)[2] <- "number.to.type.if.selected"
       prov2[2, 1:ncol(prov2)] <- 1:ncol(prov2)
 
-      cat("Please tell us which option has AT LEAST the number of expected channels\n\n")
+      cat("Please tell us which option has AT LEAST the number of expected
+          channels\n\n")
 
       print(prov2)
       inut <- as.numeric(readline(prompt = "Enter one of the number.to.type: "))
       channels_l <- cfound[inut]
     }
 
-    # Get length of runs (select length with entry numbers equal to number of channels)
+    # Get length of runs (select length with entry # equal to # of channels)
     real.len <- as.numeric(
       names(aaa)[which(
         aaa == channels_l &
@@ -120,7 +145,8 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE, saturated = T
     # Identify which DATA tags are of correct length to be runs
     v0 <- as.vector(which(unlist(lens) == real.len))
 
-    # Filter to only those which have identical datasize, and are multiple of dyechannel number
+    # Filter to only those which have identical data size,
+    #and are multiple of dye channel number
     chsize <- as.numeric(
       names(which((table(fsaFile.dir$datasize[v0]) %% channels_d) == 0))
     )
@@ -187,7 +213,8 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE, saturated = T
   }
 
   if (lets.pullup == TRUE) {
-    message("Applying pull up correction to the samples to decrease noise from channel to channel")
+    message("Applying pull up correction to the samples to decrease noise
+            from channel to channel")
     if (plotting == TRUE) {
       all.inds.mats <- lapply(all.inds.mats, Fragman::pullup,
         channel = channels_l, plotting = TRUE
@@ -212,11 +239,12 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE, saturated = T
       plot(all.inds.mats[[1]][, i],
         col = Fragman::transp(coli[i], 0.6),
         type = "l", ylab = "RFU", main = paste0(
-          "Channel ", i, " of ", dim(all.inds.mats[[1]])[2], " (", naname[i], ")"
+          "Channel ", i," of ", dim(all.inds.mats[[1]])[2]," (", naname[i], ")"
         ),
         cex.main = 1, las = 2
       )
-      graphics::rect(graphics::par("usr")[1], graphics::par("usr")[3], graphics::par("usr")[2],
+      graphics::rect(graphics::par("usr")[1], graphics::par("usr")[3],
+                     graphics::par("usr")[2],
                      graphics::par("usr")[4],
         col = "white"
       )

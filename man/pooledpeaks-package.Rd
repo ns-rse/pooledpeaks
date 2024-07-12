@@ -9,7 +9,7 @@
 Pooledpeaks provides a comprehensive suite of functions for analyzing genetic data obtained from pooled samples. This package can read in fsa files, preprocess the data, and score peaks, as well as facilitate various analyses, including cluster analysis, calculation of genetic distances and diversity indices, as well as bootstrap resampling for statistical inference. Specifically tailored to handle genetic data efficiently, researchers can explore population structure, genetic differentiation, and genetic relatedness among samples.
 }
 \author{
-\strong{Maintainer}: Kathleen Kuesters \email{kathleen.kuesters@gmail.com} (\href{https://orcid.org/0000-0003-0238-7889}{ORCID})
+\strong{Maintainer}: Kathleen Kuesters \email{kathleen.kuesters@gmail.com} (\href{https://orcid.org/0000-0003-0238-7889}{ORCID}) [copyright holder]
 
 }
 \keyword{internal}

@@ -1,6 +1,7 @@
 #' Distance Correlation
 #'
-#' Calculate the correlation between expected and realized genetic distances and plot them.
+#' Calculate the correlation between expected and realized genetic distances
+#' and plot them.
 #'
 #' @param GD A matrix containing the genetic distance data.
 #'
@@ -11,23 +12,26 @@
 #' @importFrom graphics abline
 #' @importFrom graphics title
 #'
-#' @return A plot showing the Expected Genetic Distance versus Realized Genetic Distance
+#' @return A plot showing the Expected Genetic Distance versus Realized Genetic
+#'  Distance
 #' @export
 #'
 #' @examples
-#' genetic_distance_matrix <- matrix(c(0.316455, 0.2836333, 0.2760485, 0.2685221, 0.2797302,
-#'  0.3202661,0.2836333, 0.3106084, 0.2867215, 0.2687472, 0.2596309, 0.2957862,0.2760485,
-#'  0.2867215, 0.3338663, 0.297918, 0.3057039, 0.3153261,0.2685221, 0.2687472, 0.297918,
-#'  0.3107094, 0.2753477, 0.3042383,0.2797302, 0.2596309, 0.3057039, 0.2753477, 0.3761386,
-#'  0.3398558,0.3202661, 0.2957862, 0.3153261, 0.3042383, 0.3398558, 0.4402125),
-#'  nrow = 6, byrow = TRUE,dimnames = list(c("Sample1", "Sample2", "Sample3", "Ind1", "Ind2", "Ind3"),
+#' genetic_distance_matrix <- matrix(c(0.316455, 0.2836333, 0.2760485,
+#' 0.2685221, 0.2797302,0.3202661,0.2836333, 0.3106084, 0.2867215, 0.2687472,
+#' 0.2596309, 0.2957862,0.2760485,0.2867215, 0.3338663, 0.297918, 0.3057039,
+#' 0.3153261,0.2685221, 0.2687472, 0.297918,0.3107094, 0.2753477, 0.3042383,
+#' 0.2797302, 0.2596309, 0.3057039, 0.2753477, 0.3761386, 0.3398558,0.3202661,
+#' 0.2957862, 0.3153261, 0.3042383, 0.3398558, 0.4402125),
+#'  nrow = 6, byrow = TRUE,dimnames = list(c("Sample1", "Sample2", "Sample3",
+#'   "Ind1", "Ind2", "Ind3"),
 #'  c("Sample1", "Sample2", "Sample3", "Ind1", "Ind2", "Ind3")))
 #'
 #' DC<- DistCor(genetic_distance_matrix)
 #'
 DistCor <- function(GD=matrix) {
-  T <- ape::nj(GD)
-  ED <- stats::cophenetic(T)
+  R <- ape::nj(GD)
+  ED <- stats::cophenetic(R)
   graphics::par(mar=c(5,5,5,5))
   plot(GD,ED)
   graphics::abline(0,1,col=2)
@@ -41,7 +45,8 @@ DistCor <- function(GD=matrix) {
     x[k]<- GD[i,j]
     y[k]<- ED[i,j] }
   print(stats::cor(x,y),las=1)
-  graphics::title(main='Expected Genetic Distance \n versus Realized Genetic Distance',
+  graphics::title(main='Expected Genetic Distance \n versus Realized Genetic
+                  Distance',
         font.main=1,cex.main=1.25)
 }
 
@@ -50,9 +55,11 @@ DistCor <- function(GD=matrix) {
 
 #' Calculate Empirical Standard Error
 #'
-#' This function calculates the empirical standard error based on repeated sampling.
+#' This function calculates the empirical standard error based on repeated
+#' sampling.
 #'
-#' @param datafile A data frame containing genetic data from the [pooledpeaks::LoadData]
+#' @param datafile A data frame containing genetic data from the
+#' [pooledpeaks::LoadData]
 #' @param NLoci Number of loci to sample in each iteration.
 #'
 #' @return A numeric vector containing the empirical standard error estimates.
@@ -94,7 +101,8 @@ EmpiricalSE <- function(datafile=data.frame,NLoci=10) {
 
 #' Calculate Pre-Jost's D
 #'
-#' This function calculates the pre-Jost's D measure from a gene identity matrix.
+#' This function calculates the pre-Jost's D measure from a gene identity
+#' matrix.
 #'
 #' @param G A square matrix representing a gene identity matrix.
 #'
@@ -127,7 +135,8 @@ preJostD <- function(G=matrix) {
 #' This function calculates Jost's D measure from a gene identity matrix.
 #'
 #' @param J A gene identity matrix.
-#' @param pairwise Logical indicating whether to calculate pairwise Jost's D. If pairwise=FALSE, must not have any missing data.
+#' @param pairwise Logical indicating whether to calculate pairwise Jost's D.
+#' If pairwise=FALSE, must not have any missing data.
 #'
 #' @return If pairwise = TRUE, returns a matrix of pairwise Jost's D values.
 #' If pairwise = FALSE, returns the overall Jost's D value.
@@ -191,10 +200,12 @@ preGST <- function(G=matrix) {
 
 #' Nei's GST
 #'
-#' This function calculates GST (Nei's standard genetic distance) measure from a gene identity matrix.
+#' This function calculates GST (Nei's standard genetic distance) measure from
+#' a gene identity matrix.
 #'
 #' @param J A square matrix representing a gene identity matrix.
-#' @param pairwise Logical indicating whether to calculate pairwise GST. If set to FALSE, must not contain any missing data.
+#' @param pairwise Logical indicating whether to calculate pairwise GST. If set
+#'  to FALSE, must not contain any missing data.
 #'
 #' @return If pairwise = TRUE, returns a matrix of pairwise GST values.
 #' If pairwise = FALSE, returns the overall GST value.
@@ -232,11 +243,13 @@ GST <- function(J=matrix, pairwise=TRUE) {
 
 #' Calculate Two-Level GST
 #'
-#' This function calculates two-level GST (Nei's standard gene identity) measure from a gene identity matrix.
+#' This function calculates two-level GST (Nei's standard gene identity)
+#' measure from a gene identity matrix.
 #'
 #' @param G A square matrix representing a gene identity matrix.
 #'
-#' @return A list containing the components of two-level GST including within-group gene identity, between-group gene identity, and GST values.
+#' @return A list containing the components of two-level GST including
+#' within-group gene identity, between-group gene identity, and GST values.
 #' @export
 #'
 #' @examples
@@ -311,10 +324,12 @@ TwoLevelGST <- function(G=matrix) {
 
 #' Calculate Allelic Richness
 #'
-#' This function calculates allelic richness based on the provided genetic data.
+#' This function calculates allelic richness based on provided genetic data.
 #'
-#' @param datafile A data frame containing the data as read in by [pooledpeaks::LoadData]
-#' @param n A matrix representing the number of markers successfully genotyped like the output of the [pooledpeaks::TypedLoci] function.
+#' @param datafile A data frame containing the data as read in by
+#' [pooledpeaks::LoadData]
+#' @param n A matrix representing the number of markers successfully genotyped
+#'  like the output of the [pooledpeaks::TypedLoci] function.
 #'
 #' @return A vector containing the allelic richness for each locus.
 #' @export
@@ -367,11 +382,12 @@ AlRich <- function(datafile=data.frame,n=matrix) {
 #'
 #' This function performs bootstrap analysis on genetic data.
 #'
-#' @param A A data frame containing the data as read in by [pooledpeaks::LoadData]
+#' @param A Data frame containing data as read in by [pooledpeaks::LoadData]
 #' @param Rep Number of bootstrap replicates.
 #' @param Stat Type of statistic to compute (1 for AlRich, 2 for TwoLevelGST)
 #'
-#' @return Either a matrix of AlRich statistics or a list containing various statistics computed using TwoLevelGST.
+#' @return Either a matrix of AlRich statistics or a list containing various
+#' statistics computed using TwoLevelGST.
 #' @export
 #'
 #' @examples
@@ -389,7 +405,7 @@ AlRich <- function(datafile=data.frame,n=matrix) {
 BootStrap3 <- function(A=data.frame,Rep=20,Stat=1) {
   A <- A
   Rep <- Rep
-  Stat=Stat
+  Stat <- Stat
 
   Loci <- max(A[,1])
 
