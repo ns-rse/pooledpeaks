@@ -164,19 +164,8 @@ homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
 #' @examples
 #' file_path <- system.file("extdata", package = "pooledpeaks")
 #' mock_fsa_batch_imp_output<- fsa_batch_imp(file_path, channels = 5,
-#' fourier = TRUE, saturated = TRUE, lets.pullup = FALSE,
+#' fourier = FALSE, saturated = FALSE, lets.pullup = FALSE,
 #' plotting = FALSE, rawPlot = FALSE)
-#'
-#' names(mock_fsa_batch_imp_output)<-c("23.2a_I_A01_2012-07-18.fsa",
-#'   "23.2b_I_A07_2012-07-18.fsa","30.3a_I_B01_2012-07-18.fsa",
-#'   "30.3b_I_B07_2012-07-18.fsa","33.1a_I_C01_2012-07-18.fsa",
-#'   "33.1b_I_C07_2012-07-18.fsa",
-#'   "Multiplex_set_I_Shaem.1a_1_Sample_20221028_215632.fsa",
-#'   "Multiplex_set_I_Shaem.1b_1_Sample_20221028_232301.fsa",
-#'   "Multiplex_set_I_Shaem.3a_2_Sample_20221028_215633.fsa",
-#'   "Multiplex_set_I_Shaem.3b_2_Sample_20221028_232302.fsa",
-#'   "Multiplex_set_I_Shaem.4a_3_Sample_20221028_215634.fsa",
-#'   "Multiplex_set_I_Shaem.4b_3_Sample_20221028_232303.fsa")
 #'
 #' panel <- c(176,179,182,185,188,191,194,197,200,203,206)
 #' ladder <- c( 140, 160, 180, 200, 214, 220,240, 250, 260, 280, 300, 314)
@@ -186,7 +175,7 @@ homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
 #'                            ladder = ladder,ladd.init.thresh = 200,
 #'                            prog = FALSE, draw = FALSE)
 #' panel <- as.numeric(panel)
-#' result <- score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
+#' score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
 #'                             channel = 1,
 #'                             channel.ladder = 5,
 #'                             panel = "panel",
