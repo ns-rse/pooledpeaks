@@ -21,7 +21,8 @@ MDSplot(
 \item{y}{A character vector specifying colors for population labels.}
 }
 \value{
-The ouput is the MDS plot for the samples for the specified principal coordinates.
+The output is the MDS plot for the samples for the specified principal
+coordinates.
 }
 \description{
 Generate a multidimensional scaling (MDS) plot from genetic distance data.
@@ -34,7 +35,8 @@ genetic_distance_matrix <- matrix(c(
 0.2685221, 0.2687472, 0.297918,0, 0.2753477, 0.3042383,
 0.2797302, 0.2596309, 0.3057039, 0.2753477, 0,0.3398558,
 0.3202661, 0.2957862, 0.3153261, 0.3042383, 0.3398558, 0),
- nrow = 6, byrow = TRUE,dimnames = list(c("Sample1", "Sample2", "Sample3", "Ind1", "Ind2", "Ind3"),
+ nrow = 6, byrow = TRUE,dimnames = list(c("Sample1", "Sample2",
+ "Sample3", "Ind1", "Ind2", "Ind3"),
  c("Sample1", "Sample2", "Sample3", "Ind1", "Ind2", "Ind3")))
 
  MDSplot(distance=genetic_distance_matrix, pcs=c(1,3))

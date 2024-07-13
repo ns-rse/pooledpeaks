@@ -7,12 +7,14 @@
 cluster(RawData = data.frame, K = 2)
 }
 \arguments{
-\item{RawData}{A data frame containing the raw data as read in by \link{LoadData}}
+\item{RawData}{A data frame containing the raw data as read in by
+\link{LoadData}}
 
 \item{K}{An integer specifying the number of clusters.}
 }
 \value{
-A list containing the results of the K-means cluster analysis, including cluster assignments and original data.
+A list containing the results of the K-means cluster analysis,
+including cluster assignments and original data.
 }
 \description{
 K-means Clustering

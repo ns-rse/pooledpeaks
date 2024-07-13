@@ -7,7 +7,8 @@
 EmpiricalSE(datafile = data.frame, NLoci = 10)
 }
 \arguments{
-\item{datafile}{A data frame containing genetic data from the \link{LoadData}}
+\item{datafile}{A data frame containing genetic data from the
+\link{LoadData}}
 
 \item{NLoci}{Number of loci to sample in each iteration.}
 }
@@ -15,7 +16,8 @@ EmpiricalSE(datafile = data.frame, NLoci = 10)
 A numeric vector containing the empirical standard error estimates.
 }
 \description{
-This function calculates the empirical standard error based on repeated sampling.
+This function calculates the empirical standard error based on repeated
+sampling.
 }
 \examples{
 

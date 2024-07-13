@@ -7,17 +7,20 @@
 ClusterFromSamples(datafile = data.frame, numloci = 5, reps = 100)
 }
 \arguments{
-\item{datafile}{A data frame containing the input data must be in LoadData style \link{LoadData}.}
+\item{datafile}{A data frame containing the input data must be in LoadData
+style \link{LoadData}.}
 
 \item{numloci}{An integer specifying the number of loci to sample.}
 
 \item{reps}{An integer specifying the number of repetitions.}
 }
 \value{
-A matrix containing statistics calculated from the clustering results.
+A matrix containing statistics calculated from the clustering
+results.
 }
 \description{
-Perform clustering on samples of loci from a data frame and calculate statistics.
+Perform clustering on samples of loci from a data frame and calculate
+statistics.
 }
 \examples{
 genetic_data <- data.frame(
@@ -28,5 +31,5 @@ Sample2 = c(NA, 20, 0.1, 0.2, 0.7, NA, 20, 0.3, 0.4, 0.3),
 Sample3 = c(NA, 30, 0.3, 0.4, 0.3, NA, 30, 0.4, 0.2, 0.4)
 )
 
-ClusterFromSamples(datafile=genetic_data,numloci=5, reps=10)
+ClusterFromSamples(datafile=genetic_data, numloci=5, reps=10)
 }

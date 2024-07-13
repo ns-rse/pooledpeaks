@@ -7,13 +7,16 @@
 check_fsa_v_batch(x)
 }
 \arguments{
-\item{x}{The path to the folder from the current directory where the .fsa files that will be analyzed are stored.}
+\item{x}{The path to the folder from the current directory where the .fsa
+files that will be analyzed are stored.}
 }
 \value{
-A written summary of how many .fsa files are in the folder and which version they are.
+A written summary of how many .fsa files are in the folder and which
+version they are.
 }
 \description{
-This function analyzes .fsa files in a specified folder, providing a summary of their version and batch information.
+This function analyzes .fsa files in a specified folder, providing a summary
+of their version and batch information.
 }
 \examples{
 file_path <- system.file("extdata", package = "pooledpeaks")

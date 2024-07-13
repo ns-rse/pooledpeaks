@@ -10,10 +10,13 @@ Rep_check(df)
 \item{df}{The input data frame containing peak heights for each sample.}
 }
 \value{
-A data frame containing the average peak heights for each sample, with flagged samples where duplicates have a Jost's D exceeding 0.05.
+A data frame containing the average peak heights for each sample,
+with flagged samples where duplicates have a Jost's D exceeding 0.05.
 }
 \description{
-This function checks for duplicate samples in the input data frame and calculates the average peak heights for each sample. If the Jost's D between duplicate samples exceeds 0.05, it flags those samples.
+This function checks for duplicate samples in the input data frame and
+calculates the average peak heights for each sample. If the Jost's D
+between duplicate samples exceeds 0.05, it flags those samples.
 }
 \examples{
 marker_data <- data.frame(

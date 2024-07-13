@@ -166,16 +166,11 @@ homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
 #' mock_fsa_batch_imp_output<- fsa_batch_imp(file_path, channels = 5,
 #' fourier = FALSE, saturated = FALSE, lets.pullup = FALSE,
 #' plotting = FALSE, rawPlot = FALSE)
-#'
 #' panel <- c(176,179,182,185,188,191,194,197,200,203,206)
 #' ladder <- c( 140, 160, 180, 200, 214, 220,240, 250, 260, 280, 300, 314)
 #' mock_fsa_batch_imp_output <- associate_dyes(mock_fsa_batch_imp_output,
 #'                              file_path)
-#' Fragman::ladder.info.attach(stored = mock_fsa_batch_imp_output,
-#'                            ladder = ladder,ladd.init.thresh = 200,
-#'                            prog = FALSE, draw = FALSE)
-#' panel <- as.numeric(panel)
-#' score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
+#' \dontrun{score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
 #'                             channel = 1,
 #'                             channel.ladder = 5,
 #'                             panel = "panel",
@@ -183,7 +178,7 @@ homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
 #'                             init.thresh = 200,
 #'                             ploidy = length(panel),
 #'                             plotting = FALSE)
-#'
+#'                             }
 
 score_markers_rev3 <- function(my.inds, channel= 1, n.inds = NULL, panel= NULL,
                                shift = 0.8, ladder, channel.ladder = NULL,

@@ -9,19 +9,22 @@ associate_dyes(x, y)
 \arguments{
 \item{x}{The Output list of data frames from fsa_batch_imp.}
 
-\item{y}{The path to the folder from the current directory where the .fsa files that will be analyzed are stored.}
+\item{y}{The path to the folder from the current directory where the
+.fsa files that will be analyzed are stored.}
 }
 \value{
-The input dataframe with an added column assigning flourescent dye colors.
+The input dataframe with an added column assigning fluorescent
+dye colors.
 }
 \description{
-This function associates dye info with fragman channel names. It was designed to be performed on
-any fsa formats after final columns are correctly imported.
+This function associates dye info with fragman channel names. It was
+designed to be performed on any fsa formats after final columns are
+correctly imported.
 }
 \examples{
 y <- system.file("extdata", package = "pooledpeaks")
-x <- fsa_batch_imp(y, channels = 5, fourier = TRUE, saturated = TRUE ,lets.pullup = FALSE,
-plotting = FALSE, rawPlot = FALSE, llength = 3000, ulength = 80000 )
-x <- associate_dyes(x,y)
-x
+x <- fsa_batch_imp(y, channels = 5, fourier = FALSE, saturated = FALSE ,
+lets.pullup = FALSE, plotting = FALSE, rawPlot = FALSE,
+llength = 3000, ulength = 80000 )
+associate_dyes(x,y)
 }

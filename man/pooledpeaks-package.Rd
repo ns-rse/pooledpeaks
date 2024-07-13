@@ -6,7 +6,15 @@
 \alias{pooledpeaks-package}
 \title{pooledpeaks: Tools for Genetic Analysis of Pooled Samples}
 \description{
-Pooledpeaks provides a comprehensive suite of functions for analyzing genetic data obtained from pooled samples. This package can read in fsa files, preprocess the data, and score peaks, as well as facilitate various analyses, including cluster analysis, calculation of genetic distances and diversity indices, as well as bootstrap resampling for statistical inference. Specifically tailored to handle genetic data efficiently, researchers can explore population structure, genetic differentiation, and genetic relatedness among samples.
+A comprehensive suite of functions for analyzing genetic data obtained from pooled samples. This package can read in Fragment Analysis output files, process the data, and score peaks, as well as facilitate various analyses, including cluster analysis, calculation of genetic distances and diversity indices, as well as bootstrap resampling for statistical inference. Specifically tailored to handle genetic data efficiently, researchers can explore population structure, genetic differentiation, and genetic relatedness among samples.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/kmkuesters/pooledpeaks}
+  \item Report bugs at \url{https://github.com/kmkuesters/pooledpeaks/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Kathleen Kuesters \email{kathleen.kuesters@gmail.com} (\href{https://orcid.org/0000-0003-0238-7889}{ORCID}) [copyright holder]

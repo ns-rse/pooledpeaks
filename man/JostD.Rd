@@ -9,7 +9,8 @@ JostD(J = matrix, pairwise = TRUE)
 \arguments{
 \item{J}{A gene identity matrix.}
 
-\item{pairwise}{Logical indicating whether to calculate pairwise Jost's D. If pairwise=FALSE, must not have any missing data.}
+\item{pairwise}{Logical indicating whether to calculate pairwise Jost's D.
+If pairwise=FALSE, must not have any missing data.}
 }
 \value{
 If pairwise = TRUE, returns a matrix of pairwise Jost's D values.

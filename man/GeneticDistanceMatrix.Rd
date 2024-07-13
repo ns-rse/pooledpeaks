@@ -7,13 +7,15 @@
 GeneticDistanceMatrix(J = matrix)
 }
 \arguments{
-\item{J}{The Gene Identity Matrix created using \link{GeneIdentityMatrix}}
+\item{J}{The Gene Identity Matrix created using
+\link{GeneIdentityMatrix}}
 }
 \value{
 The Genetic Distance Matrix
 }
 \description{
-This function calculates the genetic distance matrix from a given gene identity matrix.
+This function calculates the genetic distance matrix from a given gene
+identity matrix.
 }
 \examples{
 gene_identity_matrix <- matrix(c(

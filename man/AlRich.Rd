@@ -7,15 +7,17 @@
 AlRich(datafile = data.frame, n = matrix)
 }
 \arguments{
-\item{datafile}{A data frame containing the data as read in by \link{LoadData}}
+\item{datafile}{A data frame containing the data as read in by
+\link{LoadData}}
 
-\item{n}{A matrix representing the number of markers successfully genotyped like the output of the \link{TypedLoci} function.}
+\item{n}{A matrix representing the number of markers successfully genotyped
+like the output of the \link{TypedLoci} function.}
 }
 \value{
 A vector containing the allelic richness for each locus.
 }
 \description{
-This function calculates allelic richness based on the provided genetic data.
+This function calculates allelic richness based on provided genetic data.
 }
 \examples{
 

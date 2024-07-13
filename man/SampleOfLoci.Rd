@@ -7,7 +7,8 @@
 SampleOfLoci(aaax = data.frame, NLoci = max(aaax[, 1]))
 }
 \arguments{
-\item{aaax}{A data frame containing the input data must be in LoadData style \link{LoadData}.}
+\item{aaax}{A data frame containing the input data must be in LoadData
+style \link{LoadData}.}
 
 \item{NLoci}{An integer specifying the number of loci to sample.}
 }
@@ -15,5 +16,6 @@ SampleOfLoci(aaax = data.frame, NLoci = max(aaax[, 1]))
 A data frame containing the sampled loci.
 }
 \description{
-An internal function that supports ClusterFromSamples. Sample loci from a dataset based on the number of loci specified.
+An internal function that supports ClusterFromSamples. Sample loci from a
+dataset based on the number of loci specified.
 }

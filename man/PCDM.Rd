@@ -14,10 +14,12 @@ PCDM(consolidated_marker = data.frame, eggcount = data.frame, marker_name)
 \item{marker_name}{A string specifying the marker name.}
 }
 \value{
-A dataframe containing the allele frequencies and eggcounts for each sample.
+A dataframe containing the allele frequencies and eggcounts for each
+sample.
 }
 \description{
-This function manipulates consolidated marker data and egg count data to prepare them for further analysis.
+This function manipulates consolidated marker data and egg count data to
+prepare them for further analysis.
 }
 \examples{
 marker_data <- data.frame(

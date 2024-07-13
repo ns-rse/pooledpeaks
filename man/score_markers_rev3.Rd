@@ -29,91 +29,103 @@ score_markers_rev3(
 )
 }
 \arguments{
-\item{my.inds}{The list output from the fsa_batch_imp or storing.inds function that contains the channel information from the individuals that you want to score.}
+\item{my.inds}{The list output from the fsa_batch_imp or storing.inds
+function that contains the channel information from the individuals that you
+want to score.}
 
-\item{channel}{The number of the channel you wish to analyze. Typically 1 is blue, 2 is green, 3 yellow, and 4 red.}
+\item{channel}{The number of the channel you wish to analyze. Typically 1 is
+blue, 2 is green, 3 yellow, and 4 red.}
 
 \item{n.inds}{(optional) A vector specifying which fsa files to score.}
 
 \item{panel}{A vector containing the expected allele sizes for this marker.}
 
-\item{shift}{All peaks at that distance from the tallest peak will be ignored and be considered noise.}
+\item{shift}{All peaks at that distance from the tallest peak will be
+ignored and be considered noise.}
 
 \item{ladder}{A vector containing the expected peaks for your ladder.}
 
 \item{channel.ladder}{The channel number where your ladder can be found.}
 
-\item{ploidy}{The name is a relic of the fact that \link[Fragman:score.markers]{Fragman::score.markers} was originally written for plants. In the context of pooled egg samples it is used to specify the number of possible alleles in the marker.}
+\item{ploidy}{The name is a relic of the fact that \link[Fragman:score.markers]{Fragman::score.markers}
+was originally written for plants. In the context of pooled egg samples it
+is used to specify the number of possible alleles in the marker.}
 
-\item{left.cond}{The first part is a percentile (0-1) that corresponds to the height that a peak to the left of the tallest peak must be in order to be considered real. The second argument is a number of base pairs that a peak to the left of the tallest peak must be away to be considered as real.}
+\item{left.cond}{The first part is a percentile (0-1) that corresponds to
+the height that a peak to the left of the tallest peak must be in order to
+be considered real. The second argument is a number of base pairs that a
+peak to the left of the tallest peak must be away to be considered as real.}
 
-\item{right.cond}{A percentile (0-1) that corresponds to the height that a peak to the right of the tallest peak must be in order to be considered real.}
+\item{right.cond}{A percentile (0-1) that corresponds to the height that a
+peak to the right of the tallest peak must be in order to be real.}
 
-\item{warn}{TRUE/FAlSE Do you want to receive warnings when detecting the ladder?}
+\item{warn}{TRUE/FAlSE Do you want to receive warnings when detecting the
+ladder?}
 
-\item{windowL}{the window means that all peaks closer by that distance to the left of the panel peaks will be accounted as peaks.}
+\item{windowL}{the window means that all peaks closer by that distance to
+the left of the panel peaks will be accounted as peaks.}
 
-\item{windowR}{the window means that all peaks closer by that distance to the right of the panel peaks will be accounted as peaks.}
+\item{windowR}{the window means that all peaks closer by that distance to
+the right of the panel peaks will be accounted as peaks.}
 
-\item{init.thresh}{A value that sets a minimum intensity in order for a peak to be called.}
+\item{init.thresh}{A value that sets a minimum intensity in order for a
+peak to be called.}
 
-\item{ladd.init.thresh}{We don't recommend messing with this parameter unless your ladder has special circumstances. See \link[Fragman:score.markers]{Fragman::score.markers}}
+\item{ladd.init.thresh}{We don't recommend messing with this parameter
+unless your ladder has special circumstances. See \link[Fragman:score.markers]{Fragman::score.markers}}
 
-\item{method}{In cases where samples weren't sized using the info.ladder.attach function, this technique steps in to identify ladder peaks. You have three method options using an argument: "cor" explores all potential peak combinations and thoroughly searches for correlations to identify the correct peaks corresponding to expected DNA weights; "ci" constructs confidence intervals to identify peaks meeting specified conditions from earlier arguments; "iter2" applies an iterative strategy to identify the most likely peaks aligning with your ladder expectations. The default method is "iter2."}
+\item{method}{In cases where samples weren't sized using the
+info.ladder.attach function, this technique steps in to identify ladder
+peaks. You have three method options using an argument: "cor" explores all
+potential peak combinations and thoroughly searches for correlations to
+identify the correct peaks corresponding to expected DNA weights; "ci"
+constructs confidence intervals to identify peaks meeting specified
+conditions from earlier arguments; "iter2" applies an iterative strategy to
+identify the most likely peaks aligning with your ladder expectations. The
+default method is "iter2."}
 
-\item{env}{Please do not change this parameter, it is used to detect the users environment.}
+\item{env}{Please do not change this parameter, it is used to detect the
+users environment.}
 
-\item{my.palette}{(optional) A character vector specifying which colors to use for the output RFU plots.}
+\item{my.palette}{(optional) A character vector specifying which colors
+to use for the output RFU plots.}
 
 \item{plotting}{TRUE/FALSE Do you want to create pdf output plots?}
 
-\item{plotdir}{The name of the directory where output pdf plots should be stored.}
+\item{plotdir}{The name of the directory where output pdf plots should
+be stored.}
 
 \item{pref}{The number of plots to be drawn in the output plot.}
 }
 \value{
-The score_markers_rev3 function will return a list containing three variables: $pos, $hei, and $wei. These correspond to the index position for the intensities, the intensity of each peak, and the weight in base pairs based on the ladder respectively. If plotting = TRUE, a pdf file will also have been created in the specified directory. This pdf file allows you to visually inspect how all of the peaks were scored.
+The score_markers_rev3 function will return a list containing three
+variables: $pos, $hei, and $wei. These correspond to the index position for
+the intensities, the intensity of each peak, and the weight in base pairs
+based on the ladder respectively. If plotting = TRUE, a pdf file will
+also have been created in the specified directory. This pdf file allows
+you to visually inspect how all of the peaks were scored.
 }
 \description{
-This is a revision of the Fragman script score.markers, for the original instructions and parameters, run '?score.markers'.
-This revision designates separate parameters for Left and Right search windows.
+This is a revision of the Fragman script score.markers, for the original
+instructions and parameters, run '?score.markers'. This revision designates
+separate parameters for Left and Right search windows.
 }
 \examples{
 file_path <- system.file("extdata", package = "pooledpeaks")
-mock_fsa_batch_imp_output<- fsa_batch_imp(file_path, channels = 5, fourier = TRUE,
-                                         saturated = TRUE, lets.pullup = FALSE,
-                                         plotting = FALSE, rawPlot = FALSE,
-                                         llength = 3000, ulength = 80000)
-names(mock_fsa_batch_imp_output)<-c("23.2a_I_A01_2012-07-18.fsa","23.2b_I_A07_2012-07-18.fsa",
-                                    "30.3a_I_B01_2012-07-18.fsa","30.3b_I_B07_2012-07-18.fsa",
-                                    "33.1a_I_C01_2012-07-18.fsa","33.1b_I_C07_2012-07-18.fsa",
-                                    "Multiplex_set_I_Shaem.1a_1_Sample_20221028_215632.fsa",
-                                    "Multiplex_set_I_Shaem.1b_1_Sample_20221028_232301.fsa",
-                                    "Multiplex_set_I_Shaem.3a_2_Sample_20221028_215633.fsa",
-                                    "Multiplex_set_I_Shaem.3b_2_Sample_20221028_232302.fsa",
-                                    "Multiplex_set_I_Shaem.4a_3_Sample_20221028_215634.fsa",
-                                    "Multiplex_set_I_Shaem.4b_3_Sample_20221028_232303.fsa")
-panel <- c(161,164,167,170,173,176,179,182,185,188,191,194,197,200,203,206,209,212,215,218)
-ladder <- c(20, 40, 60, 80, 100, 114, 120, 140, 160, 180, 200, 214, 220,
-            240, 250, 260, 280, 300, 314, 320, 340, 360, 380, 400, 414,
-            420, 440, 460, 480, 500, 514, 520, 540, 560, 580, 600)
-mock_fsa_batch_imp_output <- associate_dyes(mock_fsa_batch_imp_output, file_path)
-Fragman::ladder.info.attach(stored = mock_fsa_batch_imp_output, ladder = ladder,
-                           ladd.init.thresh = 200, prog = FALSE, draw = FALSE)
-panel <- as.numeric(panel)
-result <- score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
+mock_fsa_batch_imp_output<- fsa_batch_imp(file_path, channels = 5,
+fourier = FALSE, saturated = FALSE, lets.pullup = FALSE,
+plotting = FALSE, rawPlot = FALSE)
+panel <- c(176,179,182,185,188,191,194,197,200,203,206)
+ladder <- c( 140, 160, 180, 200, 214, 220,240, 250, 260, 280, 300, 314)
+mock_fsa_batch_imp_output <- associate_dyes(mock_fsa_batch_imp_output,
+                             file_path)
+\dontrun{score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
                             channel = 1,
                             channel.ladder = 5,
                             panel = "panel",
                             ladder = ladder,
-                            init.thresh = 100,
+                            init.thresh = 200,
                             ploidy = length(panel),
-                            shift = 1,
-                            windowL = 1,
-                            windowR = 0.5,
-                            left.cond = c(0, 2.5),
-                            right.cond = 0,
-                            pref = 1,
                             plotting = FALSE)
-
+                            }
 }

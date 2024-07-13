@@ -7,14 +7,15 @@
 BootStrap3(A = data.frame, Rep = 20, Stat = 1)
 }
 \arguments{
-\item{A}{A data frame containing the data as read in by \link{LoadData}}
+\item{A}{Data frame containing data as read in by \link{LoadData}}
 
 \item{Rep}{Number of bootstrap replicates.}
 
 \item{Stat}{Type of statistic to compute (1 for AlRich, 2 for TwoLevelGST)}
 }
 \value{
-Either a matrix of AlRich statistics or a list containing various statistics computed using TwoLevelGST.
+Either a matrix of AlRich statistics or a list containing various
+statistics computed using TwoLevelGST.
 }
 \description{
 This function performs bootstrap analysis on genetic data.

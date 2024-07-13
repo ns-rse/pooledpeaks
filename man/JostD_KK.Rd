@@ -7,13 +7,16 @@
 JostD_KK(Ni1, Ni2)
 }
 \arguments{
-\item{Ni1}{Vector containing the allele frequencies of the first duplicate sample.}
+\item{Ni1}{Vector containing the allele frequencies of the first duplicate
+sample.}
 
-\item{Ni2}{Vector containing the allele frequencies of the second duplicate sample.}
+\item{Ni2}{Vector containing the allele frequencies of the second duplicate
+sample.}
 }
 \value{
 The calculated Jost's D value.
 }
 \description{
-This function calculates Jost's D between two columns, specifically designed for comparing duplicate samples based on allele frequencies.
+This function calculates Jost's D between two columns, specifically designed
+for comparing duplicate samples based on allele frequencies.
 }

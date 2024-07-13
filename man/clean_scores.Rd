@@ -15,25 +15,35 @@ clean_scores(
 )
 }
 \arguments{
-\item{scores_data}{The list containing the output scores data from the score_markers_rev3.}
+\item{scores_data}{The list containing the output scores data from the
+score_markers_rev3.}
 
-\item{pattern1}{The first pattern to replace in the ID.This is intended to clean up the ID names for when the machine adds substrings to the names. For example 104.1a_FA060920_2020-06-09_C05.fsa.1 becomes 104.1a using pattern1="_FA.*" and replacement1= ""}
+\item{pattern1}{The first pattern to replace in the ID.This is intended to
+clean up the ID names for when the machine adds substrings to the names. For
+example 104.1a_FA060920_2020-06-09_C05.fsa.1 becomes 104.1a using
+pattern1="_FA.*" and replacement1= ""}
 
 \item{replacement1}{Replacement for the first pattern.}
 
-\item{pattern2}{The second pattern to replace in the ID. See pattern1 for more details.}
+\item{pattern2}{The second pattern to replace in the ID. See pattern1 for
+more details.}
 
 \item{replacement2}{Replacement for the second pattern.}
 
-\item{pattern3}{The pattern to replace in the filename.This is intended to clean up the filenames for when the machine adds substrings to the names. For example 104.1a_FA060920_2020-06-09_C05.fsa.1 becomes 104.1a_FA060920_2020-06-09_C05.fsa using pattern3= "\\.1*$" and replacement3= ""}
+\item{pattern3}{The pattern to replace in the file name.This is intended to
+clean up the file names for when the machine adds sub strings to the names.
+For example 104.1a_FA060920_2020-06-09_C05.fsa.1 becomes
+104.1a_FA060920_2020-06-09_C05.fsa using pattern3= "\\.1*$" and
+replacement3= ""}
 
-\item{replacement3}{Replacement for the filename pattern.}
+\item{replacement3}{Replacement for the file name pattern.}
 }
 \value{
 A cleaned long format data frame
 }
 \description{
-This function cleans the score_markers_rev3 data by applying specified patterns and replacements to the ID and filename columns.
+This function cleans the score_markers_rev3 data by applying specified
+patterns and replacements to the ID and filename columns.
 }
 \examples{
 scores_data <- list(
@@ -46,6 +56,7 @@ rownames(scores_data[[1]]) <- c("104.1a_FA060920_2020-06-09_C05.fsa_Sa.1",
 rownames(scores_data[[2]]) <- c("107.4d_FA060920_2020-06-09_C05.fsa_Sa.1",
                                 "108.5e_FA060920_2020-06-09_C05.fsa_Sa.1",
                                 "109.6f_SA060920_2020-06-09_C05.fsa_Fa.1")
-clean_scores(scores_data,pattern1= "_SA.*", replacement1="", pattern2= "_FA.*",replacement2="")
+clean_scores(scores_data,pattern1= "_SA.*", replacement1="",
+pattern2= "_FA.*",replacement2="")
 
 }

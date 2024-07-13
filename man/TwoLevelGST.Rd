@@ -10,10 +10,12 @@ TwoLevelGST(G = matrix)
 \item{G}{A square matrix representing a gene identity matrix.}
 }
 \value{
-A list containing the components of two-level GST including within-group gene identity, between-group gene identity, and GST values.
+A list containing the components of two-level GST including
+within-group gene identity, between-group gene identity, and GST values.
 }
 \description{
-This function calculates two-level GST (Nei's standard gene identity) measure from a gene identity matrix.
+This function calculates two-level GST (Nei's standard gene identity)
+measure from a gene identity matrix.
 }
 \examples{
 gene_identity_matrix <- matrix(c(

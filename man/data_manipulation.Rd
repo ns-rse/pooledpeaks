@@ -7,15 +7,20 @@
 data_manipulation(marker, threshold = 500)
 }
 \arguments{
-\item{marker}{A data frame containing marker data, where each row represents a marker and each column represents a sample.}
+\item{marker}{A data frame containing marker data, where each row represents
+a marker and each column represents a sample.}
 
-\item{threshold}{The threshold value for peak height. Peaks below this threshold will be replaced with 0.}
+\item{threshold}{The threshold value for peak height. Peaks below this
+threshold will be replaced with 0.}
 }
 \value{
-A formatted data frame where at least one peak for each sample is greater than the specified threshold.
+A formatted data frame where at least one peak for each sample is
+greater than the specified threshold.
 }
 \description{
-This function ensures that at least one peak for each sample is greater than a specified threshold (default: 500) and then formats the data frame for the next steps in the analysis.
+This function ensures that at least one peak for each sample is greater than
+a specified threshold (default: 500) and then formats the data frame for
+the next steps in the analysis.
 }
 \examples{
 

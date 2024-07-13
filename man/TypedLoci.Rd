@@ -7,13 +7,15 @@
 TypedLoci(datafile = data.frame)
 }
 \arguments{
-\item{datafile}{A data frame containing the input data must be in LoadData style \link{LoadData}.}
+\item{datafile}{A data frame containing the input data must be in LoadData
+style \link{LoadData}.}
 }
 \value{
 A matrix representing processed data.
 }
 \description{
-This function calculates the number of loci successfully genotyped by each individual included in our data set
+This function calculates the number of loci successfully genotyped by each
+individual included in our data set
 }
 \examples{
 genetic_data <- data.frame(

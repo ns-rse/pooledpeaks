@@ -7,15 +7,18 @@
 LoadData(datafile = NULL)
 }
 \arguments{
-\item{datafile}{The path to your datafile. The format of your data should be .txt or .csv.}
+\item{datafile}{The path to your datafile. The format of your data should be
+.txt or .csv.}
 }
 \value{
-A data frame containing the imported data formatted in the way necessary for downstream population genetic functions.
+A data frame containing the imported data formatted in the way
+necessary for downstream population genetic functions.
 }
 \description{
 This function imports data for genetic analysis.
 }
 \examples{
-file<-system.file("extdata", "Multiplex_frequencies.txt", package = "pooledpeaks")
+file<-system.file("extdata", "Multiplex_frequencies.txt",
+package = "pooledpeaks")
 LoadData(file)
 }

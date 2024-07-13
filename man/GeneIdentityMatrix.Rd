@@ -7,7 +7,8 @@
 GeneIdentityMatrix(RawData = data.frame, LociGenotyped = matrix)
 }
 \arguments{
-\item{RawData}{A data frame containing the input data must be in LoadData style \link{LoadData}.}
+\item{RawData}{A data frame containing the input data must be in LoadData
+style \link{LoadData}.}
 
 \item{LociGenotyped}{The Output from the TypedLoci function}
 }
@@ -15,7 +16,9 @@ GeneIdentityMatrix(RawData = data.frame, LociGenotyped = matrix)
 The Gene Identity Matrix
 }
 \description{
-Using the number of typed loci, this function calculates the gene identity between all possible pairwise combinations between individuals for all markers creating a matrix.
+Using the number of typed loci, this function calculates the gene identity
+between all possible pairwise combinations between individuals for all
+markers creating a matrix.
 }
 \examples{
 genetic_data <- data.frame(

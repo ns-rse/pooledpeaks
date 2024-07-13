@@ -13,5 +13,6 @@ preJostD(G = matrix)
 The Jost's D value.
 }
 \description{
-This function calculates the pre-Jost's D measure from a gene identity matrix.
+This function calculates the pre-Jost's D measure from a gene identity
+matrix.
 }
