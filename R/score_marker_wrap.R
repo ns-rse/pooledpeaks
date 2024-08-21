@@ -383,8 +383,17 @@ score_markers_rev3 <- function(my.inds, channel= 1, n.inds = NULL, panel= NULL,
 
 
     message(paste0("Writing plots to directory '", plotdir, "'\n"))
-    dirplot <- paste0(getwd(), "/", plotdir, "/")
-    dir.create(dirplot, showWarnings = TRUE)
+    #dirplot <- paste0(getwd(), "/", plotdir, "/")
+    #dir.create(dirplot, showWarnings = TRUE)
+
+    if (!grepl("^(/|~)", plotdir)) {
+      dirplot <- file.path(getwd(), plotdir)
+    } else {
+      dirplot <- plotdir
+    }
+
+    dir.create(dirplot, showWarnings = FALSE, recursive = TRUE)
+
 
     for (g in 1:length(n.inds)) {
       hh4 <- n.inds[g]
@@ -410,8 +419,9 @@ score_markers_rev3 <- function(my.inds, channel= 1, n.inds = NULL, panel= NULL,
           "_ch", channel,
           "_rplot.pdf"
         ),
-        width = 8, height = 4
+       width = 8, height = 4
       )
+
 
       plot(new.whole.data[[g]]$xx, new.whole.data[[g]]$yy,
         type = "l", col = cfp[channel], xaxt = "n",

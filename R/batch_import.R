@@ -51,8 +51,7 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE,
                           saturated = TRUE,
                           lets.pullup = FALSE, plotting = FALSE,
                           rawPlot = FALSE, llength = 3000, ulength = 80000) {
-  oldpar<-par(no.readonly = TRUE)
-  on.exit(par(oldpar))
+
   listp2 <- dir(folder, "*.fsa$")
 
   if (length(listp2) == 0) {
@@ -227,6 +226,8 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE,
   }
 
   if (rawPlot == TRUE) {
+    oldpar<-par(no.readonly = TRUE)
+    on.exit(par(oldpar))
     graphics::layout(matrix(1:2, 2, 1))
     coli <- c(
       "blue", "darkgreen", "yellow3",

@@ -199,7 +199,14 @@ test_that("score_markers_rev3 handles plotting option", {
   expect_type(result, "list")
 
   # Test with plotting
-  dir.create("plots_scoring")
+  plot_dir <- file.path(tempdir(), "plots_scoring/")
+  #if (!dir.exists(plot_dir)) {
+  #  dir.create(plot_dir, recursive = TRUE)
+  #  message("Created plot directory: ", plot_dir)
+  #} else {
+  #  message("Plot directory already exists: ", plot_dir)
+  #}
+
   result <- score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
                                channel = 1,
                                channel.ladder = 5,
@@ -214,8 +221,8 @@ test_that("score_markers_rev3 handles plotting option", {
                                right.cond = 0,
                                pref = 1,
                                plotting = TRUE,
-                               plotdir = "plots_scoring")
+                               plotdir = plot_dir)
   expect_type(result, "list")
-  expect_true(file.exists("plots_scoring/all_panel_scores.pdf"))
-  unlink("plots_scoring", recursive = TRUE)
+  expect_true(file.exists(file.path(plot_dir,"all_panel_scores.pdf")))
+  unlink(plot_dir, recursive = TRUE)
 })
