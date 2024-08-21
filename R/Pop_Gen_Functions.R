@@ -32,7 +32,6 @@
 DistCor <- function(GD=matrix) {
   R <- ape::nj(GD)
   ED <- stats::cophenetic(R)
-  graphics::par(mar=c(5,5,5,5))
   plot(GD,ED)
   graphics::abline(0,1,col=2)
 
@@ -44,7 +43,7 @@ DistCor <- function(GD=matrix) {
     {k<-k+1
     x[k]<- GD[i,j]
     y[k]<- ED[i,j] }
-  print(stats::cor(x,y),las=1)
+  message(stats::cor(x,y),las=1)
   graphics::title(main='Expected Genetic Distance \n versus Realized Genetic
                   Distance',
         font.main=1,cex.main=1.25)

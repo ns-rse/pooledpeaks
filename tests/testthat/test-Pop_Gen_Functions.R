@@ -9,7 +9,7 @@ test_that("DistCor function calculates and plots the correlation correctly", {
   rownames(GD) <- colnames(GD) <- c("Sample1", "Sample2", "Sample3", "Sample4")
 
   # Capture the output of the print statement
-  output <- utils::capture.output({
+  output <- capture_messages({
     DistCor(GD)
   })
 

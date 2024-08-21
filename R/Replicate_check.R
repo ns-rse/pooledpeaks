@@ -232,10 +232,10 @@ Rep_check <- function(df) {
   redflag <- redflag[!is.na(redflag)]
 
 
-  print("Jost D between duplicate samples")
-  print(sampleID)
-  print(repD)
-  print("Samples where duplicates have a Jost D exceeding 0.05")
-  print(redflag)
+  message("Jost D between duplicate samples")
+  message(sampleID)
+  message(repD)
+  message("Samples where duplicates have a Jost D exceeding 0.05")
+  message(redflag)
   return(avg_height)
 }

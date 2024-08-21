@@ -51,6 +51,8 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE,
                           saturated = TRUE,
                           lets.pullup = FALSE, plotting = FALSE,
                           rawPlot = FALSE, llength = 3000, ulength = 80000) {
+  oldpar<-par(no.readonly = TRUE)
+  on.exit(par(oldpar))
   listp2 <- dir(folder, "*.fsa$")
 
   if (length(listp2) == 0) {
@@ -106,7 +108,7 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE,
     #as seen in some files with shorter runtimes
     if ((length(cfound) > 1) & !(channels_l %in% cfound)) {
 
-      cat(paste("\nYour data for file", listp2[1], "has multiple possible
+      warning(paste("\nYour data for file", listp2[1], "has multiple possible
                 places where\nrun indexes could be stored and we don't
                 know which is the correct one.\n"))
       prov <- aaa[which(as.numeric(names(aaa)) > llength &
@@ -124,7 +126,7 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE,
       rownames(prov2)[2] <- "number.to.type.if.selected"
       prov2[2, 1:ncol(prov2)] <- 1:ncol(prov2)
 
-      cat("Please tell us which option has AT LEAST the number of expected
+      warning("Please tell us which option has AT LEAST the number of expected
           channels\n\n")
 
       print(prov2)

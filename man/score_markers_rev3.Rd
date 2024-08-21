@@ -119,7 +119,7 @@ panel <- c(176,179,182,185,188,191,194,197,200,203,206)
 ladder <- c( 140, 160, 180, 200, 214, 220,240, 250, 260, 280, 300, 314)
 mock_fsa_batch_imp_output <- associate_dyes(mock_fsa_batch_imp_output,
                              file_path)
-\dontrun{score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
+\donttest{score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
                             channel = 1,
                             channel.ladder = 5,
                             panel = "panel",

@@ -161,7 +161,6 @@ ClusterFromSamples <- function(datafile=data.frame,numloci=5,reps=100) {
 MDSplot<- function(distance=matrix,pcs=c(1,2),PF=NULL,
                    y= c('dodgerblue','red','turquoise3','purple','olivedrab3')
                    ) {
-  graphics::par(mar=c(5, 4, 4, 8), xpd=TRUE)
   K <- nrow(distance)
   if (K < 11){
     K <- K - 1

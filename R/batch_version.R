@@ -38,25 +38,25 @@ check_fsa_v_batch <- function(x) {
       })
     )
 
-    cat("-- Number of .fsa files found in batch:", length(fsaFile), "\n")
+    message("-- Number of .fsa files found in batch:", length(fsaFile), "\n")
 
-    cat("\n-- Number of .fsa file formats present in batch:",
+    message("\n-- Number of .fsa file formats present in batch:",
         paste(paste0("v", unique(vers)), collapse = ", "), "\n")
     if (length(unique(vers)) > 1) {
-      cat("-- Multiple version types found in directory,
+      message("-- Multiple version types found in directory,
       indicating multiple machine runs.
         Be aware of possible batch-related peak artifacts.", "\n")
     }
 
-    cat("\n-- Batch names found in directory:", paste(unique(ctnms),
+    message("\n-- Batch names found in directory:", paste(unique(ctnms),
                                                       collapse = ", "), "\n")
 
     if (length(unique(ctnms)) > 1) {
-      cat("-- Multiple batch names found in directory.
+      message("-- Multiple batch names found in directory.
         Be aware of possible batch-related peak artifacts.", "\n")
     }
   } else {
-    cat("-- No fsa files are present in the specified directory")
+    message("-- No fsa files are present in the specified directory")
   }
 }
 

@@ -1,7 +1,7 @@
 test_that("check_fsa_v_batch correctly identifies number of .fsa files", {
   file_path <- system.file("extdata", package = "pooledpeaks")
 
-  output <- capture.output(check_fsa_v_batch(file_path))
+  output <- capture_messages(check_fsa_v_batch(file_path))
 
   expect_true(any(grepl("-- Number of .fsa files found in batch:", output)))
   expect_true(any(grepl("12", output)))
@@ -11,7 +11,7 @@ test_that("check_fsa_v_batch correctly identifies number of .fsa files", {
 test_that("check_fsa_v_batch correctly identifies version of .fsa files", {
   file_path <- system.file("extdata", package = "pooledpeaks")
 
-  output <- capture.output(check_fsa_v_batch(file_path))
+  output <- capture_messages(check_fsa_v_batch(file_path))
 
   expect_true(any(grepl("-- Number of .fsa file formats present in batch:",
                         output)))
@@ -22,7 +22,7 @@ test_that("check_fsa_v_batch correctly identifies version of .fsa files", {
 test_that("check_fsa_v_batch correctly identifies batch names", {
   file_path <- system.file("extdata", package = "pooledpeaks")
 
-  output <- capture.output(check_fsa_v_batch(file_path))
+  output <- capture_messages(check_fsa_v_batch(file_path))
 
   expect_true(any(grepl("-- Batch names found in directory:", output)))
   expect_true(any(grepl("PXA2012-07-17, Kathleen_76 Samples_Frag_10-28-22",

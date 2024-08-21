@@ -170,7 +170,7 @@ homo_panel_rev1 <- function(x, panel, windowL = 0.49, windowR = 0.49) {
 #' ladder <- c( 140, 160, 180, 200, 214, 220,240, 250, 260, 280, 300, 314)
 #' mock_fsa_batch_imp_output <- associate_dyes(mock_fsa_batch_imp_output,
 #'                              file_path)
-#' \dontrun{score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
+#' \donttest{score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
 #'                             channel = 1,
 #'                             channel.ladder = 5,
 #'                             panel = "panel",
@@ -212,9 +212,6 @@ score_markers_rev3 <- function(my.inds, channel= 1, n.inds = NULL, panel= NULL,
     the variable name or a numeric vector')
   }
 
-
-  oldw <- getOption("warn")
-  options(warn = -1)
   dev <- 50
   thresh <- NULL
 
@@ -229,7 +226,7 @@ score_markers_rev3 <- function(my.inds, channel= 1, n.inds = NULL, panel= NULL,
     stop
   }
 
-  cat(paste("Scoring ", mic, "peaks\nPlease be patient!\n"))
+  message(paste("Scoring ", mic, "peaks\nPlease be patient!\n"))
 
   if (method == "ci") {
     message(paste("Please make sure you have used the same 'dev' value
@@ -244,7 +241,7 @@ score_markers_rev3 <- function(my.inds, channel= 1, n.inds = NULL, panel= NULL,
   }
 
   if (dim(my.inds[[1]])[2] < channel.ladder) {
-    message(paste("ERROR, you have indicated an argument channel.ladder=5,
+    warning(paste("ERROR, you have indicated an argument channel.ladder=5,
                   but your data contains less channels/colors"))
     stop
   }
@@ -380,6 +377,11 @@ score_markers_rev3 <- function(my.inds, channel= 1, n.inds = NULL, panel= NULL,
     }
 
     # Create output directory
+    if (is.null(plotdir)) {
+      stop("The 'plotdir' parameter cannot be NULL.")
+    }
+
+
     message(paste0("Writing plots to directory '", plotdir, "'\n"))
     dirplot <- paste0(getwd(), "/", plotdir, "/")
     dir.create(dirplot, showWarnings = TRUE)
@@ -468,6 +470,6 @@ score_markers_rev3 <- function(my.inds, channel= 1, n.inds = NULL, panel= NULL,
     # # cleanup files
     lapply(pdflist, file.remove)
   }
-  options(warn = oldw)
+
   return(list.weis2)
 }

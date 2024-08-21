@@ -83,8 +83,8 @@ test_that("Rep_check correctly processes and flags duplicate samples, and
   expect_equal(result, expected_values, tolerance = 1e-5)
 
   # Check if the function prints the expected messages
-  expect_output(print("Jost D between duplicate samples"))
-  expect_output(print("Samples where duplicates have a Jost D exceeding 0.05"))
+  expect_message(Rep_check(expected_values), "Jost D between duplicate samples")
+  expect_message(Rep_check(expected_values), "Samples where duplicates have a Jost D exceeding 0.05")
 })
 
 
