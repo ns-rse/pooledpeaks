@@ -386,13 +386,15 @@ score_markers_rev3 <- function(my.inds, channel= 1, n.inds = NULL, panel= NULL,
     #dirplot <- paste0(getwd(), "/", plotdir, "/")
     #dir.create(dirplot, showWarnings = TRUE)
 
-    if (!grepl("^(/|~)", plotdir)) {
+    if (!grepl("^(/|~|[A-Za-z]:)", plotdir)) {
       dirplot <- file.path(getwd(), plotdir)
     } else {
-      dirplot <- plotdir
+      dirplot <- normalizePath(plotdir, winslash = "/", mustWork = FALSE)
     }
 
-    dir.create(dirplot, showWarnings = FALSE, recursive = TRUE)
+    if (!dir.exists(dirplot)) {
+      dir.create(dirplot, recursive = TRUE)
+    }
 
 
     for (g in 1:length(n.inds)) {
@@ -412,15 +414,16 @@ score_markers_rev3 <- function(my.inds, channel= 1, n.inds = NULL, panel= NULL,
 
       nm <- gsub("mic_", "", mic)
 
-      grDevices::pdf(
+      pdf_file_path <- file.path(
+        dirplot,
         paste0(
-          dirplot,
-          "/samp", names(list.models)[hh4],
+          "samp", names(list.models)[hh4],
           "_ch", channel,
           "_rplot.pdf"
-        ),
-       width = 8, height = 4
+        )
       )
+
+      grDevices::pdf(pdf_file_path, width = 8, height = 4)
 
 
       plot(new.whole.data[[g]]$xx, new.whole.data[[g]]$yy,

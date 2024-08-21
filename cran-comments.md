@@ -7,9 +7,12 @@ This is a resubmission. In this version I have:
 
 *Addressed the data_manipulation note from the previous submission.
 
-*I checked the DESCRIPTION for spelling errors and have removed the previously 
-  noted "pre"; however "fsa" is the type of file format that the package can 
-  read in and is the correct spelling.
+*Addressed the comments from my previous submission regarding references, the 
+  use of dontrun, redundant language in the description, switching from using
+  print and cat to message and warning, removing default path in writing 
+  functions R/score_marker_wrap.R, switching to suppressWarnings, and not 
+  changing user environment.
+  
+*Added contributor information
 
-*I have tried to simplify the examples that were taking more than 5 seconds 
-  but it does just take time.
+

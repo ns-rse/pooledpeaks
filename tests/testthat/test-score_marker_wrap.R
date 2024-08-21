@@ -199,13 +199,14 @@ test_that("score_markers_rev3 handles plotting option", {
   expect_type(result, "list")
 
   # Test with plotting
-  plot_dir <- file.path(tempdir(), "plots_scoring/")
-  #if (!dir.exists(plot_dir)) {
-  #  dir.create(plot_dir, recursive = TRUE)
-  #  message("Created plot directory: ", plot_dir)
-  #} else {
-  #  message("Plot directory already exists: ", plot_dir)
-  #}
+  plot_dir <- file.path(tempdir(), "plots_scoring")
+  if (Sys.info()["sysname"] == "Windows") {
+    # On Windows, use backslash as the separator
+    plot_dir <- paste0(plot_dir, "\\")
+  } else {
+    # On Unix-like systems, use forward slash
+    plot_dir <- paste0(plot_dir, "/")
+  }
 
   result <- score_markers_rev3(my.inds = mock_fsa_batch_imp_output,
                                channel = 1,
