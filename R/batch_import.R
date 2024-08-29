@@ -128,7 +128,7 @@ fsa_batch_imp <- function(folder, channels = NULL, fourier = TRUE,
       warning("Please tell us which option has AT LEAST the number of expected
           channels\n\n")
 
-      print(prov2)
+      message(prov2)
       inut <- as.numeric(readline(prompt = "Enter one of the number.to.type: "))
       channels_l <- cfound[inut]
     }

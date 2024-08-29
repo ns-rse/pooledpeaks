@@ -80,7 +80,7 @@ DistCor <- function(GD=matrix) {
 EmpiricalSE <- function(datafile=data.frame,NLoci=10) {
   G<-0
   for ( i in 1:100)
-  { if(i %% 10==0) print(i)
+  { if(i %% 10==0) message(i)
     A <- SampleOfLoci(datafile,NLoci)
     names <- colnames(A)
     names <- names[-(1:2)]
@@ -438,7 +438,7 @@ BootStrap3 <- function(A=data.frame,Rep=20,Stat=1) {
 
   for (j in 1:Rep) {
     if (j%%10==0){
-      print(j)
+      message(j)
     }
     z <-A[1,]
     x <- sample(1:Loci,Loci,replace=TRUE)

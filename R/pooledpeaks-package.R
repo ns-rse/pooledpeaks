@@ -35,6 +35,7 @@
 #' @importFrom stats cor
 #' @importFrom stats kmeans
 #' @importFrom stats predict
+#' @importFrom stats setNames
 #' @importFrom tibble add_row
 #' @importFrom tibble column_to_rownames
 #' @importFrom tibble rowid_to_column

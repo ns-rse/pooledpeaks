@@ -122,7 +122,7 @@ JostD_KK <- function(Ni1, Ni2) {
   # Calculate D est
   Dest <- 1 - a / b
 
-  print(Dnominal)
+  return(Dnominal)
 }
 
 
@@ -233,9 +233,9 @@ Rep_check <- function(df) {
 
 
   message("Jost D between duplicate samples")
-  message(sampleID)
-  message(repD)
+  message(paste(sampleID, collapse = ", "))
+  message(paste(repD, collapse = ", "))
   message("Samples where duplicates have a Jost D exceeding 0.05")
-  message(redflag)
+  message(paste(redflag, collapse = ", "))
   return(avg_height)
 }
