@@ -4,8 +4,8 @@ Version: 1.0.5.9000
 Authors@R: c( 
     person("Kathleen", "Kuesters", email = "kathleen.kuesters@gmail.com", 
        role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0003-0238-7889")),
-    person("Jeffrey", "Long", role = c("ctb")),
-    person("Jessica", "Blanton", role = c("ctb")),
+    person("Jeffrey", "Long", role = c("aut")),
+    person("Jessica", "Blanton", role = c("aut")),
     person("Walter", "Blank", role = c("ctb")),
     person("Jeffrey", "Kovach", role = c("ctb")),
     person("Ronald", "Blanton", role = c("ctb")))
