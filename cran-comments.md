@@ -5,7 +5,7 @@
 ## Resubmission
 In this version I have:
 
-*Modified the Rep_check() tests in order to address M1 chip failure
+*Modified the TypedLoci function to fix a bug
 
 
 
