@@ -5,7 +5,6 @@
 ## Resubmission
 In this version I have:
 
-*Modified the TypedLoci function to fix a bug
-
+*Added a .md file containing the manuscript for thsi package
 
 
