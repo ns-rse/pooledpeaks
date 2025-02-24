@@ -5,6 +5,6 @@
 ## Resubmission
 In this version I have:
 
-*Added a .md file containing the manuscript for thsi package
-
+*Added a CONTRIBUTE.md file containing for this package
+*Added a CODE_OF_CONDUCT.md file containing for this package
 
