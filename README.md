@@ -10,6 +10,8 @@ Analysis output files (.fsa) of pooled biological samples. It provides functions
 for a comprehensive analysis pipeline from processing .fsa files, to cleaning 
 the peak data, and conducting population genetic analyses. Some features are 
 listed below and a usage example of the entire pipeline is included as a vignette.
+Please check out the [Contributing Guidelines](inst/CONTRIBUTING.md) for 
+information on how to add to this package.
 
 ### Features
   * **Peak Scoring:** Process .fsa files and score peaks contained therein.

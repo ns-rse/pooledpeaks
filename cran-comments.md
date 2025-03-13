@@ -5,7 +5,6 @@
 ## Resubmission
 In this version I have:
 
-*Modified the TypedLoci function to fix a bug
-
-
+*Added a CONTRIBUTE.md file containing for this package
+*Added a CODE_OF_CONDUCT.md file containing for this package
 
