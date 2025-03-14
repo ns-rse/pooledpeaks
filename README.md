@@ -13,19 +13,6 @@ listed below and a usage example of the entire pipeline is included as a vignett
 Please check out the [Contributing Guidelines](inst/CONTRIBUTING.md) for
 information on how to add to this package.
 
-### Features
-  * **Peak Scoring:** Process .fsa files and score peaks contained therein.
-  * **Data Manipulation:** Clean and prepare peak data for downstream analyses.
-  * **Population Genetics Analysis:**
-    * Calculate Gene Identity Matrix and Genetic Distance Matrix
-    * Calculate diversity indices
-    * Calculate differentiation indices
-    * Perform cluster analysis
-  * **Visualization:** Visualize the peak scoring and genetic analysis results.
-
-The pooledpeaks package was developed by the Blanton Lab as part of Kathleen
-Kuesters' dissertation.
-
 ## Installation Instructions
 
 You can install the package directly from GitHub using the following instructions:
@@ -46,6 +33,63 @@ devtools::install_github("kmkuesters/pooledpeaks")
 ```r
 install.packages("pooledpeaks")
 ```
+
+## Features
+
+For a detailed example of how to apply the functions contained in this package
+please see the [Introduction to Using the pooledpeaks Workflow](vignettes/workflow.Rmd).
+Example data can be found on GitHub under the inst/extdata folder including .fsa
+files and a formatted "Multiplex_frequencies.txt" file for the Genetic Analysis
+portion.
+
+  * **Peak Scoring:** Process .fsa files and score peaks contained therein.
+  
+```r
+check_fsa_v_batch()
+fsa_metadata()
+fsa_batch_imp()
+associate_dyes()
+score_markers_rev3()
+```
+  
+  * **Data Manipulation:** Clean and prepare peak data for downstream analyses.
+  
+```r
+clean_scores()
+lf_to_tdf()
+data_manipulation()
+Rep_check()
+PCDM()
+LoadData()
+```
+  
+  * **Population Genetics Analysis:**
+  
+    * Calculate Gene Identity Matrix and Genetic Distance Matrix
+    
+    * Calculate diversity indices
+    
+    * Calculate differentiation indices
+    
+    * Perform cluster analysis
+    
+```r
+TypedLoci()
+GeneIdentityMatrix()
+GeneticDistanceMatrix()
+GST()
+JostD()
+cluster()
+```
+    
+  * **Visualization:** Visualize the peak scoring and genetic analysis results.
+      
+```r
+MDSplot()
+```
+
+The pooledpeaks package was developed by the Blanton Lab as part of Kathleen
+Kuesters' dissertation.
 
 
 # References:
